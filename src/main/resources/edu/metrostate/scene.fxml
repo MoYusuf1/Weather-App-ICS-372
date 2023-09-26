@@ -25,7 +25,7 @@
     </center>
     <bottom>
         <HBox fx:id="bottomBar" alignment="CENTER">
-            <Label fx:id="bottom" text="You can add a status bar or footer here." />
+            <Label fx:id="bottom" text="You can add a status bar or footer here?" />
         </HBox>
     </bottom>
 </BorderPane>
