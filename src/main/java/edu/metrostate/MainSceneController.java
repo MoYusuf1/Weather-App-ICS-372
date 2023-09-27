@@ -11,9 +11,6 @@ public class MainSceneController implements ValueChangedListener {
     @FXML
     private Label value;
 
-    @FXML
-    private MainToolBar mainToolBar;
-
     private ValueStore store;
 
     private final String valueFormatString = "Current value: %d";

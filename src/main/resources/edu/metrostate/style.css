@@ -3,11 +3,12 @@
 }
 
 .label {
-  -fx-text-fill: blue;
+  -fx-text-fill: white;
 }
 
-#bottomBar {
-  -fx-border-color: black;
-  -fx-border-width: 1px 0 0 0;
-  -fx-padding: 10 0 10 0;
+.label-climate-watch {
+  -fx-font-size: 36px; /* Adjust the font size as needed */
+  -fx-font-weight: bold; /* Make the text bold */
+  -fx-text-fill: white; /* Change the text color to a desired color */
+  -fx-background-radius: 10px 10px 10px 10px; /* Rounded corners on all sides */
 }

@@ -1,31 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.layout.BorderPane?>
-<?import javafx.scene.layout.VBox?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.layout.HBox?>
-<BorderPane xmlns="http://javafx.com/javafx"
-            xmlns:fx="http://javafx.com/fxml"
-            fx:controller="edu.metrostate.MainSceneController"
-            prefHeight="400.0" prefWidth="600.0">
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
+<?import javafx.scene.layout.*?>
 
-    <center>
-        <AnchorPane>
-            <VBox alignment="CENTER"
-                  AnchorPane.rightAnchor="0.0"
-                  AnchorPane.leftAnchor="0.0"
-                  AnchorPane.topAnchor="0.0"
-                  AnchorPane.bottomAnchor="0.0">
-                <Label fx:id="label" text="Application Content"/>
-                <Label fx:id="value"/>
-            </VBox>
-        </AnchorPane>
-    </center>
-    <bottom>
-        <HBox fx:id="bottomBar" alignment="CENTER">
-            <Label fx:id="bottom" text="You can add a status bar or footer here?" />
-        </HBox>
-    </bottom>
-</BorderPane>
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea">
+    <children>
+        <!-- Add a Region for the curved red background -->
+        <Region layoutX="20.0" layoutY="0.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
+
+        <!-- Add your content on top of the curved background -->
+        <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;"> <!-- Apply curved background to the Pane -->
+            <children>
+                <Label layoutX="45.0" layoutY="9.5" styleClass="label-climate-watch" text="Climate Watch" />
+                <ImageView layoutX="1215.0" layoutY="7.0" fitHeight="50.0" fitWidth="50.0">
+                    <Image url="Images/gear-64.png" />
+                </ImageView>
+                <ImageView layoutX="1145.0" layoutY="7.0" fitHeight="50.0" fitWidth="50.0">
+                    <Image url="Images/menu-bar.png" />
+                </ImageView>
+            </children>
+        </Pane>
+    </children>
+</AnchorPane>
