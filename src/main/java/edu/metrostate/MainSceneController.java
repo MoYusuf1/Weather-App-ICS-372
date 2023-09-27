@@ -1,33 +1,34 @@
 package edu.metrostate;
 
+import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.control.Button;
 
 public class MainSceneController implements ValueChangedListener {
 
     @FXML
-    private Label label;
+    private Button gearButton;
 
     @FXML
-    private Label value;
-
-    private ValueStore store;
-
-    private final String valueFormatString = "Current value: %d";
+    private Button menuBarButton;
 
     public void initialize() {
-        label.setText("Hello, ICS372 JavaFX");
-    }
 
-    public void setValueStore(ValueStore store) {
-        this.store = store;
-        if (this.store != null) {
-            this.store.registerValueChangeListener(this);
-        }
     }
 
     @Override
     public void onValueChange(int newValue) {
-        value.setText(String.format(valueFormatString, newValue));
+
+    }
+
+    //Event to trigger Menu press
+    public void handleMenuClick(ActionEvent actionEvent) {
+        System.out.println("You have pressed the menu button!");
+    }
+
+    //Event to trigger settings button
+    public void handleSettingsClick(ActionEvent actionEvent) {
+        System.out.println("You have pressed the settings button!");
     }
 }

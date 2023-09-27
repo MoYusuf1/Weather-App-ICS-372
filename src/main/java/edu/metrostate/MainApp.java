@@ -5,6 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import javafx.scene.control.Button;
 
 import java.net.URL;
 
@@ -15,6 +16,7 @@ public class MainApp extends Application {
     public MainApp() {
         this.store = new ValueStore();
     }
+
 
     // Test Code
 
@@ -44,10 +46,14 @@ public class MainApp extends Application {
 
         loadStylesheetIntoScene(scene);
 
-        stage.setTitle("ICS 372 - HelloFX");
+        stage.setTitle("Climate Watch");
         stage.setScene(scene);
+
+        stage.setResizable(false);
+
         stage.show();
     }
+
 
     private void loadStylesheetIntoScene(Scene scene) {
         URL stylesheetURL = getClass().getResource("style.css");

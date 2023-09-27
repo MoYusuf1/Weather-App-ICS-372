@@ -4,22 +4,34 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/17.0.2-ea">
-    <children>
-        <!-- Add a Region for the curved red background -->
-        <Region layoutX="20.0" layoutY="0.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
+<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.MainSceneController">
+    <!-- Add a Region for the curved red background -->
+    <Region layoutX="20.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
 
-        <!-- Add your content on top of the curved background -->
-        <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;"> <!-- Apply curved background to the Pane -->
-            <children>
-                <Label layoutX="45.0" layoutY="9.5" styleClass="label-climate-watch" text="Climate Watch" />
-                <ImageView layoutX="1215.0" layoutY="7.0" fitHeight="50.0" fitWidth="50.0">
-                    <Image url="Images/gear-64.png" />
+    <!-- Add your content on top of the curved background -->
+    <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;"> <!-- Apply curved background to the Pane -->
+        <Label layoutX="45.0" layoutY="9.5" styleClass="label-climate-watch" text="Climate Watch" />
+
+        <Button fx:id="gearButton" layoutX="1200.0" layoutY="3.0" onAction="#handleSettingsClick" style="-fx-background-color: transparent;">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0">
+                    <Image url="Images/gear-64.png"/>
                 </ImageView>
-                <ImageView layoutX="1145.0" layoutY="7.0" fitHeight="50.0" fitWidth="50.0">
-                    <Image url="Images/menu-bar.png" />
+            </graphic>
+        </Button>
+
+        <Button fx:id="menuBarButton" layoutX="1130.0" layoutY="3.0" onAction="#handleMenuClick" style="-fx-background-color: transparent;">
+            <graphic>
+                <ImageView fitHeight="50.0" fitWidth="50.0">
+                    <Image url="Images/menu-bar.png"/>
                 </ImageView>
-            </children>
-        </Pane>
-    </children>
+            </graphic>
+        </Button>
+
+    </Pane>
+   <Pane  id="Mainweather" layoutX="150.0" layoutY="100.0" style="-fx-background-radius: 10 10 10 10;">
+        <ImageView fitHeight="200.0" fitWidth="200.0">
+            <Image url="Images/10n@2x.png"/>
+        </ImageView>
+   </Pane>
 </AnchorPane>
