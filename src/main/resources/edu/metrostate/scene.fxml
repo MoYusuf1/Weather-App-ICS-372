@@ -3,8 +3,9 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
+<?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="600.0" prefWidth="800.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.MainSceneController">
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.MainSceneController">
     <!-- Add a Region for the curved red background -->
     <Region layoutX="20.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
 
@@ -29,9 +30,72 @@
         </Button>
 
     </Pane>
-   <Pane  id="Mainweather" layoutX="150.0" layoutY="100.0" style="-fx-background-radius: 10 10 10 10;">
+   <Pane id="Mainweather" layoutX="150.0" layoutY="100.0" style="-fx-background-radius: 10 10 10 10;">
         <ImageView fitHeight="200.0" fitWidth="200.0">
             <Image url="Images/10n@2x.png"/>
         </ImageView>
    </Pane>
+
+   <Line endX="1260.0" layoutY="500.0" startX="45.0" />
+
+    <SplitPane id="Paneone" dividerPositions="0.7527472527472527" layoutX="110.0" layoutY="560.0" orientation="VERTICAL"
+               prefHeight="184.0" prefWidth="160.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
+                <Label fx:id="first_day" alignment="CENTER" layoutY="13.0" prefHeight="17.0" prefWidth="160.0"/>
+            </AnchorPane>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+        </AnchorPane>
+    </SplitPane>
+
+    <SplitPane id="Panetwo" dividerPositions="0.7527472527472527" layoutX="340.0" layoutY="560.0" orientation="VERTICAL"
+               prefHeight="184.0" prefWidth="160.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
+                <Label fx:id="second_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+            </AnchorPane>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+        </AnchorPane>
+    </SplitPane>
+
+    <SplitPane id="Panethree" dividerPositions="0.7527472527472527" layoutX="570.0" layoutY="560.0"
+               orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
+                <Label fx:id="third_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+            </AnchorPane>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+        </AnchorPane>
+    </SplitPane>
+
+    <SplitPane id="Panefour" dividerPositions="0.7527472527472527" layoutX="800.0" layoutY="560.0"
+               orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
+                <Label fx:id="fourth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+            </AnchorPane>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+        </AnchorPane>
+    </SplitPane>
+
+    <SplitPane id="Panefive" dividerPositions="0.7527472527472527" layoutX="1030.0" layoutY="560.0"
+               orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
+                <Label fx:id="fifth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+            </AnchorPane>
+        </AnchorPane>
+        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
+            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+        </AnchorPane>
+    </SplitPane>
+
 </AnchorPane>

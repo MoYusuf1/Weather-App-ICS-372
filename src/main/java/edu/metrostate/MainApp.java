@@ -49,6 +49,12 @@ public class MainApp extends Application {
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
 
+        mainSceneController.first_day("Monday");
+        mainSceneController.second_day("Tuesday");
+        mainSceneController.third_day("Wednesday");
+        mainSceneController.fourth_day("Thursday");
+        mainSceneController.fifth_day("Friday");
+
         stage.setResizable(false);
 
         stage.show();

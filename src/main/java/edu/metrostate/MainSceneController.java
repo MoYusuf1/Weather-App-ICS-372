@@ -5,6 +5,9 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainSceneController implements ValueChangedListener {
 
     @FXML
@@ -12,6 +15,13 @@ public class MainSceneController implements ValueChangedListener {
 
     @FXML
     private Button menuBarButton;
+
+    @FXML
+    public Label first_day;
+    public Label second_day;
+    public Label third_day;
+    public Label fourth_day;
+    public Label fifth_day;
 
     public void initialize() {
 
@@ -30,5 +40,21 @@ public class MainSceneController implements ValueChangedListener {
     //Event to trigger settings button
     public void handleSettingsClick(ActionEvent actionEvent) {
         System.out.println("You have pressed the settings button!");
+    }
+
+    public void first_day(String text) {
+        first_day.setText(text);
+    }
+    public void second_day(String text) {
+        second_day.setText(text);
+    }
+    public void third_day(String text) {
+        third_day.setText(text);
+    }
+    public void fourth_day(String text) {
+        fourth_day.setText(text);
+    }
+    public void fifth_day(String text) {
+        fifth_day.setText(text);
     }
 }

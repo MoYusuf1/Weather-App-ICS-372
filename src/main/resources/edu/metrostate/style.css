@@ -16,3 +16,60 @@
 #Mainweather {
   -fx-background-color: #4d90f3
 }
+
+#first_day {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #2074f0;
+  -fx-font-family: "Century Gothic";
+  -fx-background-color: #a6c7f9
+}
+#second_day {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #2074f0;
+  -fx-font-family: "Century Gothic";
+  -fx-background-color: #a6c7f9
+}
+#third_day {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #2074f0;
+  -fx-font-family: "Century Gothic";
+  -fx-background-color: #a6c7f9
+}
+#fourth_day {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #2074f0;
+  -fx-font-family: "Century Gothic";
+  -fx-background-color: #a6c7f9
+}
+#fifth_day {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: #2074f0;
+  -fx-font-family: "Century Gothic";
+  -fx-background-color: #a6c7f9
+}
+
+#Paneone {
+  -fx-background-color: #a6c7f9;
+  -fx-background-radius: 20 20 20 20;
+}
+#Panetwo {
+  -fx-background-color: #a6c7f9;
+  -fx-background-radius: 20 20 20 20;
+}
+#Panethree {
+  -fx-background-color: #a6c7f9;
+  -fx-background-radius: 20 20 20 20;
+}
+#Panefour {
+  -fx-background-color: #a6c7f9;
+  -fx-background-radius: 20 20 20 20;
+}
+#Panefive {
+  -fx-background-color: #a6c7f9;
+  -fx-background-radius: 20 20 20 20;
+}
