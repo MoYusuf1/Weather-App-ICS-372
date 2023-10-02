@@ -73,3 +73,12 @@
   -fx-background-color: #a6c7f9;
   -fx-background-radius: 20 20 20 20;
 }
+
+.high_low_label {
+  -fx-font-weight: bold;
+  -fx-text-fill: #2074f0;
+  -fx-font-family: "Century Gothic";
+}
+.split-pane-divider {
+  -fx-background-color: transparent;
+}

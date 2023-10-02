@@ -38,64 +38,76 @@
 
    <Line endX="1260.0" layoutY="500.0" startX="45.0" />
 
-    <SplitPane id="Paneone" dividerPositions="0.7527472527472527" layoutX="110.0" layoutY="560.0" orientation="VERTICAL"
-               prefHeight="184.0" prefWidth="160.0">
+    <SplitPane id="Paneone" dividerPositions="0.65" layoutX="110.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="first_day" alignment="CENTER" layoutY="13.0" prefHeight="17.0" prefWidth="160.0"/>
+                <Label fx:id="first_day" alignment="CENTER" layoutY="13.0" prefHeight="17.0" prefWidth="160.0" />
             </AnchorPane>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+            <Label fx:id="first_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+            <Label fx:id="first_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panetwo" dividerPositions="0.7527472527472527" layoutX="340.0" layoutY="560.0" orientation="VERTICAL"
-               prefHeight="184.0" prefWidth="160.0">
+    <SplitPane id="Panetwo" dividerPositions="0.65" layoutX="340.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="second_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+                <Label fx:id="second_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" />
             </AnchorPane>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+         <Label fx:id="second_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+         <Label fx:id="second_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panethree" dividerPositions="0.7527472527472527" layoutX="570.0" layoutY="560.0"
-               orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
+    <SplitPane id="Panethree" dividerPositions="0.65" layoutX="570.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="third_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+                <Label fx:id="third_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" />
             </AnchorPane>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+            <Label fx:id="third_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0"
+                   prefWidth="160.0" styleClass="high_low_label" text="High: "/>
+            <Label fx:id="third_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0"
+                   prefWidth="160.0" styleClass="high_low_label" text="Low: "/>
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panefour" dividerPositions="0.7527472527472527" layoutX="800.0" layoutY="560.0"
-               orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
+    <SplitPane id="Panefour" dividerPositions="0.65" layoutX="800.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="fourth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+                <Label fx:id="fourth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" />
             </AnchorPane>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+            <Label fx:id="fourth_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0"
+                   prefWidth="160.0" styleClass="high_low_label" text="High: "/>
+            <Label fx:id="fourth_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0"
+                   prefWidth="160.0" styleClass="high_low_label" text="Low: "/>
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panefive" dividerPositions="0.7527472527472527" layoutX="1030.0" layoutY="560.0"
-               orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
+    <SplitPane id="Panefive" dividerPositions="0.65" layoutX="1030.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="fifth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0"/>
+                <Label fx:id="fifth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" />
             </AnchorPane>
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label layoutX="65.0" layoutY="13.0" text="Label"/>
+            <Label fx:id="fifth_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0"
+                   prefWidth="160.0" styleClass="high_low_label" text="High: "/>
+            <Label fx:id="fifth_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0"
+                   prefWidth="160.0" styleClass="high_low_label" text="Low: "/>
         </AnchorPane>
     </SplitPane>
+
+    <Line endX="260.0" layoutY="682.0" startX="120.0" />
+    <Line endX="490.0" layoutY="682.0" startX="350.0" />
+    <Line endX="720.0" layoutY="682.0" startX="580.0" />
+    <Line endX="950.0" layoutY="682.0" startX="810.0" />
+    <Line endX="1180.0" layoutY="682.0" startX="1040.0" />
 
 </AnchorPane>

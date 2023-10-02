@@ -1,22 +1,17 @@
 package edu.metrostate;
 
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
+import javafx.scene.control.SplitPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import javafx.scene.control.Button;
 
 import java.net.URL;
 
 public class MainApp extends Application {
-
-    private final ValueStore store;
-
-    public MainApp() {
-        this.store = new ValueStore();
-    }
-
 
     // Test Code
 
@@ -54,6 +49,16 @@ public class MainApp extends Application {
         mainSceneController.third_day("Wednesday");
         mainSceneController.fourth_day("Thursday");
         mainSceneController.fifth_day("Friday");
+
+
+        // A way to disable the divider for the panes by canceling the users mouse event.
+        String[] splitPaneIds = {"#Paneone", "#Panetwo", "#Panethree", "#Panefour", "#Panefive"};
+
+        for (String id : splitPaneIds) {
+            SplitPane splitPane = (SplitPane) root.lookup(id);
+            // Cancel the drag event
+            splitPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
+        }
 
         stage.setResizable(false);
 

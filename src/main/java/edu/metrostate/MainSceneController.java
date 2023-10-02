@@ -5,9 +5,6 @@ import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 
-import java.util.ArrayList;
-import java.util.List;
-
 public class MainSceneController implements ValueChangedListener {
 
     @FXML
@@ -22,6 +19,18 @@ public class MainSceneController implements ValueChangedListener {
     public Label third_day;
     public Label fourth_day;
     public Label fifth_day;
+
+    @FXML
+    public Label first_high_first_day;
+    public Label first_low_first_day;
+    public Label second_high_first_day;
+    public Label second_low_first_day;
+    public Label third_high_first_day;
+    public Label third_low_first_day;
+    public Label fourth_high_first_day;
+    public Label fourth_low_first_day;
+    public Label fifth_high_first_day;
+    public Label fifth_low_first_day;
 
     public void initialize() {
 
