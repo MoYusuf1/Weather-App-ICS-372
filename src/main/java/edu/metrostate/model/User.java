@@ -1,4 +1,6 @@
-package edu.metrostate;
+package edu.metrostate.model;
+
+import edu.metrostate.model.City;
 
 public class User {
     private City userCity;

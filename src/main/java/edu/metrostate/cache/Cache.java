@@ -1,5 +1,6 @@
-package edu.metrostate;
-import java.util.HashMap;
+package edu.metrostate.cache;
+import edu.metrostate.model.Weather;
+
 import java.util.Map;
 
 public class Cache {

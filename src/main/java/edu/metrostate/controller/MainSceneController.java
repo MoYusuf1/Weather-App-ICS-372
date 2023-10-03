@@ -1,4 +1,4 @@
-package edu.metrostate;
+package edu.metrostate.controller;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;

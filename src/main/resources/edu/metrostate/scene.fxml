@@ -5,7 +5,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.MainSceneController">
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.controller.MainSceneController">
 
     <Region layoutX="20.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
 

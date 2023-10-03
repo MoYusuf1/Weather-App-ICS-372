@@ -1,4 +1,4 @@
-package edu.metrostate;
+package edu.metrostate.model;
 public class City extends Location {
     private int cityId;
     private int timeZone;
