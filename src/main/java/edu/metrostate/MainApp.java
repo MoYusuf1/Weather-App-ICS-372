@@ -5,6 +5,7 @@ import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
@@ -44,12 +45,35 @@ public class MainApp extends Application {
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
 
+        // Day 1
         mainSceneController.first_day("Monday");
-        mainSceneController.second_day("Tuesday");
-        mainSceneController.third_day("Wednesday");
-        mainSceneController.fourth_day("Thursday");
-        mainSceneController.fifth_day("Friday");
+        Image image1 = new Image("images/02d@2x.png");
+        mainSceneController.first_high_first_day("High: " + "85");
+        mainSceneController.first_low_first_day("low: " + "72");
 
+        // Day 2
+        mainSceneController.second_day("Tuesday");
+        Image image2 = new Image("images/10n@2x.png");
+        mainSceneController.second_high_first_day("High: " + "70");
+        mainSceneController.second_low_first_day("low: " + "61");
+
+        // Day 3
+        mainSceneController.third_day("Wednesday");
+        Image image3 = new Image("images/11d@2x.png");
+        mainSceneController.third_high_first_day("High: " + "65");
+        mainSceneController.third_low_first_day("low: " + "58");
+
+        // Day 4
+        mainSceneController.fourth_day("Thursday");
+        Image image4 = new Image("images/03d@2x.png");
+        mainSceneController.fourth_high_first_day("High: " + "68");
+        mainSceneController.fourth_low_first_day("low: " + "61");
+
+        // Day 5
+        mainSceneController.fifth_day("Friday");
+        Image image5 = new Image("images/01d@2x.png");
+        mainSceneController.fifth_high_first_day("High: " + "89");
+        mainSceneController.fifth_low_first_day("low: " + "73");
 
         // A way to disable the divider for the panes by canceling the users mouse event.
         String[] splitPaneIds = {"#Paneone", "#Panetwo", "#Panethree", "#Panefour", "#Panefive"};
@@ -60,8 +84,9 @@ public class MainApp extends Application {
             splitPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
         }
 
+        // Prevent the resize of the screen
         stage.setResizable(false);
-
+        mainSceneController.setImages(image1, image2, image3, image4, image5);
         stage.show();
     }
 

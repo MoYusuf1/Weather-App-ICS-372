@@ -17,68 +17,27 @@
   -fx-background-color: #4d90f3
 }
 
-#first_day {
+/* Label for the day name in pane */
+.Fivedaynameofday {
   -fx-font-size: 24px;
   -fx-font-weight: bold;
   -fx-text-fill: #2074f0;
   -fx-font-family: "Century Gothic";
   -fx-background-color: #a6c7f9
 }
-#second_day {
-  -fx-font-size: 24px;
-  -fx-font-weight: bold;
-  -fx-text-fill: #2074f0;
-  -fx-font-family: "Century Gothic";
-  -fx-background-color: #a6c7f9
-}
-#third_day {
-  -fx-font-size: 24px;
-  -fx-font-weight: bold;
-  -fx-text-fill: #2074f0;
-  -fx-font-family: "Century Gothic";
-  -fx-background-color: #a6c7f9
-}
-#fourth_day {
-  -fx-font-size: 24px;
-  -fx-font-weight: bold;
-  -fx-text-fill: #2074f0;
-  -fx-font-family: "Century Gothic";
-  -fx-background-color: #a6c7f9
-}
-#fifth_day {
-  -fx-font-size: 24px;
-  -fx-font-weight: bold;
-  -fx-text-fill: #2074f0;
-  -fx-font-family: "Century Gothic";
-  -fx-background-color: #a6c7f9
-}
-
-#Paneone {
-  -fx-background-color: #a6c7f9;
-  -fx-background-radius: 20 20 20 20;
-}
-#Panetwo {
-  -fx-background-color: #a6c7f9;
-  -fx-background-radius: 20 20 20 20;
-}
-#Panethree {
-  -fx-background-color: #a6c7f9;
-  -fx-background-radius: 20 20 20 20;
-}
-#Panefour {
-  -fx-background-color: #a6c7f9;
-  -fx-background-radius: 20 20 20 20;
-}
-#Panefive {
+/* Holds the five day forecast pane */
+.FivedayforecastPane {
   -fx-background-color: #a6c7f9;
   -fx-background-radius: 20 20 20 20;
 }
 
+/* Holds the bottom labels for the five day forecast */
 .high_low_label {
   -fx-font-weight: bold;
   -fx-text-fill: #2074f0;
   -fx-font-family: "Century Gothic";
 }
+
 .split-pane-divider {
   -fx-background-color: transparent;
 }
