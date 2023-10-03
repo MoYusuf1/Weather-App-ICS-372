@@ -1,4 +1,4 @@
-package edu.metrostate;
+package edu.metrostate.model;
 
 public class Weather {
     private double temperature;

@@ -1,5 +1,10 @@
 package edu.metrostate;
 
+import edu.metrostate.controller.MainSceneController;
+import edu.metrostate.model.City;
+import edu.metrostate.model.FiveDayForecast;
+import edu.metrostate.model.User;
+import edu.metrostate.model.Weather;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
