@@ -1,19 +1,25 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.*?>
-<?import javafx.scene.image.*?>
-<?import javafx.scene.layout.*?>
-<?import javafx.scene.shape.*?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.SplitPane?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.Region?>
+<?import javafx.scene.shape.Line?>
 
-<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.controller.MainSceneController">
+<AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.controller.MainSceneController">
     <Region layoutX="20.0" layoutY="20.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
-    <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;">
+    <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;" stylesheets="@style.css">
         <Label layoutX="45.0" layoutY="29.5" styleClass="label-climate-watch" text="Climate Watch" />
 
         <Button fx:id="gearButton" layoutX="1200.0" layoutY="23.0" onAction="#handleSettingsClick" style="-fx-background-color: transparent;">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0">
-                    <Image url="Images/gear-64.png"/>
+                    <Image url="@images/gear-64.png" />
                 </ImageView>
             </graphic>
         </Button>
@@ -21,19 +27,19 @@
         <Button fx:id="menuBarButton" layoutX="1130.0" layoutY="23.0" onAction="#handleMenuClick" style="-fx-background-color: transparent;">
             <graphic>
                 <ImageView fitHeight="50.0" fitWidth="50.0">
-                    <Image url="Images/menu-bar.png"/>
+                    <Image url="@images/menu-bar.png" />
                 </ImageView>
             </graphic>
         </Button>
     </Pane>
 
     <!-- Search box -->
-    <TextField layoutX="1025.0" layoutY="98.75" />
-    <Button layoutX="1209.0" layoutY="98.75" text="FIND" />
+    <TextField layoutX="1025.0" layoutY="98.75" stylesheets="@style.css" />
+    <Button layoutX="1209.0" layoutY="98.75" stylesheets="@style.css" text="FIND" />
 
     <!-- Main Box with all weather info -->
 
-    <Pane fx:id="Mainweather" layoutX="45.0" layoutY="140.0" prefHeight="319.0" prefWidth="1215.0">
+    <Pane fx:id="Mainweather" layoutX="45.0" layoutY="140.0" prefHeight="319.0" prefWidth="1215.0" stylesheets="@style.css">
           <ImageView fx:id="Mainweather_Image" fitHeight="192.0" fitWidth="223.0" layoutX="96.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
         <Label fx:id="Current_Time" alignment="CENTER" layoutX="38.0" layoutY="20.0" prefHeight="17.0" prefWidth="299.0" text="Current_Time" />
         <Label fx:id="Current_Temp" alignment="CENTER" layoutX="431.0" layoutY="64.0" prefHeight="93.0" prefWidth="354.0" text="Current_Temp" />
@@ -48,10 +54,7 @@
       <Label fx:id="Mainweather_Visibility" alignment="CENTER" layoutX="932.0" layoutY="246.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
     </Pane>
 
-
-
-
-    <SplitPane id="Paneone" dividerPositions="0.65" layoutX="110.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
+    <SplitPane id="Paneone" dividerPositions="0.65" layoutX="110.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
                 <Label fx:id="first_day" alignment="CENTER" layoutY="13.0" prefHeight="17.0" prefWidth="160.0" styleClass="Fivedaynameofday" />
@@ -64,7 +67,7 @@
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panetwo" dividerPositions="0.65" layoutX="340.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
+    <SplitPane id="Panetwo" dividerPositions="0.65" layoutX="340.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
                 <Label fx:id="second_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
@@ -77,7 +80,7 @@
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panethree" dividerPositions="0.65" layoutX="570.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
+    <SplitPane id="Panethree" dividerPositions="0.65" layoutX="570.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
                 <Label fx:id="third_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
@@ -90,7 +93,7 @@
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panefour" dividerPositions="0.65" layoutX="800.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
+    <SplitPane id="Panefour" dividerPositions="0.65" layoutX="800.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
                 <Label fx:id="fourth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
@@ -103,7 +106,7 @@
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panefive" dividerPositions="0.65" layoutX="1030.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
+    <SplitPane id="Panefive" dividerPositions="0.65" layoutX="1030.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
                 <Label fx:id="fifth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
@@ -123,7 +126,6 @@
     <Line endX="720.0" layoutY="682.0" startX="580.0" />
     <Line endX="950.0" layoutY="682.0" startX="810.0" />
     <Line endX="1180.0" layoutY="682.0" startX="1040.0" />
-
     <Line endX="1260.0" layoutY="500.0" startX="45.0" />
 
 </AnchorPane>
