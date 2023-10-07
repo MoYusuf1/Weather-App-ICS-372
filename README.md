@@ -19,3 +19,13 @@ After installing the JDK click on the elephant icon on the top right side Intell
 dependencies. Once that is complete, ensure that "ICS372" run configuration is selected in the dropdown to the
 left of the green play button on the top right side of the toolbar and then click the play button. The project will
 compile and then start the application.
+
+# Miscellaneous Notes
+
+> Info taken from: https://stackoverflow.com/questions/29397367/javafx-scenebuilder-imageview-not-working
+
+Are you passing the image path in the fxml relative to your project path?
+
+For example, a fxml present at `src/main/resources/demo.fxml`
+and an image present in `src/main/resources/img/image.png` must be declared in the fxml as `<Image url="@img/image.png" />`
+

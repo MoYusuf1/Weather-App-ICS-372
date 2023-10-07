@@ -22,26 +22,9 @@ import java.net.URL;
 
 public class MainApp extends Application {
 
-    // Test Code
-
-    City testCity1 = new City("Minneapolis", 44.986656, -93.258133, 1, -5,
-            "United States", 250);
-    City testCity2 = new City("SaintPaul", 44.954445, -93.091301, 1, -5,
-            "United States", 285);
-    Weather testWeather1 = new Weather( 1.1, 1.1, 1.1, 1.1,
-            1.1, "East", 1, 1, 1, 1.1, "Cloudy");
-    Weather testWeather2 = new Weather( 1.1, 1.1, 1.1, 1.1,
-            1.1, "West", 1, 1, 1, 1.1, "Sunny");
-    City[] testCityGroup = {testCity1, testCity2};
-    Weather[] testWeatherGroup = {testWeather1, testWeather2};
-
-    User testUser = new User(testCity1, testCity1.getTimeZone(), "mph", "F", testCityGroup);
-
-    FiveDayForecast testForecast= new FiveDayForecast(testWeatherGroup, testCity1);
-
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("scene.fxml"));
+        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene.fxml"));
         AnchorPane root = loader.load();
 
         MainSceneController mainSceneController = loader.getController();
@@ -55,6 +38,7 @@ public class MainApp extends Application {
 
         // Current Time
         mainSceneController.CurrentTime(getCurrentTime());
+
         Image Mainweather_Image = new Image("images/02d@2x.png");
         mainSceneController.CurrentTemp("Currently: " + "68\u00B0");
         mainSceneController.LocationName("Maple Grove, Minnesota");
@@ -73,31 +57,31 @@ public class MainApp extends Application {
         mainSceneController.first_day("Monday");
         Image image1 = new Image("images/02d@2x.png");
         mainSceneController.first_high_first_day("High: " + "85");
-        mainSceneController.first_low_first_day("low: " + "72");
+        mainSceneController.first_low_first_day("Low: " + "72");
 
         // Day 2
         mainSceneController.second_day("Tuesday");
         Image image2 = new Image("images/10n@2x.png");
         mainSceneController.second_high_first_day("High: " + "70");
-        mainSceneController.second_low_first_day("low: " + "61");
+        mainSceneController.second_low_first_day("Low: " + "61");
 
         // Day 3
         mainSceneController.third_day("Wednesday");
         Image image3 = new Image("images/11d@2x.png");
         mainSceneController.third_high_first_day("High: " + "65");
-        mainSceneController.third_low_first_day("low: " + "58");
+        mainSceneController.third_low_first_day("Low: " + "58");
 
         // Day 4
         mainSceneController.fourth_day("Thursday");
         Image image4 = new Image("images/03d@2x.png");
         mainSceneController.fourth_high_first_day("High: " + "68");
-        mainSceneController.fourth_low_first_day("low: " + "61");
+        mainSceneController.fourth_low_first_day("Low: " + "61");
 
         // Day 5
         mainSceneController.fifth_day("Friday");
         Image image5 = new Image("images/01d@2x.png");
         mainSceneController.fifth_high_first_day("High: " + "89");
-        mainSceneController.fifth_low_first_day("low: " + "73");
+        mainSceneController.fifth_low_first_day("Low: " + "73");
 
         // A way to disable the divider for the panes by canceling the users mouse event.
         String[] splitPaneIds = {"#Paneone", "#Panetwo", "#Panethree", "#Panefour", "#Panefive"};
@@ -115,9 +99,8 @@ public class MainApp extends Application {
         stage.show();
     }
 
-
     private void loadStylesheetIntoScene(Scene scene) {
-        URL stylesheetURL = getClass().getResource("style.css");
+        URL stylesheetURL = getClass().getResource("/style.css");
         if (stylesheetURL == null) {
             return;
         }
@@ -128,11 +111,27 @@ public class MainApp extends Application {
         scene.getStylesheets().add(urlString);
     }
 
-    // Get the current time
     private String getCurrentTime() {
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
         return currentTime.format(formatter);
+    }
+
+    private static void createTestObjects() {
+        City testCity1 = new City("Minneapolis", 44.986656, -93.258133, 1, -5,
+                "United States", 250);
+        City testCity2 = new City("SaintPaul", 44.954445, -93.091301, 1, -5,
+                "United States", 285);
+        Weather testWeather1 = new Weather( 1.1, 1.1, 1.1, 1.1,
+                1.1, "East", 1, 1, 1, 1.1, "Cloudy");
+        Weather testWeather2 = new Weather( 1.1, 1.1, 1.1, 1.1,
+                1.1, "West", 1, 1, 1, 1.1, "Sunny");
+        City[] testCityGroup = {testCity1, testCity2};
+        Weather[] testWeatherGroup = {testWeather1, testWeather2};
+
+        User testUser = new User(testCity1, testCity1.getTimeZone(), "mph", "F", testCityGroup);
+
+        FiveDayForecast testForecast= new FiveDayForecast(testWeatherGroup, testCity1);
     }
 
 }
