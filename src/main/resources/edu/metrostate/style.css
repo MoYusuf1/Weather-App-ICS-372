@@ -14,7 +14,43 @@
 }
 
 #Mainweather {
-  -fx-background-color: #4d90f3
+  -fx-background-color: #4d90f3;
+  -fx-background-radius: 10px 10px 10px 10px; /* Rounded corners on all sides */
+}
+
+#Current_Time {
+  -fx-font-size: 54px;
+  -fx-font-weight: bold;
+  -fx-text-fill: White;
+  -fx-font-family: "Century Gothic";
+}
+
+#Current_Temp {
+  -fx-font-size: 36px;
+  -fx-font-weight: bold;
+  -fx-text-fill: White;
+  -fx-font-family: "Century Gothic";
+}
+
+#Location_Name {
+  -fx-font-size: 18px;
+  -fx-font-weight: bold;
+  -fx-text-fill: White;
+  -fx-font-family: "Century Gothic";
+}
+
+.Mainweather_High_Low {
+  -fx-font-size: 24px;
+  -fx-font-weight: bold;
+  -fx-text-fill: White;
+  -fx-font-family: "Century Gothic";
+}
+
+.Mainweather_Info {
+  -fx-font-size: 14px;
+  -fx-font-weight: bold;
+  -fx-text-fill: White;
+  -fx-font-family: "Century Gothic";
 }
 
 /* Label for the day name in pane */

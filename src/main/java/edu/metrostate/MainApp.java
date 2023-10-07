@@ -15,6 +15,9 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.time.LocalDateTime;
+import java.time.format.DateTimeFormatter;
+
 import java.net.URL;
 
 public class MainApp extends Application {
@@ -49,6 +52,22 @@ public class MainApp extends Application {
 
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
+
+        // Current Time
+        mainSceneController.CurrentTime(getCurrentTime());
+        Image Mainweather_Image = new Image("images/02d@2x.png");
+        mainSceneController.CurrentTemp("Currently: " + "68\u00B0");
+        mainSceneController.LocationName("Maple Grove, Minnesota");
+
+        mainSceneController.MainweatherHigh("High: " + "72");
+        mainSceneController.MainweatherLow("Low: " + "53");
+
+        mainSceneController.MainweatherSpeed("Wind Speed: " + " 7.2m/s NW");
+        mainSceneController.MainweatherHumidity("Humidity: " + " 59%");
+        mainSceneController.MainweatherDewpoint("Dew Point: " + " 38\u00B0F");
+        mainSceneController.MainweatherhectoPascals("hectoPascals: " + " 1020hPa");
+        mainSceneController.MainweatherUV("UV: " + " 2");
+        mainSceneController.MainweatherVisibility("Visibility: " + " 10.0km");
 
         // Day 1
         mainSceneController.first_day("Monday");
@@ -91,6 +110,7 @@ public class MainApp extends Application {
 
         // Prevent the resize of the screen
         stage.setResizable(false);
+        mainSceneController.setImages(Mainweather_Image);
         mainSceneController.setImages(image1, image2, image3, image4, image5);
         stage.show();
     }
@@ -107,4 +127,12 @@ public class MainApp extends Application {
         }
         scene.getStylesheets().add(urlString);
     }
+
+    // Get the current time
+    private String getCurrentTime() {
+        LocalDateTime currentTime = LocalDateTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
+        return currentTime.format(formatter);
+    }
+
 }
