@@ -15,6 +15,7 @@ import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
+import java.io.IOException;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 
@@ -22,12 +23,17 @@ import java.net.URL;
 
 public class MainApp extends Application {
 
+    private static final FXMLLoader LOADER = new FXMLLoader();
+
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader loader = new FXMLLoader(getClass().getResource("/scene.fxml"));
-        AnchorPane root = loader.load();
+        createHomeScreen(stage);
+    }
 
-        MainSceneController mainSceneController = loader.getController();
+    private void createHomeScreen(Stage stage) throws IOException {
+        LOADER.setLocation(getClass().getResource("/home-scene.fxml"));
+        AnchorPane root = LOADER.load();
+        MainSceneController controller = LOADER.getController();
 
         Scene scene = new Scene(root, 1300, 800);
 
@@ -37,51 +43,51 @@ public class MainApp extends Application {
         stage.setScene(scene);
 
         // Current Time
-        mainSceneController.CurrentTime(getCurrentTime());
+        controller.CurrentTime(getCurrentTime());
 
         Image Mainweather_Image = new Image("images/02d@2x.png");
-        mainSceneController.CurrentTemp("Currently: " + "68\u00B0");
-        mainSceneController.LocationName("Maple Grove, Minnesota");
+        controller.CurrentTemp("Currently: " + "68\u00B0");
+        controller.LocationName("Maple Grove, Minnesota");
 
-        mainSceneController.MainweatherHigh("High: " + "72");
-        mainSceneController.MainweatherLow("Low: " + "53");
+        controller.MainweatherHigh("High: " + "72");
+        controller.MainweatherLow("Low: " + "53");
 
-        mainSceneController.MainweatherSpeed("Wind Speed: " + " 7.2m/s NW");
-        mainSceneController.MainweatherHumidity("Humidity: " + " 59%");
-        mainSceneController.MainweatherDewpoint("Dew Point: " + " 38\u00B0F");
-        mainSceneController.MainweatherhectoPascals("hectoPascals: " + " 1020hPa");
-        mainSceneController.MainweatherUV("UV: " + " 2");
-        mainSceneController.MainweatherVisibility("Visibility: " + " 10.0km");
+        controller.MainweatherSpeed("Wind Speed: " + " 7.2m/s NW");
+        controller.MainweatherHumidity("Humidity: " + " 59%");
+        controller.MainweatherDewpoint("Dew Point: " + " 38\u00B0F");
+        controller.MainweatherhectoPascals("hectoPascals: " + " 1020hPa");
+        controller.MainweatherUV("UV: " + " 2");
+        controller.MainweatherVisibility("Visibility: " + " 10.0km");
 
         // Day 1
-        mainSceneController.first_day("Monday");
+        controller.first_day("Monday");
         Image image1 = new Image("images/02d@2x.png");
-        mainSceneController.first_high_first_day("High: " + "85");
-        mainSceneController.first_low_first_day("Low: " + "72");
+        controller.first_high_first_day("High: " + "85");
+        controller.first_low_first_day("Low: " + "72");
 
         // Day 2
-        mainSceneController.second_day("Tuesday");
+        controller.second_day("Tuesday");
         Image image2 = new Image("images/10n@2x.png");
-        mainSceneController.second_high_first_day("High: " + "70");
-        mainSceneController.second_low_first_day("Low: " + "61");
+        controller.second_high_first_day("High: " + "70");
+        controller.second_low_first_day("Low: " + "61");
 
         // Day 3
-        mainSceneController.third_day("Wednesday");
+        controller.third_day("Wednesday");
         Image image3 = new Image("images/11d@2x.png");
-        mainSceneController.third_high_first_day("High: " + "65");
-        mainSceneController.third_low_first_day("Low: " + "58");
+        controller.third_high_first_day("High: " + "65");
+        controller.third_low_first_day("Low: " + "58");
 
         // Day 4
-        mainSceneController.fourth_day("Thursday");
+        controller.fourth_day("Thursday");
         Image image4 = new Image("images/03d@2x.png");
-        mainSceneController.fourth_high_first_day("High: " + "68");
-        mainSceneController.fourth_low_first_day("Low: " + "61");
+        controller.fourth_high_first_day("High: " + "68");
+        controller.fourth_low_first_day("Low: " + "61");
 
         // Day 5
-        mainSceneController.fifth_day("Friday");
+        controller.fifth_day("Friday");
         Image image5 = new Image("images/01d@2x.png");
-        mainSceneController.fifth_high_first_day("High: " + "89");
-        mainSceneController.fifth_low_first_day("Low: " + "73");
+        controller.fifth_high_first_day("High: " + "89");
+        controller.fifth_low_first_day("Low: " + "73");
 
         // A way to disable the divider for the panes by canceling the users mouse event.
         String[] splitPaneIds = {"#Paneone", "#Panetwo", "#Panethree", "#Panefour", "#Panefive"};
@@ -94,8 +100,8 @@ public class MainApp extends Application {
 
         // Prevent the resize of the screen
         stage.setResizable(false);
-        mainSceneController.setImages(Mainweather_Image);
-        mainSceneController.setImages(image1, image2, image3, image4, image5);
+        controller.setImages(Mainweather_Image);
+        controller.setImages(image1, image2, image3, image4, image5);
         stage.show();
     }
 
