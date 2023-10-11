@@ -27,11 +27,13 @@ public class Weather {
         this.description = description;
     }
 
+
+
     public double getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(float temperature) {
+    public void setTemperature(double temperature) {
         this.temperature = temperature;
     }
 
@@ -39,7 +41,7 @@ public class Weather {
         return temperatureMin;
     }
 
-    public void setTemperatureMin(float temperatureMin) {
+    public void setTemperatureMin(double temperatureMin) {
         this.temperatureMin = temperatureMin;
     }
 
