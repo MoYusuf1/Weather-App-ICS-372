@@ -48,7 +48,7 @@ public class MainApp extends Application {
 
         Weather current = getWeather(44, -93, "56a56586750dcac90b3fe2fedaf45f09");
 
-        System.out.println(current.getTemperature());
+        System.out.println(current.getDescription());
 
 
 
