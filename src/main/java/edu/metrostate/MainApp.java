@@ -14,6 +14,13 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
+import org.apache.http.HttpResponse;
+import org.apache.http.client.HttpClient;
+import org.apache.http.client.methods.HttpGet;
+import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
 import java.time.LocalDateTime;
@@ -38,6 +45,12 @@ public class MainApp extends Application {
         Scene scene = new Scene(root, 1300, 800);
 
         loadStylesheetIntoScene(scene);
+
+        Weather current = getWeather(44, -93, "56a56586750dcac90b3fe2fedaf45f09");
+
+        System.out.println(current.getDescription());
+
+
 
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
@@ -103,6 +116,8 @@ public class MainApp extends Application {
         controller.setImages(Mainweather_Image);
         controller.setImages(image1, image2, image3, image4, image5);
         stage.show();
+
+
     }
 
     private void loadStylesheetIntoScene(Scene scene) {
@@ -139,5 +154,40 @@ public class MainApp extends Application {
 
         FiveDayForecast testForecast= new FiveDayForecast(testWeatherGroup, testCity1);
     }
+
+    private Weather getWeather(double lat, double lon, String apiKey) {
+        try (CloseableHttpClient client = HttpClients.createDefault()) {
+            String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s", lat, lon, apiKey);
+            HttpGet request = new HttpGet(url);
+
+            HttpResponse response = client.execute(request);
+            String jsonResponse = new java.util.Scanner(response.getEntity().getContent()).useDelimiter("\\Z").next();
+            System.out.println(jsonResponse);
+
+            JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
+            JsonObject mainData = jsonObject.getAsJsonObject("main");
+            JsonObject windData = jsonObject.getAsJsonObject("wind");
+            JsonObject cloudData = jsonObject.getAsJsonObject("clouds");
+
+            double temperature = mainData.get("temp").getAsDouble();
+            double temperatureMin = mainData.get("temp_min").getAsDouble();
+            double temperatureMax = mainData.get("temp_max").getAsDouble();
+            double humidity = mainData.get("humidity").getAsDouble();
+            double windSpeed = windData.get("speed").getAsDouble();
+            int windDirectionDegrees = windData.get("deg").getAsInt();
+            String windDirection = windDirectionDegrees + "°"; // You might want to convert this to actual directions (N, S, E, W, etc.)
+            int clouds = cloudData.get("all").getAsInt();
+            int sunrise = jsonObject.getAsJsonObject("sys").get("sunrise").getAsInt();
+            int sunset = jsonObject.getAsJsonObject("sys").get("sunset").getAsInt();
+            double visibility = jsonObject.get("visibility").getAsDouble();
+            String description = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
+
+            return new Weather(temperature, temperatureMin, temperatureMax, humidity, windSpeed, windDirection, clouds, sunrise, sunset, visibility, description);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
 
 }
