@@ -15,7 +15,7 @@ for the family vacation next week. You also will have detailed information, allo
 the wind and humidity predictions as well as sunset and sunrise.
 
 **How is the code structured & where are the classes located**
-* Four "New" Classes
+* Four Class Definitions
   * `src/main/java/edu/metrostate/model/City.java`
   * `src/main/java/edu/metrostate/model/FiveDayForecast.java`
   * `src/main/java/edu/metrostate/model/User.java`
