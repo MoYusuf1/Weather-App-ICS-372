@@ -1,31 +1,30 @@
-# Project Skeleton
+# Climate Watch
+By: Jordan Mielke, Mohamed Yusuf, Steve Hartmann (Group five)
 
-When submitting your final project, delete the contents of this file and write your project build and run steps here.
+**Problem Statement:**
+>Have you ever gone to your weather app on your phone, and it shows that it’s bright skies and
+no rain in sight, or maybe it’s supposed to be a high of 98 degrees, or maybe you want to see
+what the weather is like somewhere else around the world. Look no further, we're here to
+provide you with the utmost accuracy in weather information, allowing you to see not only your
+weather information, but the weather information for when you’re on vacation next week.
 
-This is a base project upon which a JavaFX application can be built. It is meant to
-be used with Intellij IDEA and has been tested with the [community edition](https://www.jetbrains.com/idea/download).
+**Product Objective:**
+>Our application will give you the option to see what the temperature will be like, not only
+where you are, but you can also select the location to check out what the highs and lows will be
+for the family vacation next week. You also will have detailed information, allowing you to see
+the wind and humidity predictions as well as sunset and sunrise.
 
-This project uses [Gradle](https://gradle.org) through the "Gradlew Wrapper" (this means that you don't need to
-install) Gradle separately as its build tool and requires a Java
-Development Kit version 17 If using IntelliJ IDEA, new versions of the JDK can be installed without leaving the IDE.
-Open the settings pane by selecting "IntelliJ IDEA -> Settings" on MacOS and "File -> Settings" on Windows. Then
-on the left side of the settings pane expand "Build, Execution, Deployment" -> "Build Tools" -> "Gradle". Then in
-the pane on the right near the bottom there is a dropdown menu labeled "Gradle JVM". Click on the dropdown, then on
-"+ Add SDK" -> "Download JDK". In the new popup select 17 for version and then for version select
-"Eclipse Temurin (AdoptOpenJDK HotSpot) 17.0.4". If you have a Mac with Apple Silicon select
-"Eclipse Temurin (AdoptOpenJDK HotSpot) 17.0.4 aarch64".
+**How is the code structured & where are the classes located**
+* Four "New" Classes
+  * `src/main/java/edu/metrostate/model/City.java`
+  * `src/main/java/edu/metrostate/model/FiveDayForecast.java`
+  * `src/main/java/edu/metrostate/model/User.java`
+  * `src/main/java/edu/metrostate/model/Weather.java`
+* Interface Class - `src/main/java/edu/metrostate/listener/ValueChangedListener.java`
+* Abstract Class - `src/main/java/edu/metrostate/model/Location.java`
 
-After installing the JDK click on the elephant icon on the top right side IntelliJ to synchronize your project and
-dependencies. Once that is complete, ensure that "ICS372" run configuration is selected in the dropdown to the
-left of the green play button on the top right side of the toolbar and then click the play button. The project will
-compile and then start the application.
+**How does one run the application?**
 
-# Miscellaneous Notes
-
-> Info taken from: https://stackoverflow.com/questions/29397367/javafx-scenebuilder-imageview-not-working
-
-Are you passing the image path in the fxml relative to your project path?
-
-For example, a fxml present at `src/main/resources/demo.fxml`
-and an image present in `src/main/resources/img/image.png` must be declared in the fxml as `<Image url="@img/image.png" />`
-
+1. Open the MainApp.java class
+2. Click the Run application (![img.png](img.png)) icon in the gutter
+3. Select Run 'MainApp.main()'.
