@@ -1,14 +1,22 @@
 package edu.metrostate.controller;
+import edu.metrostate.model.Weather;
+import edu.metrostate.MainApp;
 
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 
 public class MainSceneController {
+
+    @FXML
+    private TextField SearchText;
+    @FXML
+    private Button Searchbutton;
 
     @FXML
     private Button gearButton;
@@ -58,6 +66,37 @@ public class MainSceneController {
     // Event to trigger settings button
     public void handleSettingsClick(ActionEvent actionEvent) {
         System.out.println("You have pressed the settings button!");
+    }
+
+    private MainApp mainApp;
+
+    public void setMainApp(MainApp mainApp) {
+        this.mainApp = mainApp;
+    }
+
+    @FXML
+    private void handleFindButtonAction(ActionEvent event) {
+        String zipCode = SearchText.getText();
+        Weather current = mainApp.getWeather(zipCode, "56a56586750dcac90b3fe2fedaf45f09");
+        System.out.println(current.getDescription());
+
+        // Update the UI with the new weather information
+        updateUI(current);
+    }
+
+    public void updateUI(Weather current) {
+        Image currentWeatherImage = new Image(getClass().getResource("/images/" + current.getIcon() + "@2x.png").toExternalForm());
+        setImages(currentWeatherImage);
+        CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
+        LocationName(current.getLocationName());
+        MainweatherHigh("High: " + String.format("%.0f", current.getTemperatureMax()) + "\u00B0F");
+        MainweatherLow("Low: " + String.format("%.0f", current.getTemperatureMin()) + "\u00B0F");
+        MainweatherSpeed("Wind Speed: " + current.getWindSpeed() + "mph ");
+        MainweatherHumidity("Humidity: " + String.format("%.0f", current.getHumidity()) + "%");
+        MainweatherDewpoint("Dew Point: " + String.format("%.0f", current.getDewPoint()) + "\u00B0F");
+        MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", current.getPressure()) + "hPa");
+        MainweatherUV("UV: " + current.getUV());
+        MainweatherVisibility("Visibility: " + current.getVisibility() + "km");
     }
 
     // Holds all the images for each of the five days.

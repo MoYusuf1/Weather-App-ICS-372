@@ -34,8 +34,8 @@
     </Pane>
 
     <!-- Search box -->
-    <TextField layoutX="1025.0" layoutY="98.75" stylesheets="@style.css" />
-    <Button layoutX="1209.0" layoutY="98.75" stylesheets="@style.css" text="FIND" />
+    <TextField fx:id="SearchText" layoutX="1025.0" layoutY="98.75" stylesheets="@style.css" />
+    <Button fx:id="Searchbutton" layoutX="1209.0" layoutY="98.75" stylesheets="@style.css" text="FIND" onAction="#handleFindButtonAction" />
 
     <!-- Main Box with all weather info -->
 
