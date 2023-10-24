@@ -1,7 +1,7 @@
 package edu.metrostate.model;
 
 public class Weather {
-    private double temperature;
+    private int temperature;
     private double temperatureMin;
     private double temperatureMax;
     private double humidity;
@@ -12,8 +12,13 @@ public class Weather {
     private int sunset;
     private double visibility;
     private String description;
+    private String icon; // Add icon property
+    private double dewPoint; // Add dewPoint property
+    private double pressure; // Add pressure property
+    private int uv; // Add uv property
+    private String locationName;
 
-    public Weather(double temperature, double temperatureMin, double temperatureMax, double humidity, double windSpeed, String windDirection, int clouds, int sunrise, int sunset, double visibility, String description) {
+    public Weather(int temperature, double temperatureMin, double temperatureMax, double humidity, double windSpeed, String windDirection, int clouds, int sunrise, int sunset, double visibility, String description, String icon, double dewPoint, double pressure, int uv, String locationName) {
         this.temperature = temperature;
         this.temperatureMin = temperatureMin;
         this.temperatureMax = temperatureMax;
@@ -25,15 +30,28 @@ public class Weather {
         this.sunset = sunset;
         this.visibility = visibility;
         this.description = description;
+        this.icon = icon;
+        this.dewPoint = dewPoint;
+        this.pressure = pressure;
+        this.uv = uv;
+        this.locationName = locationName;
     }
 
+    public int calculateDewPoint() {
+        double temperatureFahrenheit = this.temperature;
+        double humidity = this.humidity / 100.0;
 
+        double alpha = ((17.27 * temperatureFahrenheit) / (237.7 + temperatureFahrenheit)) + Math.log(humidity);
+        double dewPointFahrenheit = (237.7 * alpha) / (17.27 - alpha);
 
-    public double getTemperature() {
+        return (int) dewPointFahrenheit;
+    }
+
+    public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(double temperature) {
+    public void setTemperature(int temperature) {
         this.temperature = temperature;
     }
 
@@ -116,4 +134,19 @@ public class Weather {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getIcon() { return icon; }
+
+    public double getDewPoint() { return dewPoint; }
+
+    public void setDewPoint(double dewPoint) { this.dewPoint = dewPoint; }
+
+    public double getPressure() { return pressure; }
+
+    public int getUV() { return uv; }
+
+    public String getLocationName() { return locationName; }
+
+    public void setLocationName(String locationName) { this.locationName = locationName; }
+
 }

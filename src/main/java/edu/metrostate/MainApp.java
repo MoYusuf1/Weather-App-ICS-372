@@ -1,5 +1,6 @@
 package edu.metrostate;
 
+import com.google.gson.JsonElement;
 import edu.metrostate.controller.MainSceneController;
 import edu.metrostate.model.City;
 import edu.metrostate.model.FiveDayForecast;
@@ -41,12 +42,13 @@ public class MainApp extends Application {
         LOADER.setLocation(getClass().getResource("/home-scene.fxml"));
         AnchorPane root = LOADER.load();
         MainSceneController controller = LOADER.getController();
+        controller.setMainApp(this);
 
         Scene scene = new Scene(root, 1300, 800);
 
         loadStylesheetIntoScene(scene);
 
-        Weather current = getWeather(44, -93, "56a56586750dcac90b3fe2fedaf45f09");
+        Weather current = getWeather("55369", "56a56586750dcac90b3fe2fedaf45f09");
 
         System.out.println(current.getDescription());
 
@@ -55,22 +57,20 @@ public class MainApp extends Application {
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
 
-        // Current Time
         controller.CurrentTime(getCurrentTime());
 
-        Image Mainweather_Image = new Image("images/02d@2x.png");
-        controller.CurrentTemp("Currently: " + "68\u00B0");
-        controller.LocationName("Maple Grove, Minnesota");
-
-        controller.MainweatherHigh("High: " + "72");
-        controller.MainweatherLow("Low: " + "53");
-
-        controller.MainweatherSpeed("Wind Speed: " + " 7.2m/s NW");
-        controller.MainweatherHumidity("Humidity: " + " 59%");
-        controller.MainweatherDewpoint("Dew Point: " + " 38\u00B0F");
-        controller.MainweatherhectoPascals("hectoPascals: " + " 1020hPa");
-        controller.MainweatherUV("UV: " + " 2");
-        controller.MainweatherVisibility("Visibility: " + " 10.0km");
+        Image currentWeatherImage = new Image(getClass().getResource("/images/" + current.getIcon() + "@2x.png").toExternalForm());
+        controller.setImages(currentWeatherImage);
+        controller.CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
+        controller.LocationName(current.getLocationName());
+        controller.MainweatherHigh("High: " + String.format("%.0f", current.getTemperatureMax()) + "\u00B0F");
+        controller.MainweatherLow("Low: " + String.format("%.0f", current.getTemperatureMin()) + "\u00B0F");
+        controller.MainweatherSpeed("Wind Speed: " + current.getWindSpeed() + "mph ");
+        controller.MainweatherHumidity("Humidity: " + String.format("%.0f", current.getHumidity()) + "%");
+        controller.MainweatherDewpoint("Dew Point: " + String.format("%.0f", current.getDewPoint()) + "\u00B0F");
+        controller.MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", current.getPressure()) + "hPa");
+        controller.MainweatherUV("UV: " + current.getUV());
+        controller.MainweatherVisibility("Visibility: " + current.getVisibility() + "km");
 
         // Day 1
         controller.first_day("Monday");
@@ -113,11 +113,13 @@ public class MainApp extends Application {
 
         // Prevent the resize of the screen
         stage.setResizable(false);
-        controller.setImages(Mainweather_Image);
         controller.setImages(image1, image2, image3, image4, image5);
         stage.show();
+    }
 
-
+    private void updateUI(Weather current) {
+        MainSceneController controller = LOADER.getController();
+        controller.updateUI(current);
     }
 
     private void loadStylesheetIntoScene(Scene scene) {
@@ -132,32 +134,15 @@ public class MainApp extends Application {
         scene.getStylesheets().add(urlString);
     }
 
+
     private String getCurrentTime() {
         LocalDateTime currentTime = LocalDateTime.now();
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
         return currentTime.format(formatter);
     }
-
-    private static void createTestObjects() {
-        City testCity1 = new City("Minneapolis", 44.986656, -93.258133, 1, -5,
-                "United States", 250);
-        City testCity2 = new City("SaintPaul", 44.954445, -93.091301, 1, -5,
-                "United States", 285);
-        Weather testWeather1 = new Weather( 1.1, 1.1, 1.1, 1.1,
-                1.1, "East", 1, 1, 1, 1.1, "Cloudy");
-        Weather testWeather2 = new Weather( 1.1, 1.1, 1.1, 1.1,
-                1.1, "West", 1, 1, 1, 1.1, "Sunny");
-        City[] testCityGroup = {testCity1, testCity2};
-        Weather[] testWeatherGroup = {testWeather1, testWeather2};
-
-        User testUser = new User(testCity1, testCity1.getTimeZone(), "mph", "F", testCityGroup);
-
-        FiveDayForecast testForecast= new FiveDayForecast(testWeatherGroup, testCity1);
-    }
-
-    private Weather getWeather(double lat, double lon, String apiKey) {
+    public static Weather getWeather(String zipCode, String apiKey) {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            String url = String.format("https://api.openweathermap.org/data/2.5/weather?lat=%f&lon=%f&appid=%s", lat, lon, apiKey);
+            String url = String.format("https://api.openweathermap.org/data/2.5/weather?zip=%s&appid=%s&units=imperial", zipCode, apiKey);
             HttpGet request = new HttpGet(url);
 
             HttpResponse response = client.execute(request);
@@ -169,25 +154,33 @@ public class MainApp extends Application {
             JsonObject windData = jsonObject.getAsJsonObject("wind");
             JsonObject cloudData = jsonObject.getAsJsonObject("clouds");
 
-            double temperature = mainData.get("temp").getAsDouble();
+            int temperature = mainData.get("temp").getAsInt();
             double temperatureMin = mainData.get("temp_min").getAsDouble();
             double temperatureMax = mainData.get("temp_max").getAsDouble();
             double humidity = mainData.get("humidity").getAsDouble();
             double windSpeed = windData.get("speed").getAsDouble();
             int windDirectionDegrees = windData.get("deg").getAsInt();
-            String windDirection = windDirectionDegrees + "°"; // You might want to convert this to actual directions (N, S, E, W, etc.)
+            String windDirection = windDirectionDegrees + "°";
             int clouds = cloudData.get("all").getAsInt();
             int sunrise = jsonObject.getAsJsonObject("sys").get("sunrise").getAsInt();
             int sunset = jsonObject.getAsJsonObject("sys").get("sunset").getAsInt();
             double visibility = jsonObject.get("visibility").getAsDouble();
             String description = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
+            String icon = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
+            double pressure = jsonObject.getAsJsonObject("main").has("pressure") ? jsonObject.getAsJsonObject("main").get("pressure").getAsDouble() : 0.0;
+            int uv = 0;
+            String locationName = jsonObject.get("name").getAsString();
 
-            return new Weather(temperature, temperatureMin, temperatureMax, humidity, windSpeed, windDirection, clouds, sunrise, sunset, visibility, description);
+            Weather weather = new Weather(temperature, temperatureMin, temperatureMax, humidity, windSpeed, windDirection, clouds, sunrise, sunset, visibility, description, icon, 0.0, pressure, 0, locationName);
+
+            // Calculate dew point
+            int dewPoint = weather.calculateDewPoint();
+            weather.setDewPoint(dewPoint);
+
+            return weather;
         } catch (Exception e) {
             e.printStackTrace();
+            return new Weather(32, 0.0, 0.0, 0.0, 0.0, "N/A", 0, 0, 0, 0.0, "N/A", "N/A", 0.0, 0, 0, "NULL");
         }
-        return null;
     }
-
-
 }
