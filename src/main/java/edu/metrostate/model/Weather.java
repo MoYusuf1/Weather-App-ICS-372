@@ -1,6 +1,7 @@
 package edu.metrostate.model;
 
 public class Weather {
+
     private int temperature;
     private double temperatureMin;
     private double temperatureMax;
@@ -18,135 +19,147 @@ public class Weather {
     private int uv; // Add uv property
     private String locationName;
 
-    public Weather(int temperature, double temperatureMin, double temperatureMax, double humidity, double windSpeed, String windDirection, int clouds, int sunrise, int sunset, double visibility, String description, String icon, double dewPoint, double pressure, int uv, String locationName) {
-        this.temperature = temperature;
-        this.temperatureMin = temperatureMin;
-        this.temperatureMax = temperatureMax;
-        this.humidity = humidity;
-        this.windSpeed = windSpeed;
-        this.windDirection = windDirection;
-        this.clouds = clouds;
-        this.sunrise = sunrise;
-        this.sunset = sunset;
-        this.visibility = visibility;
-        this.description = description;
-        this.icon = icon;
-        this.dewPoint = dewPoint;
-        this.pressure = pressure;
-        this.uv = uv;
-        this.locationName = locationName;
-    }
-
-    public int calculateDewPoint() {
-        double temperatureFahrenheit = this.temperature;
-        double humidity = this.humidity / 100.0;
-
-        double alpha = ((17.27 * temperatureFahrenheit) / (237.7 + temperatureFahrenheit)) + Math.log(humidity);
-        double dewPointFahrenheit = (237.7 * alpha) / (17.27 - alpha);
-
-        return (int) dewPointFahrenheit;
-    }
-
     public int getTemperature() {
         return temperature;
     }
 
-    public void setTemperature(int temperature) {
+    public Weather setTemperature(int temperature) {
         this.temperature = temperature;
+        return this;
     }
 
     public double getTemperatureMin() {
         return temperatureMin;
     }
 
-    public void setTemperatureMin(double temperatureMin) {
+    public Weather setTemperatureMin(double temperatureMin) {
         this.temperatureMin = temperatureMin;
+        return this;
     }
 
     public double getTemperatureMax() {
         return temperatureMax;
     }
 
-    public void setTemperatureMax(float temperatureMax) {
+    public Weather setTemperatureMax(double temperatureMax) {
         this.temperatureMax = temperatureMax;
+        return this;
     }
 
     public double getHumidity() {
         return humidity;
     }
 
-    public void setHumidity(float humidity) {
+    public Weather setHumidity(double humidity) {
         this.humidity = humidity;
+        return this;
     }
 
     public double getWindSpeed() {
         return windSpeed;
     }
 
-    public void setWindSpeed(float windSpeed) {
+    public Weather setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
+        return this;
     }
 
     public String getWindDirection() {
         return windDirection;
     }
 
-    public void setWindDirection(String windDirection) {
+    public Weather setWindDirection(String windDirection) {
         this.windDirection = windDirection;
+        return this;
     }
 
     public int getClouds() {
         return clouds;
     }
 
-    public void setClouds(int clouds) {
+    public Weather setClouds(int clouds) {
         this.clouds = clouds;
+        return this;
     }
 
     public int getSunrise() {
         return sunrise;
     }
 
-    public void setSunrise(int sunrise) {
+    public Weather setSunrise(int sunrise) {
         this.sunrise = sunrise;
+        return this;
     }
 
     public int getSunset() {
         return sunset;
     }
 
-    public void setSunset(int sunset) {
+    public Weather setSunset(int sunset) {
         this.sunset = sunset;
+        return this;
     }
 
     public double getVisibility() {
         return visibility;
     }
 
-    public void setVisibility(float visibility) {
+    public Weather setVisibility(double visibility) {
         this.visibility = visibility;
+        return this;
     }
 
     public String getDescription() {
         return description;
     }
 
-    public void setDescription(String description) {
+    public Weather setDescription(String description) {
         this.description = description;
+        return this;
     }
 
-    public String getIcon() { return icon; }
+    public String getIcon() {
+        return icon;
+    }
 
-    public double getDewPoint() { return dewPoint; }
+    public Weather setIcon(String icon) {
+        this.icon = icon;
+        return this;
+    }
 
-    public void setDewPoint(double dewPoint) { this.dewPoint = dewPoint; }
+    public double getDewPoint() {
+        return dewPoint;
+    }
 
-    public double getPressure() { return pressure; }
+    public Weather setDewPoint(double dewPoint) {
+        this.dewPoint = dewPoint;
+        return this;
+    }
 
-    public int getUV() { return uv; }
+    public double getPressure() {
+        return pressure;
+    }
 
-    public String getLocationName() { return locationName; }
+    public Weather setPressure(double pressure) {
+        this.pressure = pressure;
+        return this;
+    }
 
-    public void setLocationName(String locationName) { this.locationName = locationName; }
+    public int getUv() {
+        return uv;
+    }
 
+    public Weather setUv(int uv) {
+        this.uv = uv;
+        return this;
+    }
+
+    public String getLocationName() {
+        return locationName;
+    }
+
+    public Weather setLocationName(String locationName) {
+        this.locationName = locationName;
+        return this;
+    }
 }

@@ -2,6 +2,8 @@ package edu.metrostate;
 
 import edu.metrostate.controller.MainSceneController;
 import edu.metrostate.model.Weather;
+import edu.metrostate.service.WeatherApiService;
+import edu.metrostate.utils.TimeUtils;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -11,17 +13,8 @@ import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
-import com.google.gson.JsonObject;
-import com.google.gson.JsonParser;
-import org.apache.http.HttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClients;
 
 import java.io.IOException;
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
-
 import java.net.URL;
 
 public class MainApp extends Application {
@@ -34,38 +27,38 @@ public class MainApp extends Application {
     }
 
     private void createHomeScreen(Stage stage) throws IOException {
+        WeatherApiService weatherApiService = new WeatherApiService();
+
         LOADER.setLocation(getClass().getResource("/home-scene.fxml"));
         AnchorPane root = LOADER.load();
         MainSceneController controller = LOADER.getController();
         controller.setMainApp(this);
+        controller.setWeatherApiService(weatherApiService);
 
         Scene scene = new Scene(root, 1300, 800);
 
         loadStylesheetIntoScene(scene);
 
-        Weather current = getWeather("55369", "56a56586750dcac90b3fe2fedaf45f09");
-
+        Weather current = weatherApiService.getWeather("55369");
         System.out.println(current.getDescription());
-
-
 
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
 
-        controller.CurrentTime(getCurrentTime());
+        controller.CurrentTime(TimeUtils.getCurrentTime());
 
         Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         controller.setImages(currentWeatherImage);
-        controller.CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
         controller.LocationName(current.getLocationName());
-        controller.MainweatherHigh("High: " + String.format("%.0f", current.getTemperatureMax()) + "\u00B0F");
-        controller.MainweatherLow("Low: " + String.format("%.0f", current.getTemperatureMin()) + "\u00B0F");
-        controller.MainweatherSpeed("Wind Speed: " + current.getWindSpeed() + "mph ");
-        controller.MainweatherHumidity("Humidity: " + String.format("%.0f", current.getHumidity()) + "%");
-        controller.MainweatherDewpoint("Dew Point: " + String.format("%.0f", current.getDewPoint()) + "\u00B0F");
-        controller.MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", current.getPressure()) + "hPa");
-        controller.MainweatherUV("UV: " + current.getUV());
-        controller.MainweatherVisibility("Visibility: " + current.getVisibility() + "km");
+        controller.CurrentTemp(String.format("Currently: %s\u00B0F", current.getTemperature()));
+        controller.MainweatherHigh(String.format("High: %.0f\u00B0F", current.getTemperatureMax()));
+        controller.MainweatherLow(String.format("Low: %.0f\u00B0F", current.getTemperatureMin()));
+        controller.MainweatherSpeed(String.format("Wind Speed: %smph", current.getWindSpeed()));
+        controller.MainweatherHumidity(String.format("Humidity: %.0f%%", current.getHumidity()));
+        controller.MainweatherDewpoint(String.format("Dew Point: %.0f\u00B0F", current.getDewPoint()));
+        controller.MainweatherhectoPascals(String.format("hectoPascals: %.0fhPa", current.getPressure()));
+        controller.MainweatherUV(String.format("UV: %s", current.getUv()));
+        controller.MainweatherVisibility(String.format("Visibility: %skm", current.getVisibility()));
 
         // Day 1
         controller.first_day("Monday");
@@ -129,53 +122,4 @@ public class MainApp extends Application {
         scene.getStylesheets().add(urlString);
     }
 
-
-    private String getCurrentTime() {
-        LocalDateTime currentTime = LocalDateTime.now();
-        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("hh:mm a");
-        return currentTime.format(formatter);
-    }
-    public static Weather getWeather(String zipCode, String apiKey) {
-        try (CloseableHttpClient client = HttpClients.createDefault()) {
-            String url = String.format("https://api.openweathermap.org/data/2.5/weather?zip=%s&appid=%s&units=imperial", zipCode, apiKey);
-            HttpGet request = new HttpGet(url);
-
-            HttpResponse response = client.execute(request);
-            String jsonResponse = new java.util.Scanner(response.getEntity().getContent()).useDelimiter("\\Z").next();
-            System.out.println(jsonResponse);
-
-            JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
-            JsonObject mainData = jsonObject.getAsJsonObject("main");
-            JsonObject windData = jsonObject.getAsJsonObject("wind");
-            JsonObject cloudData = jsonObject.getAsJsonObject("clouds");
-
-            int temperature = mainData.get("temp").getAsInt();
-            double temperatureMin = mainData.get("temp_min").getAsDouble();
-            double temperatureMax = mainData.get("temp_max").getAsDouble();
-            double humidity = mainData.get("humidity").getAsDouble();
-            double windSpeed = windData.get("speed").getAsDouble();
-            int windDirectionDegrees = windData.get("deg").getAsInt();
-            String windDirection = windDirectionDegrees + "°";
-            int clouds = cloudData.get("all").getAsInt();
-            int sunrise = jsonObject.getAsJsonObject("sys").get("sunrise").getAsInt();
-            int sunset = jsonObject.getAsJsonObject("sys").get("sunset").getAsInt();
-            double visibility = jsonObject.get("visibility").getAsDouble();
-            String description = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
-            String icon = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-            double pressure = jsonObject.getAsJsonObject("main").has("pressure") ? jsonObject.getAsJsonObject("main").get("pressure").getAsDouble() : 0.0;
-            int uv = 0;
-            String locationName = jsonObject.get("name").getAsString();
-
-            Weather weather = new Weather(temperature, temperatureMin, temperatureMax, humidity, windSpeed, windDirection, clouds, sunrise, sunset, visibility, description, icon, 0.0, pressure, 0, locationName);
-
-            // Calculate dew point
-            int dewPoint = weather.calculateDewPoint();
-            weather.setDewPoint(dewPoint);
-
-            return weather;
-        } catch (Exception e) {
-            e.printStackTrace();
-            return new Weather(32, 0.0, 0.0, 0.0, 0.0, "N/A", 0, 0, 0, 0.0, "N/A", "N/A", 0.0, 0, 0, "NULL");
-        }
-    }
 }
