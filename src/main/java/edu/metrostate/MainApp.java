@@ -1,10 +1,6 @@
 package edu.metrostate;
 
-import com.google.gson.JsonElement;
 import edu.metrostate.controller.MainSceneController;
-import edu.metrostate.model.City;
-import edu.metrostate.model.FiveDayForecast;
-import edu.metrostate.model.User;
 import edu.metrostate.model.Weather;
 import javafx.application.Application;
 import javafx.event.Event;
@@ -18,7 +14,6 @@ import javafx.stage.Stage;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 import org.apache.http.HttpResponse;
-import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
@@ -59,7 +54,7 @@ public class MainApp extends Application {
 
         controller.CurrentTime(getCurrentTime());
 
-        Image currentWeatherImage = new Image(getClass().getResource("/images/" + current.getIcon() + "@2x.png").toExternalForm());
+        Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         controller.setImages(currentWeatherImage);
         controller.CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
         controller.LocationName(current.getLocationName());
@@ -74,31 +69,31 @@ public class MainApp extends Application {
 
         // Day 1
         controller.first_day("Monday");
-        Image image1 = new Image("images/02d@2x.png");
+        Image image1 = new Image("images/weather-icons/02d@2x.png");
         controller.first_high_first_day("High: " + "85");
         controller.first_low_first_day("Low: " + "72");
 
         // Day 2
         controller.second_day("Tuesday");
-        Image image2 = new Image("images/10n@2x.png");
+        Image image2 = new Image("images/weather-icons/10n@2x.png");
         controller.second_high_first_day("High: " + "70");
         controller.second_low_first_day("Low: " + "61");
 
         // Day 3
         controller.third_day("Wednesday");
-        Image image3 = new Image("images/11d@2x.png");
+        Image image3 = new Image("images/weather-icons/11d@2x.png");
         controller.third_high_first_day("High: " + "65");
         controller.third_low_first_day("Low: " + "58");
 
         // Day 4
         controller.fourth_day("Thursday");
-        Image image4 = new Image("images/03d@2x.png");
+        Image image4 = new Image("images/weather-icons/03d@2x.png");
         controller.fourth_high_first_day("High: " + "68");
         controller.fourth_low_first_day("Low: " + "61");
 
         // Day 5
         controller.fifth_day("Friday");
-        Image image5 = new Image("images/01d@2x.png");
+        Image image5 = new Image("images/weather-icons/01d@2x.png");
         controller.fifth_high_first_day("High: " + "89");
         controller.fifth_low_first_day("Low: " + "73");
 
