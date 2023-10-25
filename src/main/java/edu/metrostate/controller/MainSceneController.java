@@ -2,6 +2,7 @@ package edu.metrostate.controller;
 import edu.metrostate.model.Weather;
 import edu.metrostate.MainApp;
 
+import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
@@ -57,6 +58,7 @@ public class MainSceneController {
     public Label Mainweather_hectoPascals;
     public Label Mainweather_UV;
     public Label Mainweather_Visibility;
+    private WeatherApiService weatherApiService;
 
     // Event to trigger Menu press
     public void handleMenuClick(ActionEvent actionEvent) {
@@ -77,7 +79,7 @@ public class MainSceneController {
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         String zipCode = SearchText.getText();
-        Weather current = mainApp.getWeather(zipCode, "56a56586750dcac90b3fe2fedaf45f09");
+        Weather current = weatherApiService.getWeather(zipCode);
         System.out.println(current.getDescription());
 
         // Update the UI with the new weather information
@@ -85,7 +87,7 @@ public class MainSceneController {
     }
 
     public void updateUI(Weather current) {
-        Image currentWeatherImage = new Image(getClass().getResource("/images/" + current.getIcon() + "@2x.png").toExternalForm());
+        Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         setImages(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
         LocationName(current.getLocationName());
@@ -95,7 +97,7 @@ public class MainSceneController {
         MainweatherHumidity("Humidity: " + String.format("%.0f", current.getHumidity()) + "%");
         MainweatherDewpoint("Dew Point: " + String.format("%.0f", current.getDewPoint()) + "\u00B0F");
         MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", current.getPressure()) + "hPa");
-        MainweatherUV("UV: " + current.getUV());
+        MainweatherUV("UV: " + current.getUv());
         MainweatherVisibility("Visibility: " + current.getVisibility() + "km");
     }
 
@@ -151,4 +153,11 @@ public class MainSceneController {
         fifth_day.setText(text);
     }
 
+    public void setWeatherApiService(WeatherApiService weatherApiService) {
+        this.weatherApiService = weatherApiService;
+    }
+
+    public WeatherApiService getWeatherApiService() {
+        return weatherApiService;
+    }
 }
