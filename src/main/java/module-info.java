@@ -13,4 +13,6 @@ module App {
     opens edu.metrostate.controller to javafx.fxml;
     exports edu.metrostate.cache;
     opens edu.metrostate.cache to javafx.fxml;
+    exports edu.metrostate.examples;
+    opens edu.metrostate.examples to javafx.fxml;
 }
