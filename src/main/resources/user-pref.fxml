@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.net.*?>
+<?import javafx.geometry.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.ToggleGroup?>
+
+<GridPane fx:controller="edu.metrostate.controller.UserPrefController"
+          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
+            styleClass="root">
+<!-- https://stackoverflow.com/questions/53467588/how-to-implement-togglegroup-in-fxml-file-using-spring-vs-javafx   -->
+    <fx:define>
+        <ToggleGroup fx:id="temperatureGroup"/>
+        <ToggleGroup fx:id="windspeedGroup"/>
+    </fx:define>
+
+    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+
+    <!-- enable this for debugging <gridLinesVisible>true</gridLinesVisible> -->
+
+    <Text id="welcome-text" text="User Preferences"
+          GridPane.columnIndex="0" GridPane.rowIndex="0"
+          GridPane.columnSpan="2"/>
+
+    <Label text="Temperature Unit:"
+           GridPane.columnIndex="0" GridPane.rowIndex="1"/>
+
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
+        <RadioButton fx:id="fahrenheitButton" text="Fahrenheit" toggleGroup="$temperatureGroup" selected="true"/>
+        <RadioButton fx:id="celsiusButton" text="Celsius" toggleGroup="$temperatureGroup"/>
+        <RadioButton fx:id="kelvinButton" text="Kelvin" toggleGroup="$temperatureGroup"/>
+    </HBox>
+
+    <Label text="Wind Speed Unit:"
+           GridPane.columnIndex="0" GridPane.rowIndex="2"/>
+
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
+        <RadioButton fx:id="mphButton" text="MPH" toggleGroup="$windspeedGroup" selected="true"/>
+        <RadioButton fx:id="msButton" text="M/s" toggleGroup="$windspeedGroup"/>
+        <RadioButton fx:id="knotsButton" text="Knots" toggleGroup="$windspeedGroup"/>
+    </HBox>
+
+    <HBox spacing="20" alignment="bottom_right"
+          GridPane.columnIndex="1" GridPane.rowIndex="4">
+        <Button text="Submit" onAction="#handleSubmitButtonAction"/>
+        <Button text="Cancel" onAction="#handleCancelButtonAction"/>
+    </HBox>
+
+    <Text fx:id="actionTarget"
+          GridPane.columnIndex="1" GridPane.rowIndex="6"/>
+    <Text fx:id="temperatureSelected"
+          GridPane.columnIndex="1" GridPane.rowIndex="7"/>
+    <Text fx:id="windSpeedSelected"
+          GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+
+    <stylesheets>
+<!-- The @ symbol before the name of the style sheet in the URL
+        indicates that the style sheet is in the same directory as the FXML file -->
+        <URL value="@user-pref.css" />
+    </stylesheets>
+</GridPane>
