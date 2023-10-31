@@ -5,6 +5,7 @@ import edu.metrostate.MainApp;
 import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
@@ -80,13 +81,18 @@ public class MainSceneController {
     private void handleFindButtonAction(ActionEvent event) {
         String zipCode = SearchText.getText();
         Weather current = weatherApiService.getWeather(zipCode);
-        System.out.println(current.getDescription());
-
-        // Update the UI with the new weather information
-        updateUI(current);
+        if (current != Weather.UNKNOWN) {
+            System.out.println(current.getDescription());
+            updateMainWeatherScreen(current);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid ZIP Code");
+            alert.setHeaderText("The inputted ZIP code is invalid");
+            alert.showAndWait();
+        }
     }
 
-    public void updateUI(Weather current) {
+    public void updateMainWeatherScreen(Weather current) {
         Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         setImages(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");

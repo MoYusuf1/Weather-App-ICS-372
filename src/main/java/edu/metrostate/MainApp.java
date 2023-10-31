@@ -15,7 +15,6 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.URL;
 
 public class MainApp extends Application {
 
@@ -37,7 +36,7 @@ public class MainApp extends Application {
 
         Scene scene = new Scene(root, 1300, 800);
 
-        loadStylesheetIntoScene(scene);
+        scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
         Weather current = weatherApiService.getWeather("55369");
         System.out.println(current.getDescription());
@@ -103,23 +102,6 @@ public class MainApp extends Application {
         stage.setResizable(false);
         controller.setImages(image1, image2, image3, image4, image5);
         stage.show();
-    }
-
-    private void updateUI(Weather current) {
-        MainSceneController controller = LOADER.getController();
-        controller.updateUI(current);
-    }
-
-    private void loadStylesheetIntoScene(Scene scene) {
-        URL stylesheetURL = getClass().getResource("/style.css");
-        if (stylesheetURL == null) {
-            return;
-        }
-        String urlString = stylesheetURL.toExternalForm();
-        if (urlString == null) {
-            return;
-        }
-        scene.getStylesheets().add(urlString);
     }
 
 }
