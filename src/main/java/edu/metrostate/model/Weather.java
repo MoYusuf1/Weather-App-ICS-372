@@ -2,6 +2,8 @@ package edu.metrostate.model;
 
 public class Weather {
 
+    public static final Weather UNKNOWN = new Weather();
+
     private int temperature;
     private double temperatureMin;
     private double temperatureMax;
