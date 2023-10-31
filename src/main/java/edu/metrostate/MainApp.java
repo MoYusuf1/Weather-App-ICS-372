@@ -41,6 +41,9 @@ public class MainApp extends Application {
         Weather current = weatherApiService.getWeather("55369");
         System.out.println(current.getDescription());
 
+        // https://www.flaticon.com/free-icon/climate-change_8479898
+        Image icon = new Image(getClass().getResource("/images/weather-icons/main-icon.png").toExternalForm());
+        stage.getIcons().add(icon);
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
 
