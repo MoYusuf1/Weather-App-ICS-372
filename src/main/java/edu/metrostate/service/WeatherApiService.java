@@ -15,8 +15,6 @@ public class WeatherApiService {
     private static final String API_URL =
             "https://api.openweathermap.org/data/2.5/weather?zip=%s&appid=%s&units=imperial";
     private static final String API_KEY = "56a56586750dcac90b3fe2fedaf45f09";
-    private static final String DEFAULT_UNKNOWN_VALUE = "N/A";
-    private static final int DEFAULT_TEMPERATURE = 32;
 
     public Weather getWeather(String zipCode) {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
@@ -70,12 +68,7 @@ public class WeatherApiService {
                     .setLocationName(locationName);
         } catch (Exception e) {
             e.printStackTrace();
-            return new Weather()
-                    .setTemperature(DEFAULT_TEMPERATURE)
-                    .setWindDirection(DEFAULT_UNKNOWN_VALUE)
-                    .setDescription(DEFAULT_UNKNOWN_VALUE)
-                    .setIcon(DEFAULT_UNKNOWN_VALUE)
-                    .setLocationName(DEFAULT_UNKNOWN_VALUE);
+            return Weather.UNKNOWN;
         }
     }
 

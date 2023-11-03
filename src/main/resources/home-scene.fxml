@@ -128,4 +128,7 @@
     <Line endX="1180.0" layoutY="682.0" startX="1040.0" />
     <Line endX="1260.0" layoutY="500.0" startX="45.0" />
 
+    <!-- https://stackoverflow.com/questions/32922424/how-to-get-the-current-opened-stage-in-javafx -->
+    <Label fx:id="currentStageHook" visible="false"/>
+
 </AnchorPane>

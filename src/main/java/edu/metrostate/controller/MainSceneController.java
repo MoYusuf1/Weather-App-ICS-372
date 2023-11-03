@@ -1,16 +1,25 @@
 package edu.metrostate.controller;
+import edu.metrostate.UserPrefApp;
 import edu.metrostate.model.Weather;
 import edu.metrostate.MainApp;
 
 import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
+import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
 import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.io.IOException;
 
 public class MainSceneController {
 
@@ -58,35 +67,65 @@ public class MainSceneController {
     public Label Mainweather_hectoPascals;
     public Label Mainweather_UV;
     public Label Mainweather_Visibility;
+    @FXML
+    public Label currentStageHook;
     private WeatherApiService weatherApiService;
 
     // Event to trigger Menu press
+    private MainApp mainApp;
+
     public void handleMenuClick(ActionEvent actionEvent) {
         System.out.println("You have pressed the menu button!");
     }
-
     // Event to trigger settings button
-    public void handleSettingsClick(ActionEvent actionEvent) {
+
+
+    public void handleSettingsClick(ActionEvent actionEvent) throws Exception {
         System.out.println("You have pressed the settings button!");
+        loadUserPreferencesScreen(getCurrentStage());
     }
 
-    private MainApp mainApp;
+    private void loadUserPreferencesScreen(Stage primaryStage) throws IOException {
+        Parent root = FXMLLoader.load(getClass().getResource("/user-pref.fxml"));
+        Scene scene = new Scene(root, 750, 500);
+        scene.getStylesheets().add(getClass().getResource("/user-pref.css").toExternalForm());
+        // https://www.flaticon.com/free-icon/climate-change_8479898
+        Image icon = new Image(getClass().getResource("/images/weather-icons/main-icon.png").toExternalForm());
+        Stage stage = new Stage();
+        stage.getIcons().add(icon);
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(primaryStage);
+        stage.setResizable(false);
+        stage.setTitle("Climate Watch | User Preferences");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    private Stage getCurrentStage() {
+        return (Stage) currentStageHook.getScene().getWindow();
+    }
 
     public void setMainApp(MainApp mainApp) {
         this.mainApp = mainApp;
     }
 
+
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         String zipCode = SearchText.getText();
         Weather current = weatherApiService.getWeather(zipCode);
-        System.out.println(current.getDescription());
-
-        // Update the UI with the new weather information
-        updateUI(current);
+        if (current != Weather.UNKNOWN) {
+            System.out.println(current.getDescription());
+            updateMainWeatherScreen(current);
+        } else {
+            Alert alert = new Alert(Alert.AlertType.ERROR);
+            alert.setTitle("Invalid ZIP Code");
+            alert.setHeaderText("The inputted ZIP code is invalid");
+            alert.showAndWait();
+        }
     }
 
-    public void updateUI(Weather current) {
+    public void updateMainWeatherScreen(Weather current) {
         Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         setImages(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
