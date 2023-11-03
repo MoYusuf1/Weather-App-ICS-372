@@ -38,7 +38,7 @@ public class MainApp extends Application {
 
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-        Weather current = weatherApiService.getWeather("55369");
+        Weather current = weatherApiService.getWeather("55106");
         System.out.println(current.getDescription());
 
         // https://www.flaticon.com/free-icon/climate-change_8479898

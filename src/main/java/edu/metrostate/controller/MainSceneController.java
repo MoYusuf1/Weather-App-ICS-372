@@ -113,19 +113,36 @@ public class MainSceneController {
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         String zipCode = SearchText.getText();
-        Weather current = weatherApiService.getWeather(zipCode);
-        if (current != Weather.UNKNOWN) {
-            System.out.println(current.getDescription());
-            updateMainWeatherScreen(current);
-        } else {
+        Weather current;
+
+        try {
+            current = weatherApiService.getWeather(zipCode);
+
+            if (current != Weather.UNKNOWN) {
+                System.out.println(current.getDescription());
+                updateMainWeatherScreen(current);
+            } else {
+                Alert alert = new Alert(Alert.AlertType.ERROR);
+                alert.setTitle("Invalid ZIP Code");
+                alert.setHeaderText("The inputted ZIP code is invalid");
+                alert.showAndWait();
+            }
+        } catch (Exception e) {
+            // Handle the exception, e.g., show an error message or log it
+            e.printStackTrace(); // You can log the exception for debugging
             Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Invalid ZIP Code");
-            alert.setHeaderText("The inputted ZIP code is invalid");
+            alert.setTitle("Error");
+            alert.setHeaderText("An error occurred while fetching weather data");
             alert.showAndWait();
         }
     }
 
     public void updateMainWeatherScreen(Weather current) {
+        // Check if the city was not found
+        if (current == Weather.CITY_NOT_FOUND) {
+            return;
+        }
+
         Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         setImages(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");

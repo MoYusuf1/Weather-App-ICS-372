@@ -26,6 +26,10 @@ public class WeatherApiService {
             System.out.println(jsonResponse);
 
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
+
+            if (jsonObject.has("cod") && jsonObject.get("cod").getAsInt() == 404) {
+                return Weather.CITY_NOT_FOUND;// Handle the case where the city is not found
+            }
             JsonObject mainData = jsonObject.getAsJsonObject("main");
             JsonObject windData = jsonObject.getAsJsonObject("wind");
             JsonObject cloudData = jsonObject.getAsJsonObject("clouds");
