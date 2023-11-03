@@ -42,7 +42,7 @@ public class WeatherApiService {
             int clouds = cloudData.get("all").getAsInt();
             int sunrise = jsonObject.getAsJsonObject("sys").get("sunrise").getAsInt();
             int sunset = jsonObject.getAsJsonObject("sys").get("sunset").getAsInt();
-            double visibility = jsonObject.get("visibility").getAsDouble();
+            double visibility = jsonObject.get("visibility").getAsDouble() / 1000;
             String description = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("description").getAsString();
             String icon = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
             double pressure = jsonObject.getAsJsonObject("main").has("pressure") ? jsonObject.getAsJsonObject("main").get("pressure").getAsDouble() : 0.0;
