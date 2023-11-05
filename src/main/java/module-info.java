@@ -4,6 +4,9 @@ module App {
     requires com.google.gson;
     requires org.apache.httpcomponents.httpclient;
     requires org.apache.httpcomponents.httpcore;
+    requires com.google.common;
+    requires org.apache.logging.log4j;
+    requires org.slf4j;
 
     opens edu.metrostate to javafx.fxml;
     exports edu.metrostate;
