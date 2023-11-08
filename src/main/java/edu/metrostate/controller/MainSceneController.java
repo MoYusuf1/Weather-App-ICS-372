@@ -1,5 +1,4 @@
 package edu.metrostate.controller;
-import edu.metrostate.UserPrefApp;
 import edu.metrostate.model.Weather;
 import edu.metrostate.MainApp;
 
@@ -112,19 +111,17 @@ public class MainSceneController {
 
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
-        String zipCode = SearchText.getText();
-        Weather current;
-
         try {
-            current = weatherApiService.getWeather(zipCode);
-
-            if (current != Weather.UNKNOWN) {
+            String zipCode = SearchText.getText();
+            Weather current = weatherApiService.getWeather(zipCode);
+            if (current != Weather.CITY_NOT_FOUND) {
                 System.out.println(current.getDescription());
                 updateMainWeatherScreen(current);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Invalid ZIP Code");
                 alert.setHeaderText("The inputted ZIP code is invalid");
+                alert.initModality(Modality.APPLICATION_MODAL);
                 alert.showAndWait();
             }
         } catch (Exception e) {
@@ -133,16 +130,12 @@ public class MainSceneController {
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("An error occurred while fetching weather data");
+            alert.initModality(Modality.APPLICATION_MODAL);
             alert.showAndWait();
         }
     }
 
-    public void updateMainWeatherScreen(Weather current) {
-        // Check if the city was not found
-        if (current == Weather.CITY_NOT_FOUND) {
-            return;
-        }
-
+    private void updateMainWeatherScreen(Weather current) {
         Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         setImages(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");

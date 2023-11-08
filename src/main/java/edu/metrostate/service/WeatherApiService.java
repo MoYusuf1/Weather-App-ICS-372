@@ -27,9 +27,10 @@ public class WeatherApiService {
 
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
-            if (jsonObject.has("cod") && jsonObject.get("cod").getAsInt() == 404) {
-                return Weather.CITY_NOT_FOUND;// Handle the case where the city is not found
+            if (isErrorCondition(jsonObject)) {
+                return Weather.CITY_NOT_FOUND;
             }
+
             JsonObject mainData = jsonObject.getAsJsonObject("main");
             JsonObject windData = jsonObject.getAsJsonObject("wind");
             JsonObject cloudData = jsonObject.getAsJsonObject("clouds");
@@ -72,8 +73,15 @@ public class WeatherApiService {
                     .setLocationName(locationName);
         } catch (Exception e) {
             e.printStackTrace();
-            return Weather.UNKNOWN;
+            return Weather.CITY_NOT_FOUND;
         }
+    }
+
+    private static boolean isErrorCondition(JsonObject jsonObject) {
+        int statusCode = jsonObject.get("cod").getAsInt();
+        int errorType = statusCode/100;
+        // 4xx = client error, 5xx = server error
+        return errorType == 4 || errorType == 5;
     }
 
     private int calculateDewPoint(int temperature, double humidity) {

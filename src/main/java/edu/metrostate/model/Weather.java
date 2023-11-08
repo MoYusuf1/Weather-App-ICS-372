@@ -2,9 +2,7 @@ package edu.metrostate.model;
 
 public class Weather {
 
-    public static final Weather UNKNOWN = new Weather();
-    public static final Weather CITY_NOT_FOUND = new Weather()
-            .setDescription("City not found"); // Prints city not found. Method wasn't working...
+    public static final Weather CITY_NOT_FOUND = new Weather();
 
     private int temperature;
     private double temperatureMin;
