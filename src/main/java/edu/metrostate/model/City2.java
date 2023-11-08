@@ -1,19 +1,36 @@
 package edu.metrostate.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
 import java.util.StringJoiner;
 
 // TODO: user builder pattern
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class City2 {
 
-      public static final City2 UNKNOWN = new City2();
-      public static final City2 CITY_NOT_FOUND = new City2();
+      public static final City2 DEFAULT = new City2()
+              .setContinent("North America")
+              .setCountry("United States")
+              .setRegion("Minnesota")
+              .setCity("Saint Paul")
+              .setZip("55106")
+              .setLatitude(44.95848083496094)
+              .setLongitude(-93.07421875);
 
+      @JsonProperty("continent_name")
       private String continent;
+      @JsonProperty("country_name")
       private String country;
+      @JsonProperty("region_name")
       private String region;
+      @JsonProperty("city")
       private String city;
+      @JsonProperty("zip")
       private String zip;
+      @JsonProperty("latitude")
       private double latitude;
+      @JsonProperty("longitude")
       private double longitude;
 
       public String getContinent() {

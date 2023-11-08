@@ -7,6 +7,8 @@ module App {
     requires com.google.common;
     requires org.apache.logging.log4j;
     requires org.slf4j;
+    requires com.fasterxml.jackson.databind;
+    requires com.fasterxml.jackson.dataformat.xml;
 
     opens edu.metrostate to javafx.fxml;
     exports edu.metrostate;

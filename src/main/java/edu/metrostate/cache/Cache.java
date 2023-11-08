@@ -1,13 +1,11 @@
 package edu.metrostate.cache;
+import edu.metrostate.model.City2;
 import edu.metrostate.model.Weather;
 
-import java.util.Map;
-
 public interface Cache {
-    Weather getWeather(int cityId);
+    Weather getWeather(String zipCode);
 
-    void addWeather(int cityId, Weather weather);
+    City2 getCity(String ipAddress);
 
-    boolean containsWeather(int cityId);
 }
 
