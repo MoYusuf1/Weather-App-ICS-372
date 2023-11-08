@@ -16,15 +16,16 @@ public class InMemoryCache implements Cache {
     private final WeatherApiService weatherApiService;
     private final CityApiService cityApiService;
 
-    public InMemoryCache(WeatherApiService weatherApiService, CityApiService cityApiService) {
-        this.weatherApiService = weatherApiService;
-        this.cityApiService = cityApiService;
+    public InMemoryCache() {
+        this.weatherApiService = new WeatherApiService();
+        this.cityApiService = new CityApiService();
     }
 
     @Override
     public Weather getWeather(String zipCode) {
         if (!ZIPCODE_WEATHER_MAP.containsKey(zipCode)) {
             Weather weather = weatherApiService.getWeather(zipCode);
+            System.out.printf("Adding zipCode %s to cache for weather %s", zipCode, weather);
             ZIPCODE_WEATHER_MAP.put(zipCode, weather);
         }
         return ZIPCODE_WEATHER_MAP.get(zipCode);
@@ -34,6 +35,7 @@ public class InMemoryCache implements Cache {
     public City2 getCity(String ipAddress) {
         if (!IP_ADDRESS_CITY_MAP.containsKey(ipAddress)) {
             City2 city = cityApiService.getCity(ipAddress);
+            System.out.printf("Adding ipAddress %s to cache for city %s", ipAddress, city);
             IP_ADDRESS_CITY_MAP.put(ipAddress, city);
         }
         return IP_ADDRESS_CITY_MAP.get(ipAddress);

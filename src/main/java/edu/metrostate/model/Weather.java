@@ -1,5 +1,7 @@
 package edu.metrostate.model;
 
+import java.util.StringJoiner;
+
 public class Weather {
 
     public static final Weather CITY_NOT_FOUND = new Weather();
@@ -163,5 +165,27 @@ public class Weather {
     public Weather setLocationName(String locationName) {
         this.locationName = locationName;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", Weather.class.getSimpleName() + "[", "]")
+                .add("temperature=" + temperature)
+                .add("temperatureMin=" + temperatureMin)
+                .add("temperatureMax=" + temperatureMax)
+                .add("humidity=" + humidity)
+                .add("windSpeed=" + windSpeed)
+                .add("windDirection='" + windDirection + "'")
+                .add("clouds=" + clouds)
+                .add("sunrise=" + sunrise)
+                .add("sunset=" + sunset)
+                .add("visibility=" + visibility)
+                .add("description='" + description + "'")
+                .add("icon='" + icon + "'")
+                .add("dewPoint=" + dewPoint)
+                .add("pressure=" + pressure)
+                .add("uv=" + uv)
+                .add("locationName='" + locationName + "'")
+                .toString();
     }
 }
