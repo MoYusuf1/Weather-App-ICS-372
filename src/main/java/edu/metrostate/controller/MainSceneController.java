@@ -30,9 +30,6 @@ public class MainSceneController {
     @FXML
     private Button gearButton;
 
-    @FXML
-    private Button menuBarButton;
-
     // Holds all five day main screen FXMLs
     @FXML
     public Label first_day;
@@ -73,12 +70,6 @@ public class MainSceneController {
 
     // Event to trigger Menu press
     private MainApp mainApp;
-
-    public void handleMenuClick(ActionEvent actionEvent) {
-        System.out.println("You have pressed the menu button!");
-    }
-    // Event to trigger settings button
-
 
     public void handleSettingsClick(ActionEvent actionEvent) throws Exception {
         System.out.println("You have pressed the settings button!");
