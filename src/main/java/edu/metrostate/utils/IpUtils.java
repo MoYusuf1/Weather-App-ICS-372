@@ -12,7 +12,7 @@ import java.util.List;
 public final class IpUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(IpUtils.class);
 
-    private static final String DEFAULT_IP_ADDRESS = "73.242.115.146";  // St. Paul, MN
+    private static final String DEFAULT_IP_ADDRESS = "199.17.228.240";  // St. Paul, MN
     private static final List<String> IP_ADDRESS_LOOKUP_URLS = List.of(
             "http://checkip.amazonaws.com", "https://ipv4.icanhazip.com",
             "http://myexternalip.com/raw", "http://ipecho.net/plain"
