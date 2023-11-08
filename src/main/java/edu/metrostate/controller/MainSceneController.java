@@ -1,8 +1,8 @@
 package edu.metrostate.controller;
+
+import edu.metrostate.cache.Cache;
 import edu.metrostate.model.Weather;
 import edu.metrostate.MainApp;
-
-import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -68,7 +68,8 @@ public class MainSceneController {
     public Label Mainweather_Visibility;
     @FXML
     public Label currentStageHook;
-    private WeatherApiService weatherApiService;
+
+    private Cache cache;
 
     // Event to trigger Menu press
     private MainApp mainApp;
@@ -113,7 +114,7 @@ public class MainSceneController {
     private void handleFindButtonAction(ActionEvent event) {
         try {
             String zipCode = SearchText.getText();
-            Weather current = weatherApiService.getWeather(zipCode);
+            Weather current = cache.getWeather(zipCode);
             if (current != Weather.CITY_NOT_FOUND) {
                 System.out.println(current.getDescription());
                 updateMainWeatherScreen(current);
@@ -202,11 +203,12 @@ public class MainSceneController {
         fifth_day.setText(text);
     }
 
-    public void setWeatherApiService(WeatherApiService weatherApiService) {
-        this.weatherApiService = weatherApiService;
+    public Cache getCache() {
+        return cache;
     }
 
-    public WeatherApiService getWeatherApiService() {
-        return weatherApiService;
+    public MainSceneController setCache(Cache cache) {
+        this.cache = cache;
+        return this;
     }
 }
