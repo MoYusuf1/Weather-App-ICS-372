@@ -5,7 +5,7 @@ package edu.metrostate.model;
 public enum WindSpeedUnit {
     KNOTS("knots", "knots"),
     MPH("miles per hour", "mph"),
-    KMH("kilometers per hour", "km/h"),
+    KPH("kilometers per hour", "km/h"),
     MS("meters per second", "m/s"),
     FTS("feet per second", "ft/s");
 

@@ -5,7 +5,6 @@
 <?import javafx.scene.control.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.*?>
-<?import javafx.scene.control.ToggleGroup?>
 
 <GridPane fx:controller="edu.metrostate.controller.UserPrefController"
           xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
@@ -14,6 +13,7 @@
     <fx:define>
         <ToggleGroup fx:id="temperatureGroup"/>
         <ToggleGroup fx:id="windspeedGroup"/>
+        <ToggleGroup fx:id="distanceGroup" />
     </fx:define>
 
     <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
@@ -41,6 +41,15 @@
         <RadioButton fx:id="msButton" text="M/s" toggleGroup="$windspeedGroup"/>
         <RadioButton fx:id="knotsButton" text="Knots" toggleGroup="$windspeedGroup"/>
     </HBox>
+
+    <Label text="Distance Unit:"
+           GridPane.columnIndex="0" GridPane.rowIndex="3"/>
+
+    <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
+        <RadioButton fx:id="kilometersButton" text="Km" toggleGroup="$distanceGroup" selected="true"/>
+        <RadioButton fx:id="milesButton" text="Mi" toggleGroup="$distanceGroup"/>
+    </HBox>
+
 
     <HBox spacing="20" alignment="bottom_right"
           GridPane.columnIndex="1" GridPane.rowIndex="4">

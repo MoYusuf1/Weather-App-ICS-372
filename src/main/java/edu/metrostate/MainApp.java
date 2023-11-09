@@ -16,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
+
 public class MainApp extends Application {
 
     private static final FXMLLoader LOADER = new FXMLLoader();
@@ -30,9 +31,14 @@ public class MainApp extends Application {
 
         LOADER.setLocation(getClass().getResource("/home-scene.fxml"));
         AnchorPane root = LOADER.load();
+
         MainSceneController controller = LOADER.getController();
+
+        UserPreferences userPreferences = UserPreferences.getInstance();
+        userPreferences.addChangeListener(controller);
         controller.setMainApp(this);
         controller.setWeatherApiService(weatherApiService);
+
 
         Scene scene = new Scene(root, 1300, 800);
 
@@ -52,15 +58,17 @@ public class MainApp extends Application {
         Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
         controller.setImages(currentWeatherImage);
         controller.LocationName(current.getLocationName());
-        controller.CurrentTemp(String.format("Currently: %s\u00B0F", current.getTemperature()));
-        controller.MainweatherHigh(String.format("High: %.0f\u00B0F", current.getTemperatureMax()));
-        controller.MainweatherLow(String.format("Low: %.0f\u00B0F", current.getTemperatureMin()));
-        controller.MainweatherSpeed(String.format("Wind Speed: %smph", current.getWindSpeed()));
+        controller.CurrentTemp(String.format("Currently: %.1f%s", current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        controller.MainweatherHigh(String.format("High: %.1f%s", current.convertTemperature(current.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        controller.MainweatherLow(String.format("Low: %.1f%s", current.convertTemperature(current.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        controller.MainweatherSpeed(String.format("Wind Speed: %.1f%s", current.convertWindSpeed(current.getWindSpeed(), userPreferences.getWindSpeedUnitPreference()), userPreferences.getWindSpeedUnitPreference().getSuffix()));
         controller.MainweatherHumidity(String.format("Humidity: %.0f%%", current.getHumidity()));
-        controller.MainweatherDewpoint(String.format("Dew Point: %.0f\u00B0F", current.getDewPoint()));
+
+        controller.MainweatherDewpoint(String.format("Dew Point: %.1f%s", current.convertTemperature(current.getDewPoint(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
         controller.MainweatherhectoPascals(String.format("hectoPascals: %.0fhPa", current.getPressure()));
         controller.MainweatherUV(String.format("UV: %s", current.getUv()));
-        controller.MainweatherVisibility(String.format("Visibility: %skm", current.getVisibility()));
+
+        controller.MainweatherVisibility(String.format("Visibility: %.1f%s", current.convertDistance(current.getVisibility(), userPreferences.getDistanceUnitPreference()), userPreferences.getDistanceUnitPreference().getSuffix()));
 
         // Day 1
         controller.first_day("Monday");

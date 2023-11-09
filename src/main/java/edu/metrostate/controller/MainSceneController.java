@@ -1,7 +1,10 @@
 package edu.metrostate.controller;
+import edu.metrostate.UserPreferences;
+import edu.metrostate.model.TemperatureUnit;
 import edu.metrostate.model.Weather;
 import edu.metrostate.MainApp;
 
+import edu.metrostate.model.WindSpeedUnit;
 import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -20,7 +23,11 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainSceneController {
+
+
+public class MainSceneController implements UserPreferences.PreferencesChangeListener {
+
+    private UserPreferences userPreferences = UserPreferences.getInstance();
 
     @FXML
     private TextField SearchText;
@@ -109,6 +116,7 @@ public class MainSceneController {
     }
 
 
+
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         try {
@@ -125,8 +133,8 @@ public class MainSceneController {
                 alert.showAndWait();
             }
         } catch (Exception e) {
-            // Handle the exception, e.g., show an error message or log it
-            e.printStackTrace(); // You can log the exception for debugging
+
+            e.printStackTrace();
             Alert alert = new Alert(Alert.AlertType.ERROR);
             alert.setTitle("Error");
             alert.setHeaderText("An error occurred while fetching weather data");
@@ -170,6 +178,7 @@ public class MainSceneController {
     public void MainweatherLow(String text) { Mainweather_Low.setText(text); }
     public void MainweatherSpeed(String text) { Mainweather_Speed.setText(text); }
     public void MainweatherHumidity(String text) { Mainweather_Humidity.setText(text); }
+
     public void MainweatherDewpoint(String text) { Mainweather_Dewpoint.setText(text); }
     public void MainweatherhectoPascals(String text) { Mainweather_hectoPascals.setText(text); }
     public void MainweatherUV(String text) { Mainweather_UV.setText(text); }
@@ -209,4 +218,47 @@ public class MainSceneController {
     public WeatherApiService getWeatherApiService() {
         return weatherApiService;
     }
+
+    @Override
+    public void onPreferencesChanged() {
+
+        try {
+            Weather current = weatherApiService.getWeather("55106");
+            updateWeatherDisplay(current);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void updateWeatherDisplay(Weather current) {
+
+        CurrentTemp(String.format("Currently: %.1f%s",
+                current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherHigh(String.format("High: %.1f%s",
+                current.convertTemperature(current.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherLow(String.format("Low: %.1f%s",
+                current.convertTemperature(current.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherSpeed(String.format("Wind Speed: %.1f%s",
+                current.convertWindSpeed(current.getWindSpeed(), userPreferences.getWindSpeedUnitPreference()),
+                userPreferences.getWindSpeedUnitPreference().getSuffix()));
+
+        MainweatherDewpoint(String.format("Dew Point: %.1f%s",
+                current.convertTemperature(current.getDewPoint(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherVisibility(String.format("Visibility: %.1f%s",
+                current.convertDistance(current.getDewPoint(), userPreferences.getDistanceUnitPreference()),
+                userPreferences.getDistanceUnitPreference().getSuffix()));
+
+
+
+    }
+
+
 }
