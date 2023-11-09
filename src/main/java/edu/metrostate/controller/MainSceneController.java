@@ -1,4 +1,5 @@
 package edu.metrostate.controller;
+import edu.metrostate.UserPreferences;
 import edu.metrostate.model.Weather;
 import edu.metrostate.MainApp;
 
@@ -20,10 +21,12 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class MainSceneController {
+public class MainSceneController implements UserPreferences.PreferencesChangeListener {
 
     @FXML
     private TextField SearchText;
+
+
     @FXML
     private Button Searchbutton;
 
@@ -69,6 +72,7 @@ public class MainSceneController {
     @FXML
     public Label currentStageHook;
     private WeatherApiService weatherApiService;
+    private UserPreferences userPreferences = UserPreferences.getInstance();
 
     // Event to trigger Menu press
     private MainApp mainApp;
@@ -209,4 +213,43 @@ public class MainSceneController {
     public WeatherApiService getWeatherApiService() {
         return weatherApiService;
     }
+
+    @Override
+    public void onPreferencesChanged() {
+
+        try {
+            Weather current = weatherApiService.getWeather("55106");
+            updateWeatherDisplay(current);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+    private void updateWeatherDisplay(Weather current) {
+
+        CurrentTemp(String.format("Currently: %.1f%s",
+                current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherHigh(String.format("High: %.1f%s",
+                current.convertTemperature(current.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherLow(String.format("Low: %.1f%s",
+                current.convertTemperature(current.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherSpeed(String.format("Wind Speed: %.1f%s",
+                current.convertWindSpeed(current.getWindSpeed(), userPreferences.getWindSpeedUnitPreference()),
+                userPreferences.getWindSpeedUnitPreference().getSuffix()));
+
+        MainweatherDewpoint(String.format("Dew Point: %.1f%s",
+                current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+
+        MainweatherVisibility(String.format("Visibility: %.1f%s",
+                current.convertDistance(current.getVisibility(), userPreferences.getDistanceUnitPreference()),
+                userPreferences.getDistanceUnitPreference().getSuffix()));
+
+    }
+
 }

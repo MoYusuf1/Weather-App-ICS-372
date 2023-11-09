@@ -1,9 +1,8 @@
 package edu.metrostate;
 
-import edu.metrostate.cache.Cache;
-import edu.metrostate.cache.InMemoryCache;
 import edu.metrostate.controller.MainSceneController;
 import edu.metrostate.model.Weather;
+import edu.metrostate.service.WeatherApiService;
 import edu.metrostate.utils.TimeUtils;
 import javafx.application.Application;
 import javafx.event.Event;
@@ -28,7 +27,7 @@ public class MainApp extends Application {
     }
 
     private void createHomeScreen(Stage stage) throws IOException {
-        Cache cache = new InMemoryCache();
+        WeatherApiService weatherApiService = new WeatherApiService();
 
         LOADER.setLocation(getClass().getResource("/home-scene.fxml"));
         AnchorPane root = LOADER.load();
@@ -38,14 +37,14 @@ public class MainApp extends Application {
         UserPreferences userPreferences = UserPreferences.getInstance();
         userPreferences.addChangeListener(controller);
         controller.setMainApp(this);
-        controller.setCache(cache);
+        controller.setWeatherApiService(weatherApiService);
 
 
         Scene scene = new Scene(root, 1300, 800);
 
         scene.getStylesheets().add(getClass().getResource("/style.css").toExternalForm());
 
-        Weather current = cache.getWeather("55106");
+        Weather current = weatherApiService.getWeather("55106");
         System.out.println(current.getDescription());
 
         // https://www.flaticon.com/free-icon/climate-change_8479898

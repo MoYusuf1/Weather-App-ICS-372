@@ -63,6 +63,8 @@
           GridPane.columnIndex="1" GridPane.rowIndex="7"/>
     <Text fx:id="windSpeedSelected"
           GridPane.columnIndex="1" GridPane.rowIndex="8"/>
+    <Text fx:id="distanceSelected"
+          GridPane.columnIndex="1" GridPane.rowIndex="9"/>
 
     <stylesheets>
 <!-- The @ symbol before the name of the style sheet in the URL
