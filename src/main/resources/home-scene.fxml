@@ -17,18 +17,10 @@
                 </ImageView>
             </graphic>
         </Button>
-
-        <Button fx:id="menuBarButton" layoutX="1130.0" layoutY="23.0" onAction="#handleMenuClick" style="-fx-background-color: transparent;">
-            <graphic>
-                <ImageView fitHeight="50.0" fitWidth="50.0">
-                    <Image url="@images/menu-bar.png" />
-                </ImageView>
-            </graphic>
-        </Button>
     </Pane>
 
     <!-- Search box -->
-    <TextField fx:id="SearchText" layoutX="1025.0" layoutY="98.75" stylesheets="@style.css" />
+    <TextField fx:id="SearchText" layoutX="1025.0" layoutY="98.75" stylesheets="@style.css" promptText="Enter your zip code" focusTraversable="false" />
     <Button fx:id="Searchbutton" layoutX="1209.0" layoutY="98.75" onAction="#handleFindButtonAction" stylesheets="@style.css" text="FIND" />
 
     <!-- Main Box with all weather info -->
