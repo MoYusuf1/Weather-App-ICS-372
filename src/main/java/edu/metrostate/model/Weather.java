@@ -1,5 +1,6 @@
 package edu.metrostate.model;
 
+import java.util.Objects;
 import java.util.StringJoiner;
 
 public class Weather {
@@ -206,6 +207,19 @@ public class Weather {
     public Weather setLocationName(String locationName) {
         this.locationName = locationName;
         return this;
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Weather weather = (Weather) o;
+        return Objects.equals(description, weather.description) && Objects.equals(locationName, weather.locationName);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(description, locationName);
     }
 
     @Override

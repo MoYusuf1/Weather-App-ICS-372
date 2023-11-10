@@ -8,25 +8,28 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserPreferences {
-    private static UserPreferences instance;
     private List<PreferencesChangeListener> listeners = new ArrayList<>();
     private TemperatureUnit temperatureUnitPreference;
     private WindSpeedUnit windSpeedUnitPreference;
     private DistanceUnit distanceUnitPreference;
 
+    private static class InstanceHolder {
+        // We can use a nested static class to implement lazy initialization
+        private static final UserPreferences INSTANCE = new UserPreferences();
+    }
+
+    public static UserPreferences getInstance() {
+        return InstanceHolder.INSTANCE;
+    }
+
     private UserPreferences() {
-        loadPreferences(); // Load preferences when the singleton is first created
+        temperatureUnitPreference = TemperatureUnit.CELSIUS;
+        windSpeedUnitPreference = WindSpeedUnit.KPH;
+        distanceUnitPreference = DistanceUnit.KILOMETERS;
     }
 
     public interface PreferencesChangeListener {
         void onPreferencesChanged();
-    }
-
-    public static synchronized UserPreferences getInstance() {
-        if (instance == null) {
-            instance = new UserPreferences();
-        }
-        return instance;
     }
 
     public TemperatureUnit getTemperatureUnitPreference() {
@@ -59,13 +62,6 @@ public class UserPreferences {
         notifyChangeListeners();
     }
 
-    private void loadPreferences() {
-        // Default preferences for now
-        temperatureUnitPreference = TemperatureUnit.CELSIUS;
-        windSpeedUnitPreference = WindSpeedUnit.KPH;
-        distanceUnitPreference = DistanceUnit.KILOMETERS;
-    }
-
     private void savePreferences() {
         // Save preferences to a file or database (functionality to be implemented later)
     }
@@ -77,11 +73,7 @@ public class UserPreferences {
     public void notifyChangeListeners() {
         for (PreferencesChangeListener listener : listeners) {
             listener.onPreferencesChanged();
-
         }
     }
-
-
-
 
 }

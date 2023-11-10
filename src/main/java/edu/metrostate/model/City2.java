@@ -3,9 +3,9 @@ package edu.metrostate.model;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
 
+import java.util.Objects;
 import java.util.StringJoiner;
 
-// TODO: user builder pattern
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class City2 {
 
@@ -94,6 +94,25 @@ public class City2 {
       public City2 setLongitude(double longitude) {
             this.longitude = longitude;
             return this;
+      }
+
+      @Override
+      public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            City2 city2 = (City2) o;
+            return Double.compare(latitude, city2.latitude) == 0
+                    && Double.compare(longitude, city2.longitude) == 0
+                    && Objects.equals(continent, city2.continent)
+                    && Objects.equals(country, city2.country)
+                    && Objects.equals(region, city2.region)
+                    && Objects.equals(city, city2.city)
+                    && Objects.equals(zip, city2.zip);
+      }
+
+      @Override
+      public int hashCode() {
+            return Objects.hash(continent, country, region, city, zip, latitude, longitude);
       }
 
       @Override
