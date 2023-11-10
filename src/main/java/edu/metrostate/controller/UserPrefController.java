@@ -6,20 +6,17 @@ import edu.metrostate.model.TemperatureUnit;
 import edu.metrostate.model.WindSpeedUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
-import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 public class UserPrefController {
 
     @FXML
-    private Text actionTarget;
+    private Button submitButton;
     @FXML
-    private Text temperatureSelected;
-    @FXML
-    private Text windSpeedSelected;
-    @FXML
-    private Text distanceSelected;
+    private Button cancelButton;
     @FXML
     private RadioButton fahrenheitButton;
     @FXML
@@ -44,98 +41,12 @@ public class UserPrefController {
     private ToggleGroup distanceGroup;
 
 
-
     // Use the singleton instance of UserPreferences
-    private UserPreferences userPreferences = UserPreferences.getInstance();
+    private final UserPreferences userPreferences = UserPreferences.getInstance();
 
     // This method should be called to initialize the UI with the loaded preferences
     public void initialize() {
         // Initialize the UI with the loaded preferences
-        updateUIWithLoadedPreferences();
-    }
-
-    @FXML
-    public void handleSubmitButtonAction(ActionEvent event) {
-        actionTarget.setText("");
-
-        TemperatureUnit selectedTemperatureUnit = getSelectedTemperatureUnit();
-        WindSpeedUnit selectedWindSpeedUnit = getSelectedWindSpeedUnit();
-        DistanceUnit selectedDistanceUnit = getSelectedDistanceUnit();
-
-        if (selectedTemperatureUnit == null || selectedWindSpeedUnit == null) {
-            return;
-        }
-
-        if (selectedWindSpeedUnit == null || selectedWindSpeedUnit == null) {
-            return;
-        }
-
-        if (selectedDistanceUnit == null) {
-            return;
-        }
-
-        userPreferences.setTemperatureUnitPreference(selectedTemperatureUnit);
-        userPreferences.setWindSpeedUnitPreference(selectedWindSpeedUnit);
-        userPreferences.setDistanceUnitPreference(selectedDistanceUnit);
-
-        temperatureSelected.setText(selectedTemperatureUnit.getDescription());
-        windSpeedSelected.setText(selectedWindSpeedUnit.getDescription());
-        distanceSelected.setText(selectedDistanceUnit.getDescription());
-        actionTarget.setText("Preferences updated successfully.");
-    }
-
-
-
-    @FXML
-    public void handleCancelButtonAction(ActionEvent event) {
-        actionTarget.setText("Cancel button pressed");
-        // Reset the UI to reflect the current preferences
-        updateUIWithLoadedPreferences();
-    }
-
-    private TemperatureUnit getSelectedTemperatureUnit() {
-        RadioButton selectedTemperatureButton = (RadioButton) temperatureGroup.getSelectedToggle();
-        if (selectedTemperatureButton == fahrenheitButton) {
-            return TemperatureUnit.FAHRENHEIT;
-        } else if (selectedTemperatureButton == celsiusButton) {
-            return TemperatureUnit.CELSIUS;
-        } else if (selectedTemperatureButton == kelvinButton) {
-            return TemperatureUnit.KELVIN;
-        } else {
-            actionTarget.setText("No temperature unit selected. Please select one.");
-            return null; // Handle null in the calling method
-        }
-    }
-
-    private WindSpeedUnit getSelectedWindSpeedUnit() {
-        RadioButton selectedWindSpeedButton = (RadioButton) windspeedGroup.getSelectedToggle();
-        if (selectedWindSpeedButton == mphButton) {
-            return WindSpeedUnit.MPH;
-        } else if (selectedWindSpeedButton == msButton) {
-            return WindSpeedUnit.MS;
-        } else if (selectedWindSpeedButton == knotsButton) {
-            return WindSpeedUnit.KNOTS;
-        } else {
-            actionTarget.setText("No wind speed unit selected. Please select one.");
-            return null; // Handle null in the calling method
-        }
-    }
-
-    private DistanceUnit getSelectedDistanceUnit() {
-        RadioButton selectedDistanceButton = (RadioButton) distanceGroup.getSelectedToggle();
-        if (selectedDistanceButton == kilometersButton) {
-            return DistanceUnit.KILOMETERS;
-        } else if (selectedDistanceButton == milesButton) {
-            return DistanceUnit.MILES;
-        } else {
-            actionTarget.setText("No distance unit selected. Please select one.");
-            return null; // Handle null in the calling method
-        }
-    }
-
-
-    // A method to update the UI with the loaded preferences
-    private void updateUIWithLoadedPreferences() {
         TemperatureUnit temperatureUnit = userPreferences.getTemperatureUnitPreference();
         WindSpeedUnit windSpeedUnit = userPreferences.getWindSpeedUnitPreference();
         DistanceUnit distanceUnit = userPreferences.getDistanceUnitPreference();
@@ -150,10 +61,69 @@ public class UserPrefController {
 
         kilometersButton.setSelected(distanceUnit == DistanceUnit.KILOMETERS);
         milesButton.setSelected(distanceUnit == DistanceUnit.MILES);
-
-        // Update the text fields with the loaded preferences
-        temperatureSelected.setText(temperatureUnit.getDescription());
-        windSpeedSelected.setText(windSpeedUnit.getDescription());
-        distanceSelected.setText(distanceUnit.getDescription());
     }
+
+    @FXML
+    public void handleSubmitButtonAction(ActionEvent event) {
+        TemperatureUnit selectedTemperatureUnit = getSelectedTemperatureUnit();
+        if (userPreferences.getTemperatureUnitPreference() != selectedTemperatureUnit) {
+            userPreferences.setTemperatureUnitPreference(selectedTemperatureUnit);
+        }
+
+        WindSpeedUnit selectedWindSpeedUnit = getSelectedWindSpeedUnit();
+        if (userPreferences.getWindSpeedUnitPreference() != selectedWindSpeedUnit) {
+            userPreferences.setWindSpeedUnitPreference(selectedWindSpeedUnit);
+        }
+
+        DistanceUnit selectedDistanceUnit = getSelectedDistanceUnit();
+        if (userPreferences.getDistanceUnitPreference() != selectedDistanceUnit) {
+            userPreferences.setDistanceUnitPreference(selectedDistanceUnit);
+        }
+
+        // get a handle to the stage and close it
+        Stage stage = (Stage) submitButton.getScene().getWindow();
+        stage.close();
+    }
+
+    @FXML
+    public void handleCancelButtonAction(ActionEvent event) {
+        // get a handle to the stage and close it
+        Stage stage = (Stage) cancelButton.getScene().getWindow();
+        stage.close();
+    }
+
+    private TemperatureUnit getSelectedTemperatureUnit() {
+        // We default the radio button selection up front in UserPreferences#loadPreferences so null isn't possible
+        RadioButton selectedTemperatureButton = (RadioButton) temperatureGroup.getSelectedToggle();
+        if (selectedTemperatureButton == fahrenheitButton) {
+            return TemperatureUnit.FAHRENHEIT;
+        } else if (selectedTemperatureButton == celsiusButton) {
+            return TemperatureUnit.CELSIUS;
+        } else {
+            return TemperatureUnit.KELVIN;
+        }
+    }
+
+    private WindSpeedUnit getSelectedWindSpeedUnit() {
+        // We default the radio button selection up front in UserPreferences#loadPreferences so null isn't possible
+        RadioButton selectedWindSpeedButton = (RadioButton) windspeedGroup.getSelectedToggle();
+        if (selectedWindSpeedButton == mphButton) {
+            return WindSpeedUnit.MPH;
+        } else if (selectedWindSpeedButton == msButton) {
+            return WindSpeedUnit.MS;
+        } else {
+            return WindSpeedUnit.KNOTS;
+        }
+    }
+
+    private DistanceUnit getSelectedDistanceUnit() {
+        // We default the radio button selection up front in UserPreferences#loadPreferences so null isn't possible
+        RadioButton selectedDistanceButton = (RadioButton) distanceGroup.getSelectedToggle();
+        if (selectedDistanceButton == kilometersButton) {
+            return DistanceUnit.KILOMETERS;
+        } else {
+            return DistanceUnit.MILES;
+        }
+    }
+
 }

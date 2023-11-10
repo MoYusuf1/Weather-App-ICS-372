@@ -50,21 +50,11 @@
         <RadioButton fx:id="milesButton" text="Mi" toggleGroup="$distanceGroup"/>
     </HBox>
 
-
     <HBox spacing="20" alignment="bottom_right"
           GridPane.columnIndex="1" GridPane.rowIndex="4">
-        <Button text="Submit" onAction="#handleSubmitButtonAction"/>
-        <Button text="Cancel" onAction="#handleCancelButtonAction"/>
+        <Button fx:id="submitButton" text="Submit" onAction="#handleSubmitButtonAction"/>
+        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancelButtonAction"/>
     </HBox>
-
-    <Text fx:id="actionTarget"
-          GridPane.columnIndex="1" GridPane.rowIndex="6"/>
-    <Text fx:id="temperatureSelected"
-          GridPane.columnIndex="1" GridPane.rowIndex="7"/>
-    <Text fx:id="windSpeedSelected"
-          GridPane.columnIndex="1" GridPane.rowIndex="8"/>
-    <Text fx:id="distanceSelected"
-          GridPane.columnIndex="1" GridPane.rowIndex="9"/>
 
     <stylesheets>
 <!-- The @ symbol before the name of the style sheet in the URL
