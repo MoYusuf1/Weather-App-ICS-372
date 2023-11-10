@@ -1,9 +1,9 @@
 package edu.metrostate.controller;
 import edu.metrostate.UserPreferences;
+import edu.metrostate.cache.Cache;
+import edu.metrostate.cache.InMemoryCache;
 import edu.metrostate.model.Weather;
-import edu.metrostate.MainApp;
 
-import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -18,6 +18,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 
@@ -71,16 +72,13 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     public Label Mainweather_Visibility;
     @FXML
     public Label currentStageHook;
-    private WeatherApiService weatherApiService;
-    private UserPreferences userPreferences = UserPreferences.getInstance();
+    private final Cache cache = InMemoryCache.getInstance();
+    private final UserPreferences userPreferences = UserPreferences.getInstance();
 
-    // Event to trigger Menu press
-    private MainApp mainApp;
 
     public void handleMenuClick(ActionEvent actionEvent) {
         System.out.println("You have pressed the menu button!");
     }
-    // Event to trigger settings button
 
 
     public void handleSettingsClick(ActionEvent actionEvent) throws Exception {
@@ -108,24 +106,37 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         return (Stage) currentStageHook.getScene().getWindow();
     }
 
-    public void setMainApp(MainApp mainApp) {
-        this.mainApp = mainApp;
-    }
-
 
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         try {
             String zipCode = SearchText.getText();
-            Weather current = weatherApiService.getWeather(zipCode);
-            if (current != Weather.CITY_NOT_FOUND) {
+            Weather current = cache.getWeather(zipCode);
+            if (current != null && current != Weather.CITY_NOT_FOUND) {
                 System.out.println(current.getDescription());
                 updateMainWeatherScreen(current);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Invalid ZIP Code");
-                alert.setHeaderText("The inputted ZIP code is invalid");
+                alert.setTitle("Climate Watch | Invalid ZIP Code");
+                alert.setHeaderText(null);
+                alert.setGraphic(null);
+                Label label = new Label("""
+                        The inputted ZIP code is invalid. Try these examples:
+                        
+                        * Louisville, Kentucky -- 40202
+                        * Des Moines, Iowa -- 50309
+                        * Chicago, Illinois -- 60601
+                        * St. Louis, Missouri -- 63101
+                        * Houston, Texas -- 77036
+                        * Denver, Colorado -- 80202
+                        * San Francisco, California -- 94111
+                        * Seattle, Washington -- 98101
+                        * New York, New York -- 10001""");
+                label.setStyle("-fx-text-fill: black; -fx-font-family: \"Century Gothic\"");
+                label.setWrapText(true);
+                alert.getDialogPane().setContent(label);
                 alert.initModality(Modality.APPLICATION_MODAL);
+                alert.initOwner(getCurrentStage());
                 alert.showAndWait();
             }
         } catch (Exception e) {
@@ -206,24 +217,17 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         fifth_day.setText(text);
     }
 
-    public void setWeatherApiService(WeatherApiService weatherApiService) {
-        this.weatherApiService = weatherApiService;
-    }
-
-    public WeatherApiService getWeatherApiService() {
-        return weatherApiService;
-    }
 
     @Override
     public void onPreferencesChanged() {
-
         try {
-            Weather current = weatherApiService.getWeather("55106");
+            Weather current = cache.getWeather("55106");
             updateWeatherDisplay(current);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
     private void updateWeatherDisplay(Weather current) {
 
         CurrentTemp(String.format("Currently: %.1f%s",
