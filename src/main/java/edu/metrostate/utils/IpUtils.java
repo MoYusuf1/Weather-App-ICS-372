@@ -1,6 +1,7 @@
 package edu.metrostate.utils;
 
 import com.google.common.net.InetAddresses;
+import edu.metrostate.model.City2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -12,7 +13,6 @@ import java.util.List;
 public final class IpUtils {
     private static final Logger LOGGER = LoggerFactory.getLogger(IpUtils.class);
 
-    private static final String DEFAULT_IP_ADDRESS = "199.17.228.240";  // St. Paul, MN
     private static final List<String> IP_ADDRESS_LOOKUP_URLS = List.of(
             "http://checkip.amazonaws.com", "https://ipv4.icanhazip.com",
             "http://myexternalip.com/raw", "http://ipecho.net/plain"
@@ -34,8 +34,8 @@ public final class IpUtils {
                 LOGGER.error("Problem getting user's IP address using {}", ipAddressLookupUrl, ex);
             }
         }
-        LOGGER.info("Unable to get user's IP address so using {} for Metro State University", DEFAULT_IP_ADDRESS);
-        return DEFAULT_IP_ADDRESS;
+        LOGGER.info("Unable to get user's IP address so using default {}", City2.METRO_STATE_UNIVERSITY.getIpAddress());
+        return City2.METRO_STATE_UNIVERSITY.getIpAddress();
     }
 
 }

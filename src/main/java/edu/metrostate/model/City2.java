@@ -9,15 +9,18 @@ import java.util.StringJoiner;
 @JsonIgnoreProperties(ignoreUnknown = true)
 public class City2 {
 
-      public static final City2 DEFAULT = new City2()
+      public static final City2 METRO_STATE_UNIVERSITY = new City2()
               .setContinent("North America")
               .setCountry("United States")
               .setRegion("Minnesota")
               .setCity("Saint Paul")
-              .setZip("55106")
+              .setZipCode("55106")
               .setLatitude(44.95848083496094)
-              .setLongitude(-93.07421875);
+              .setLongitude(-93.07421875)
+              .setIpAddress("199.17.228.240");
 
+      @JsonProperty("ip")
+      private String ipAddress;
       @JsonProperty("continent_name")
       private String continent;
       @JsonProperty("country_name")
@@ -27,11 +30,20 @@ public class City2 {
       @JsonProperty("city")
       private String city;
       @JsonProperty("zip")
-      private String zip;
+      private String zipCode;
       @JsonProperty("latitude")
       private double latitude;
       @JsonProperty("longitude")
       private double longitude;
+
+      public String getIpAddress() {
+            return ipAddress;
+      }
+
+      public City2 setIpAddress(String ipAddress) {
+            this.ipAddress = ipAddress;
+            return this;
+      }
 
       public String getContinent() {
             return continent;
@@ -69,12 +81,12 @@ public class City2 {
             return this;
       }
 
-      public String getZip() {
-            return zip;
+      public String getZipCode() {
+            return zipCode;
       }
 
-      public City2 setZip(String zip) {
-            this.zip = zip;
+      public City2 setZipCode(String zipCode) {
+            this.zipCode = zipCode;
             return this;
       }
 
@@ -107,12 +119,13 @@ public class City2 {
                     && Objects.equals(country, city2.country)
                     && Objects.equals(region, city2.region)
                     && Objects.equals(city, city2.city)
-                    && Objects.equals(zip, city2.zip);
+                    && Objects.equals(zipCode, city2.zipCode)
+                    && Objects.equals(ipAddress, city2.ipAddress);
       }
 
       @Override
       public int hashCode() {
-            return Objects.hash(continent, country, region, city, zip, latitude, longitude);
+            return Objects.hash(continent, country, region, city, zipCode, latitude, longitude, ipAddress);
       }
 
       @Override
@@ -122,9 +135,10 @@ public class City2 {
                     .add("country='" + country + "'")
                     .add("region='" + region + "'")
                     .add("city='" + city + "'")
-                    .add("zip='" + zip + "'")
+                    .add("zipCode='" + zipCode + "'")
                     .add("latitude=" + latitude)
                     .add("longitude=" + longitude)
+                    .add("ipAddress='" + ipAddress + "'")
                     .toString();
       }
 }
