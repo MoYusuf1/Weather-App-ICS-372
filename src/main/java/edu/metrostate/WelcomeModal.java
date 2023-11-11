@@ -1,4 +1,4 @@
-package edu.metrostate.examples;
+package edu.metrostate;
 
 import javafx.application.Application;
 import javafx.geometry.HPos;

@@ -23,12 +23,11 @@ public class CityApiService {
             HttpGet request = new HttpGet(url);
             HttpResponse response = client.execute(request);
             String jsonString = EntityUtils.toString(response.getEntity());
-            City2 city2 = OBJECT_MAPPER.readValue(jsonString, City2.class);
-            System.out.printf("Found city for ipAddress=%s : %s", ipAddress, city2);
-            return city2;
+            return OBJECT_MAPPER.readValue(jsonString, City2.class);
         } catch (Exception ex) {
-            System.out.printf("Problem finding city for ipAddress=%s so using default : %s", ipAddress, ex.getMessage());
-            return City2.DEFAULT;
+            System.out.printf("Problem finding city for ipAddress=%s so using default %s -- %s",
+                    ipAddress, City2.METRO_STATE_UNIVERSITY.getIpAddress(), ex.getMessage());
+            return City2.METRO_STATE_UNIVERSITY;
         }
     }
 
