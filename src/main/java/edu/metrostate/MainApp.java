@@ -57,7 +57,7 @@ public class MainApp extends Application {
 
         // Show Main Screen with all values
         Image currentWeatherImage = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png")).toExternalForm());
-        controller.setImages(currentWeatherImage);
+        controller.MainImage(currentWeatherImage);
         controller.LocationName(current.getLocationName());
         controller.CurrentTemp(String.format("Currently: %d\u00B0%s", Math.round(current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
         controller.MainweatherHigh(String.format("High: %d\u00B0%s", Math.round(current.convertTemperature(current.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));

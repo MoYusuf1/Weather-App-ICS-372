@@ -8,6 +8,8 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
+import org.apache.http.util.EntityUtils;
+
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
@@ -16,6 +18,8 @@ import java.util.Scanner;
 
 public class WeatherApiService {
 
+    private static final DateTimeFormatter DATE_TIME_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
+    private static final DateTimeFormatter DATE_TIME_OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("EEEE");
     private static final String API_URL = "https://api.openweathermap.org/data/2.5/weather?zip=%s&appid=%s&units=imperial";
     private static final String FORECAST_API_URL = "https://api.openweathermap.org/data/2.5/forecast?zip=%s&appid=%s&units=imperial";
     private static final String API_KEY = "56a56586750dcac90b3fe2fedaf45f09";
@@ -87,7 +91,7 @@ public class WeatherApiService {
             HttpResponse response = client.execute(request);
             String jsonResponse = new Scanner(response.getEntity().getContent()).useDelimiter("\\Z").next();
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
-            if (jsonObject.has("cod") && jsonObject.get("cod").getAsInt() == 404) {
+            if (isErrorCondition(jsonObject)) {
                 return forecast2;
             }
             JsonArray forecastList = jsonObject.getAsJsonArray("list");
@@ -115,14 +119,7 @@ public class WeatherApiService {
                     if (Middlevalue >= 0) {
                         // Extract the icon, similar to other API call
                         String middleIcon = forecastList.get(Middlevalue).getAsJsonObject().getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-
-                        // Take the date out of the API call, and then assign it to a day of the week Than format
-                        // https://www.tutorialspoint.com/formatting-day-of-week-in-eeee-format-in-java
-                        DateTimeFormatter inputFormatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-                        LocalDateTime dateTime = LocalDateTime.parse(dtTxt, inputFormatter);
-                        DateTimeFormatter outputFormatter = DateTimeFormatter.ofPattern("EEEE");
-                        String dayOfWeek = dateTime.format(outputFormatter);
-
+                        String dayOfWeek = getDayOfWeek(dtTxt);
                         Weather forecastWeather = new Weather()
                                 .setTemperatureMin(tempMin)
                                 .setTemperatureMax(tempMax)
@@ -142,10 +139,18 @@ public class WeatherApiService {
         return forecast2;
     }
 
+    private static String getDayOfWeek(String dtTxt) {
+        // Take the date out of the API call, and then assign it to a day of the week Than format
+        // https://www.tutorialspoint.com/formatting-day-of-week-in-eeee-format-in-java
+        LocalDateTime dateTime = LocalDateTime.parse(dtTxt, DATE_TIME_INPUT_FORMATTER);
+        return dateTime.format(DATE_TIME_OUTPUT_FORMATTER);
+    }
+
     private static boolean isErrorCondition(JsonObject jsonObject) {
         int statusCode = jsonObject.get("cod").getAsInt();
         int errorType = statusCode/100;
         // 4xx = client error, 5xx = server error
+        // Prevent NullPointerException situations
         return errorType == 4 || errorType == 5;
     }
 

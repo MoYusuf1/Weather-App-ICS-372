@@ -15,47 +15,58 @@ public class FiveDayForecast {
         this.controller = controller;
         this.userPreferences = userPreferences;
     }
-    // Update Each days info
+
     public void updateDayInfo(List<Weather> forecast) {
-        if (forecast.size() >= 5) {
-            Weather day1 = forecast.get(0);
-            Weather day2 = forecast.get(1);
-            Weather day3 = forecast.get(2);
-            Weather day4 = forecast.get(3);
-            Weather day5 = forecast.get(4);
-
-            // Day 1 | Show image, day, high, low
-            Image image1 = new Image("images/weather-icons/" + forecast.get(0).getIcon() + "@2x.png");
-            controller.first_day(forecast.get(0).getDay());
-            controller.first_high_first_day(String.format("High: %d\u00B0%s", Math.round(day1.convertTemperature(day1.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-            controller.first_low_first_day(String.format("Low: %d\u00B0%s", Math.round(day1.convertTemperature(day1.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-
-            // Day 2 | Show image, day, high, low
-            Image image2 = new Image("images/weather-icons/" + forecast.get(1).getIcon() + "@2x.png");
-            controller.second_day(forecast.get(1).getDay());
-            controller.second_high_first_day(String.format("High: %d\u00B0%s", Math.round(day2.convertTemperature(day2.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-            controller.second_low_first_day(String.format("Low: %d\u00B0%s", Math.round(day2.convertTemperature(day2.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-
-            // Day 3 | Show image, day, high, low
-            Image image3 = new Image("images/weather-icons/" + forecast.get(2).getIcon() + "@2x.png");
-            controller.third_day(forecast.get(2).getDay());
-            controller.third_high_first_day(String.format("High: %d\u00B0%s", Math.round(day3.convertTemperature(day3.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-            controller.third_low_first_day(String.format("Low: %d\u00B0%s", Math.round(day3.convertTemperature(day3.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-
-            // Day 4 | Show image, day, high, low
-            Image image4 = new Image("images/weather-icons/" + forecast.get(3).getIcon() + "@2x.png");
-            controller.fourth_day(forecast.get(3).getDay());
-            controller.fourth_high_first_day(String.format("High: %d\u00B0%s", Math.round(day4.convertTemperature(day4.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-            controller.fourth_low_first_day(String.format("Low: %d\u00B0%s", Math.round(day4.convertTemperature(day4.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-
-            // Day 5 | Show image, day, high, low
-            Image image5 = new Image("images/weather-icons/" + forecast.get(4).getIcon() + "@2x.png");
-            controller.fifth_day(forecast.get(4).getDay());
-            controller.fifth_high_first_day(String.format("High: %d\u00B0%s", Math.round(day5.convertTemperature(day5.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-            controller.fifth_low_first_day(String.format("Low: %d\u00B0%s", Math.round(day5.convertTemperature(day5.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
-
-            // Set the images
-            controller.setImages(image1, image2, image3, image4, image5);
+        if (forecast == null || forecast.size() < 5) {
+            System.out.println("Forecast was null or not 5-day size so skipping day info update");
+            return;
         }
+
+        Weather day1 = forecast.get(0);
+        Weather day2 = forecast.get(1);
+        Weather day3 = forecast.get(2);
+        Weather day4 = forecast.get(3);
+        Weather day5 = forecast.get(4);
+
+        controller.first_day_image.setImage(getImage(day1));
+        controller.first_day(getDay(day1));
+        controller.first_high_first_day(getDailyHigh(day1));
+        controller.first_low_first_day(getDailyLow(day1));
+
+        controller.second_day_image.setImage(getImage(day2));
+        controller.second_day(getDay(day2));
+        controller.second_high_first_day(getDailyHigh(day2));
+        controller.second_low_first_day(getDailyLow(day2));
+
+        controller.third_day_image.setImage(getImage(day3));
+        controller.third_day(getDay(day3));
+        controller.third_high_first_day(getDailyHigh(day3));
+        controller.third_low_first_day(getDailyLow(day3));
+
+        controller.fourth_day_image.setImage(getImage(day4));
+        controller.fourth_day(getDay(day4));
+        controller.fourth_high_first_day(getDailyHigh(day4));
+        controller.fourth_low_first_day(getDailyLow(day4));
+
+        controller.fifth_day_image.setImage(getImage(day5));
+        controller.fifth_day(getDay(day5));
+        controller.fifth_high_first_day(getDailyHigh(day5));
+        controller.fifth_low_first_day(getDailyLow(day5));
+    }
+
+    private static Image getImage(Weather weather) {
+        return new Image(String.format("images/weather-icons/%s@2x.png", weather.getIcon()));
+    }
+
+    private static String getDay(Weather weather) {
+        return weather.getDay();
+    }
+
+    private String getDailyHigh(Weather weather) {
+        return String.format("High: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix());
+    }
+
+    private String getDailyLow(Weather weather) {
+        return String.format("Low: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix());
     }
 }

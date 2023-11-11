@@ -103,12 +103,11 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     private void handleFindButtonAction(ActionEvent event) {
         try {
             String zipCode = SearchText.getText();
-            List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
             Weather current = cache.getWeather(zipCode);
-            FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
-
             if (current != null && current != Weather.CITY_NOT_FOUND) {
-                // System.out.println(current.getDescription());
+                // Only need to update the 5-day forecast if we have a legitimate city
+                List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
+                FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
                 updateMainWeatherScreen(current);
                 fiveDayForecast.updateDayInfo(forecast);
             } else {
@@ -127,6 +126,7 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
                         * Denver, Colorado -- 80202
                         * San Francisco, California -- 94111
                         * Seattle, Washington -- 98101
+                        * Las Vegas, Nevada -- 89101
                         * New York, New York -- 10001""");
                 label.setStyle("-fx-text-fill: black; -fx-font-family: \"Century Gothic\"");
                 label.setWrapText(true);
@@ -149,7 +149,7 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     // Update the Main weather values
     private void updateMainWeatherScreen(Weather current) {
         Image currentWeatherImage = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png")).toExternalForm());
-        setImages(currentWeatherImage);
+        MainImage(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
         LocationName(current.getLocationName());
         MainweatherHigh("High: " + String.format("%.0f", current.getTemperatureMax()) + "\u00B0F");
@@ -162,17 +162,7 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         MainweatherVisibility("Visibility: " + current.getVisibility() + "km");
     }
 
-    // Holds all the images for each of the five days.
-    public void setImages(Image image1, Image image2, Image image3, Image image4, Image image5) {
-        first_day_image.setImage(image1);
-        second_day_image.setImage(image2);
-        third_day_image.setImage(image3);
-        fourth_day_image.setImage(image4);
-        fifth_day_image.setImage(image5);
-    }
-
-    // Set Image of one
-    public void setImages(Image image) {
+    public void MainImage(Image image) {
         Mainweather_Image.setImage(image);
     }
 
