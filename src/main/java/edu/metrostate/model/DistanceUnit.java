@@ -2,7 +2,7 @@ package edu.metrostate.model;
 
 public enum DistanceUnit {
     MILES("Miles", "M"), // Representing miles
-    KILOMETERS("Kilometers", "K"); // Representing kilometers
+    KILOMETERS("Kilometers", "km"); // Representing kilometers
 
 
     private final String description;

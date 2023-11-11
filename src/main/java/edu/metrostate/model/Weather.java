@@ -23,6 +23,7 @@ public class Weather {
     private double pressure; // Add pressure property
     private int uv; // Add uv property
     private String locationName;
+    private String day;
 
     public int getTemperature() {
         return temperature;
@@ -30,6 +31,13 @@ public class Weather {
 
     public Weather setTemperature(int temperature) {
         this.temperature = temperature;
+        return this;
+    }
+    public String getDay() {
+        return day;
+    }
+    public Weather setDay(String day) {
+        this.day = day;
         return this;
     }
 
@@ -108,10 +116,6 @@ public class Weather {
     public Weather setWindSpeed(double windSpeed) {
         this.windSpeed = windSpeed;
         return this;
-    }
-
-    public String getWindDirection() {
-        return windDirection;
     }
 
     public Weather setWindDirection(String windDirection) {

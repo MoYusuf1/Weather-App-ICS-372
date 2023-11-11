@@ -2,8 +2,11 @@ package edu.metrostate.controller;
 import edu.metrostate.UserPreferences;
 import edu.metrostate.cache.Cache;
 import edu.metrostate.cache.InMemoryCache;
+import edu.metrostate.model.FiveDayForecast;
+import edu.metrostate.model.Time;
 import edu.metrostate.model.Weather;
 
+import edu.metrostate.service.WeatherApiService;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -11,31 +14,21 @@ import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
-import javafx.scene.control.Button;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
-import javafx.stage.StageStyle;
 
 import java.io.IOException;
+import java.util.List;
+import java.util.Objects;
 
 public class MainSceneController implements UserPreferences.PreferencesChangeListener {
 
     @FXML
     private TextField SearchText;
-
-
-    @FXML
-    private Button Searchbutton;
-
-    @FXML
-    private Button gearButton;
-
-    @FXML
-    private Button menuBarButton;
 
     // Holds all five day main screen FXMLs
     @FXML
@@ -59,6 +52,7 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     @FXML
     public Pane Mainweather;
     public Label Current_Time;
+    private Time time;
     public Label Current_Temp;
     public Label Location_Name;
     public ImageView Mainweather_Image;
@@ -75,14 +69,13 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     private final Cache cache = InMemoryCache.getInstance();
     private final UserPreferences userPreferences = UserPreferences.getInstance();
 
-
-    public void handleMenuClick(ActionEvent actionEvent) {
-        System.out.println("You have pressed the menu button!");
+    @FXML
+    public void initialize() {
+        time = new Time(Current_Time);
+        time.initializeClock();
     }
 
-
     public void handleSettingsClick(ActionEvent actionEvent) throws Exception {
-        System.out.println("You have pressed the settings button!");
         loadUserPreferencesScreen(getCurrentStage());
     }
 
@@ -106,15 +99,18 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         return (Stage) currentStageHook.getScene().getWindow();
     }
 
-
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         try {
             String zipCode = SearchText.getText();
+            List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
             Weather current = cache.getWeather(zipCode);
+            FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
+
             if (current != null && current != Weather.CITY_NOT_FOUND) {
-                System.out.println(current.getDescription());
+                // System.out.println(current.getDescription());
                 updateMainWeatherScreen(current);
+                fiveDayForecast.updateDayInfo(forecast);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Climate Watch | Invalid ZIP Code");
@@ -150,14 +146,15 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         }
     }
 
+    // Update the Main weather values
     private void updateMainWeatherScreen(Weather current) {
-        Image currentWeatherImage = new Image(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png").toExternalForm());
+        Image currentWeatherImage = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png")).toExternalForm());
         setImages(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
         LocationName(current.getLocationName());
         MainweatherHigh("High: " + String.format("%.0f", current.getTemperatureMax()) + "\u00B0F");
         MainweatherLow("Low: " + String.format("%.0f", current.getTemperatureMin()) + "\u00B0F");
-        MainweatherSpeed("Wind Speed: " + current.getWindSpeed() + "mph ");
+        MainweatherSpeed("Wind Speed: " + current.getWindSpeed() + "mph");
         MainweatherHumidity("Humidity: " + String.format("%.0f", current.getHumidity()) + "%");
         MainweatherDewpoint("Dew Point: " + String.format("%.0f", current.getDewPoint()) + "\u00B0F");
         MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", current.getPressure()) + "hPa");
@@ -174,11 +171,11 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         fifth_day_image.setImage(image5);
     }
 
+    // Set Image of one
     public void setImages(Image image) {
         Mainweather_Image.setImage(image);
     }
 
-    public void CurrentTime(String text) { Current_Time.setText(text); }
     public void CurrentTemp(String text) { Current_Temp.setText(text); }
     public void LocationName(String text) { Location_Name.setText(text); }
     public void MainweatherHigh(String text) { Mainweather_High.setText(text); }
@@ -216,7 +213,6 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     public void fifth_day(String text) {
         fifth_day.setText(text);
     }
-
 
     @Override
     public void onPreferencesChanged() {

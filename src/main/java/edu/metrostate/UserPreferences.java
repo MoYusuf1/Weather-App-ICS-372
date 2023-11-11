@@ -23,8 +23,8 @@ public class UserPreferences {
     }
 
     private UserPreferences() {
-        temperatureUnitPreference = TemperatureUnit.CELSIUS;
-        windSpeedUnitPreference = WindSpeedUnit.KPH;
+        temperatureUnitPreference = TemperatureUnit.FAHRENHEIT;
+        windSpeedUnitPreference = WindSpeedUnit.MPH;
         distanceUnitPreference = DistanceUnit.KILOMETERS;
     }
 
