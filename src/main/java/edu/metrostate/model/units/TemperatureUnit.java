@@ -1,6 +1,5 @@
-package edu.metrostate.model;
+package edu.metrostate.model.units;
 
-// TODO: add conversion from one unit to another
 // https://www.nist.gov/pml/owm/si-units-temperature
 public enum TemperatureUnit {
     FAHRENHEIT("Fahrenheit", "F"), // imperial

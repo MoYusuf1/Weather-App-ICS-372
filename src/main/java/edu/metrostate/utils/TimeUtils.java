@@ -8,7 +8,7 @@ public final class TimeUtils {
     private static final DateTimeFormatter DATE_TIME_FORMATTER = DateTimeFormatter.ofPattern("hh:mm a");
 
     private TimeUtils() {
-        throw new IllegalAccessError("how rude!");
+        throw new IllegalAccessError("How rude!");
     }
 
     public static String getCurrentTime() {

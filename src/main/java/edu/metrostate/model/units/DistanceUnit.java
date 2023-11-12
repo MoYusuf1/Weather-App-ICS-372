@@ -1,8 +1,8 @@
-package edu.metrostate.model;
+package edu.metrostate.model.units;
 
 public enum DistanceUnit {
-    MILES("Miles", "M"), // Representing miles
-    KILOMETERS("Kilometers", "km"); // Representing kilometers
+    MILES("Miles", "M"),
+    KILOMETERS("Kilometers", "km");
 
 
     private final String description;

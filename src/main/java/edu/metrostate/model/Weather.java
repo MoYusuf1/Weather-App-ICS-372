@@ -1,5 +1,9 @@
 package edu.metrostate.model;
 
+import edu.metrostate.model.units.DistanceUnit;
+import edu.metrostate.model.units.TemperatureUnit;
+import edu.metrostate.model.units.WindSpeedUnit;
+
 import java.util.Objects;
 import java.util.StringJoiner;
 

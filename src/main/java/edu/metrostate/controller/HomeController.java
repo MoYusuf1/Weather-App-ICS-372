@@ -7,6 +7,7 @@ import edu.metrostate.model.Time;
 import edu.metrostate.model.Weather;
 
 import edu.metrostate.service.WeatherApiService;
+import edu.metrostate.utils.ImageUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -80,9 +81,8 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     private void loadUserPreferencesScreen(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/user-pref.fxml"));
         Scene scene = new Scene(root, 750, 500);
-        scene.getStylesheets().add(getClass().getResource("/user-pref.css").toExternalForm());
-        // https://www.flaticon.com/free-icon/climate-change_8479898
-        Image icon = new Image(getClass().getResource("/images/weather-icons/main-icon.png").toExternalForm());
+
+        Image icon = ImageUtils.getImage("/images/weather-icons/main-icon.png");
         Stage stage = new Stage();
         stage.getIcons().add(icon);
         stage.initModality(Modality.APPLICATION_MODAL);
@@ -155,7 +155,7 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     // Update the Main weather values
     private void updateMainWeatherScreen(Weather current) {
-        Image currentWeatherImage = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png")).toExternalForm());
+        Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", current.getIcon()));
         MainImage(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
         LocationName(current.getLocationName());
@@ -218,6 +218,7 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     @Override
     public void onPreferencesChanged() {
         try {
+            // TODO: need to use dynamic zip code
             Weather current = cache.getWeather("55106");
             updateWeatherDisplay(current);
         } catch (Exception e) {
