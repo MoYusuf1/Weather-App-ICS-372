@@ -1,8 +1,4 @@
-package edu.metrostate;
-
-import edu.metrostate.model.DistanceUnit;
-import edu.metrostate.model.TemperatureUnit;
-import edu.metrostate.model.WindSpeedUnit;
+package edu.metrostate.model;
 
 import java.util.ArrayList;
 import java.util.List;

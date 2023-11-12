@@ -1,47 +1,98 @@
 package edu.metrostate.model;
+
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+
+import java.util.StringJoiner;
+
+@JsonIgnoreProperties(ignoreUnknown = true)
 public class City extends Location {
-    private int cityId;
-    private int timeZone;
+
+    public static final City METRO_STATE_UNIVERSITY = createMetroStateUniversity();
+
+    @JsonProperty("continent_name")
+    private String continent;
+    @JsonProperty("country_name")
     private String country;
-    private int seaLevel;
+    @JsonProperty("region_name")
+    private String region;
+    @JsonProperty("city")
+    private String city;
+    @JsonProperty("zip")
+    private String zipCode;
 
-    public City(String name, double latitude, double longitude, int cityId, int timeZone, String country, int seaLevel) {
-        super(name, latitude, longitude);
-        this.cityId = cityId;
-        this.timeZone = timeZone;
-        this.country = country;
-        this.seaLevel = seaLevel;
+    public City() {
+        // default constructor
     }
 
-    public int getCityId() {
-        return cityId;
+    public City(String ipAddress, double latitude, double longitude) {
+        super(ipAddress, latitude, longitude);
     }
 
-    public void setCityId(int cityId) {
-        this.cityId = cityId;
+    private static City createMetroStateUniversity() {
+        City city = new City("199.17.228.240", 44.95848083496094, -93.07421875);
+        city.setContinent("North America")
+                .setCountry("United States")
+                .setRegion("Minnesota")
+                .setCity("Saint Paul")
+                .setZipCode("55106");
+        return city;
     }
 
-    public int getTimeZone() {
-        return timeZone;
+    public String getRegion() {
+        return region;
     }
 
-    public void setTimeZone(int timeZone) {
-        this.timeZone = timeZone;
+    public City setRegion(String region) {
+        this.region = region;
+        return this;
+    }
+
+    public String getCity() {
+        return city;
+    }
+
+    public City setCity(String city) {
+        this.city = city;
+        return this;
+    }
+
+    public String getZipCode() {
+        return zipCode;
+    }
+
+    public City setZipCode(String zipCode) {
+        this.zipCode = zipCode;
+        return this;
+    }
+
+    public String getContinent() {
+        return continent;
+    }
+
+    public City setContinent(String continent) {
+        this.continent = continent;
+        return this;
     }
 
     public String getCountry() {
         return country;
     }
 
-    public void setCountry(String country) {
+    public City setCountry(String country) {
         this.country = country;
+        return this;
     }
 
-    public int getSeaLevel() {
-        return seaLevel;
-    }
-
-    public void setSeaLevel(int seaLevel) {
-        this.seaLevel = seaLevel;
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", City.class.getSimpleName() + "[", "]")
+                .add("continent='" + continent + "'")
+                .add("country='" + country + "'")
+                .add("region='" + region + "'")
+                .add("city='" + city + "'")
+                .add("zipCode='" + zipCode + "'")
+                .add(super.toString())
+                .toString();
     }
 }

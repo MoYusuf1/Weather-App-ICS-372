@@ -1,6 +1,6 @@
 package edu.metrostate.controller;
 
-import edu.metrostate.UserPreferences;
+import edu.metrostate.model.UserPreferences;
 import edu.metrostate.model.DistanceUnit;
 import edu.metrostate.model.TemperatureUnit;
 import edu.metrostate.model.WindSpeedUnit;

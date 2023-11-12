@@ -1,6 +1,6 @@
 package edu.metrostate.controller;
 
-import edu.metrostate.model.City2;
+import edu.metrostate.model.City;
 import edu.metrostate.service.CityApiService;
 import edu.metrostate.utils.IpUtils;
 import javafx.event.ActionEvent;
@@ -36,7 +36,7 @@ public class WelcomeController {
     @FXML
     public void handleAllowButtonAction(ActionEvent event) {
         String ipAddress = IpUtils.getIpAddress();
-        City2 city = cityApiService.getCity(ipAddress);
+        City city = cityApiService.getCity(ipAddress);
         String zipCode = city.getZipCode();
         homeController.updateWeatherFromWelcomeModal(zipCode);
 
@@ -48,7 +48,7 @@ public class WelcomeController {
 
     @FXML
     public void handleDenyButtonAction(ActionEvent event) {
-        String zipCode = City2.METRO_STATE_UNIVERSITY.getZipCode();
+        String zipCode = City.METRO_STATE_UNIVERSITY.getZipCode();
         homeController.updateWeatherFromWelcomeModal(zipCode);
 
         Stage welcomeStage = (Stage) denyButton.getScene().getWindow();
