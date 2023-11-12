@@ -1,6 +1,6 @@
 package edu.metrostate.model;
 
-import edu.metrostate.controller.MainSceneController;
+import edu.metrostate.controller.HomeController;
 import edu.metrostate.UserPreferences;
 import javafx.scene.image.Image;
 
@@ -8,10 +8,10 @@ import java.util.List;
 
 public class FiveDayForecast {
 
-    private final MainSceneController controller;
+    private final HomeController controller;
     private final UserPreferences userPreferences;
 
-    public FiveDayForecast(MainSceneController controller, UserPreferences userPreferences) {
+    public FiveDayForecast(HomeController controller, UserPreferences userPreferences) {
         this.controller = controller;
         this.userPreferences = userPreferences;
     }

@@ -2,52 +2,63 @@ package edu.metrostate;
 
 import edu.metrostate.cache.Cache;
 import edu.metrostate.cache.InMemoryCache;
-import edu.metrostate.controller.MainSceneController;
+import edu.metrostate.controller.HomeController;
+import edu.metrostate.controller.WelcomeController;
 import edu.metrostate.model.FiveDayForecast;
 import edu.metrostate.model.Time;
 import edu.metrostate.model.Weather;
-import edu.metrostate.service.WeatherApiService;
 import javafx.application.Application;
+import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
+import javafx.scene.effect.ColorAdjust;
+import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
+import javafx.scene.layout.StackPane;
+import javafx.scene.paint.Color;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
+
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import javafx.event.Event;
 
 public class MainApp extends Application {
 
-    private static final FXMLLoader LOADER = new FXMLLoader();
+    private HomeController homeController;
 
     @Override
     public void start(Stage stage) throws Exception {
-        createHomeScreen(stage);
+        loadHome(stage);
+//        blurScreen(stage);
+        displayWelcome(stage);
     }
 
-    private void createHomeScreen(Stage stage) throws IOException {
-        LOADER.setLocation(getClass().getResource("/home-scene.fxml"));
-        AnchorPane root = LOADER.load();
-        MainSceneController controller = LOADER.getController();
+    private void loadHome(Stage stage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/home.fxml"));
+        AnchorPane root = fxmlLoader.load();
+        HomeController controller = fxmlLoader.getController();
 
-        Cache cache = InMemoryCache.getInstance();
+        this.homeController = controller;
+
         UserPreferences userPreferences = UserPreferences.getInstance();
         userPreferences.addChangeListener(controller);
 
-        // Use the Time class to initiate the clock
-        Time time = new Time(controller.Current_Time);
-        time.initializeClock();
+        controller.setCurrent_Time(Time.DEFAULT_TIME_STRING);
 
+//        https://stackoverflow.com/questions/34941411/how-to-get-controller-of-scene-in-javafx8
         Scene scene = new Scene(root, 1300, 800);
 
         scene.getStylesheets().add(Objects.requireNonNull(getClass().getResource("/style.css")).toExternalForm());
         FiveDayForecast fiveDayForecast = new FiveDayForecast(controller, userPreferences);
-        Weather current = cache.getWeather("55106");
-        List<Weather> forecast = WeatherApiService.get5DayForecast("55106");
+        Weather current = Weather.UNKNOWN;
+        List<Weather> forecast = Collections.nCopies(5, current);
 
         // https://www.flaticon.com/free-icon/climate-change_8479898
         Image icon = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/main-icon.png")).toExternalForm());
@@ -78,9 +89,44 @@ public class MainApp extends Application {
             SplitPane splitPane = (SplitPane) root.lookup(id);
             splitPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
         }
-        
+
         // Prevent Resize of screen
         stage.setResizable(false);
         stage.show();
+
     }
+
+    private void blurScreen(Stage primaryStage) {
+        StackPane root = new StackPane();
+        root.setId("homeScreenBlur");
+        root.setStyle("-fx-background-color: #2074f0;");
+        ColorAdjust colorAdjust = new ColorAdjust(0, -0.9, +0.25, .25);
+        GaussianBlur gaussianBlur = new GaussianBlur(100);
+        colorAdjust.setInput(gaussianBlur);
+        root.setEffect(colorAdjust);
+
+        Scene scene = new Scene(root, 1300, 800, Color.web("#2074f0"));
+        Image icon = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/main-icon.png")).toExternalForm());
+        primaryStage.getIcons().add(icon);
+        primaryStage.setTitle("Climate Watch");
+        primaryStage.setResizable(false);
+        primaryStage.setScene(scene);
+        primaryStage.show();
+    }
+
+    private void displayWelcome(Stage primaryStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
+        GridPane gridPane = fxmlLoader.load();
+        WelcomeController controller = fxmlLoader.getController();
+        controller.setHomeController(homeController);
+        Scene scene = new Scene(gridPane);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(primaryStage);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
 }

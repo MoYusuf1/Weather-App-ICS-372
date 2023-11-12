@@ -25,12 +25,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Objects;
 
-public class MainSceneController implements UserPreferences.PreferencesChangeListener {
+public class HomeController implements UserPreferences.PreferencesChangeListener {
 
     @FXML
     private TextField SearchText;
-
-    // Holds all five day main screen FXMLs
     @FXML
     public Label first_day;
     public Label second_day;
@@ -70,7 +68,7 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     private final UserPreferences userPreferences = UserPreferences.getInstance();
 
     @FXML
-    public void initialize() {
+    public void initializeTime() {
         time = new Time(Current_Time);
         time.initializeClock();
     }
@@ -99,12 +97,21 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
         return (Stage) currentStageHook.getScene().getWindow();
     }
 
+    public void updateWeatherFromWelcomeModal(String zipCode) {
+        initializeTime();
+        Weather current = cache.getWeather(zipCode);
+        List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
+        FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
+        updateMainWeatherScreen(current);
+        fiveDayForecast.updateDayInfo(forecast);
+    }
+
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         try {
             String zipCode = SearchText.getText();
             Weather current = cache.getWeather(zipCode);
-            if (current != null && current != Weather.CITY_NOT_FOUND) {
+            if (current != null && current != Weather.UNKNOWN) {
                 // Only need to update the 5-day forecast if we have a legitimate city
                 List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
                 FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
@@ -202,6 +209,10 @@ public class MainSceneController implements UserPreferences.PreferencesChangeLis
     }
     public void fifth_day(String text) {
         fifth_day.setText(text);
+    }
+
+    public void setCurrent_Time(String text) {
+        Current_Time.setText(text);
     }
 
     @Override
