@@ -9,7 +9,7 @@
 
 <GridPane fx:controller="edu.metrostate.controller.WelcomeController"
           xmlns="http://javafx.com/javafx" xmlns:fx="http://javafx.com/fxml"
-          prefWidth="750.0" prefHeight="500.0"
+          prefWidth="750.0" prefHeight="600.0"
           alignment="center" fx:id="welcomeModal">
 
     <padding>
