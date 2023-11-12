@@ -1,9 +1,9 @@
 package edu.metrostate.controller;
 
 import edu.metrostate.model.UserPreferences;
-import edu.metrostate.model.DistanceUnit;
-import edu.metrostate.model.TemperatureUnit;
-import edu.metrostate.model.WindSpeedUnit;
+import edu.metrostate.model.units.DistanceUnit;
+import edu.metrostate.model.units.TemperatureUnit;
+import edu.metrostate.model.units.WindSpeedUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -40,8 +40,6 @@ public class UserPrefController {
     @FXML
     private ToggleGroup distanceGroup;
 
-
-    // Use the singleton instance of UserPreferences
     private final UserPreferences userPreferences = UserPreferences.getInstance();
 
     // This method should be called to initialize the UI with the loaded preferences

@@ -1,4 +1,4 @@
-package edu.metrostate.model;
+package edu.metrostate.model.units;
 
 // TODO: add conversion from one unit to another
 // https://www.weather.gov/epz/wxcalc_windconvert

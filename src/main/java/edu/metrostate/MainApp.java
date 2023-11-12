@@ -6,6 +6,7 @@ import edu.metrostate.model.FiveDayForecast;
 import edu.metrostate.model.Time;
 import edu.metrostate.model.UserPreferences;
 import edu.metrostate.model.Weather;
+import edu.metrostate.utils.ImageUtils;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
@@ -55,13 +56,13 @@ public class MainApp extends Application {
         List<Weather> forecast = Collections.nCopies(5, current);
 
         // https://www.flaticon.com/free-icon/climate-change_8479898
-        Image icon = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/main-icon.png")).toExternalForm());
+        Image icon = ImageUtils.getImage("/images/weather-icons/main-icon.png");
         stage.getIcons().add(icon);
         stage.setTitle("Climate Watch");
         stage.setScene(scene);
 
         // Show Main Screen with all values
-        Image currentWeatherImage = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/" + current.getIcon() + "@2x.png")).toExternalForm());
+        Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", current.getIcon()));
         controller.MainImage(currentWeatherImage);
         controller.LocationName(current.getLocationName());
         controller.CurrentTemp(String.format("Currently: %d\u00B0%s", Math.round(current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));

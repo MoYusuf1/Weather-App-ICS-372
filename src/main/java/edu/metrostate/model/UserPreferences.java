@@ -1,5 +1,9 @@
 package edu.metrostate.model;
 
+import edu.metrostate.model.units.DistanceUnit;
+import edu.metrostate.model.units.TemperatureUnit;
+import edu.metrostate.model.units.WindSpeedUnit;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -10,7 +14,6 @@ public class UserPreferences {
     private DistanceUnit distanceUnitPreference;
 
     private static class InstanceHolder {
-        // We can use a nested static class to implement lazy initialization
         private static final UserPreferences INSTANCE = new UserPreferences();
     }
 
@@ -34,7 +37,6 @@ public class UserPreferences {
 
     public void setTemperatureUnitPreference(TemperatureUnit temperatureUnitPreference) {
         this.temperatureUnitPreference = temperatureUnitPreference;
-        savePreferences();
         notifyChangeListeners();
     }
 
@@ -44,7 +46,6 @@ public class UserPreferences {
 
     public void setWindSpeedUnitPreference(WindSpeedUnit windSpeedUnitPreference) {
         this.windSpeedUnitPreference = windSpeedUnitPreference;
-        savePreferences();
         notifyChangeListeners();
     }
 
@@ -54,19 +55,14 @@ public class UserPreferences {
 
     public void setDistanceUnitPreference(DistanceUnit distanceUnitPreference) {
         this.distanceUnitPreference = distanceUnitPreference;
-        savePreferences();
         notifyChangeListeners();
-    }
-
-    private void savePreferences() {
-        // Save preferences to a file or database (functionality to be implemented later)
     }
 
     public void addChangeListener(PreferencesChangeListener listener) {
         listeners.add(listener);
     }
 
-    public void notifyChangeListeners() {
+    private void notifyChangeListeners() {
         for (PreferencesChangeListener listener : listeners) {
             listener.onPreferencesChanged();
         }
