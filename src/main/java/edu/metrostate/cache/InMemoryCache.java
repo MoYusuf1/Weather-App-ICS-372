@@ -33,7 +33,7 @@ public class InMemoryCache implements Cache {
     public Weather getWeather(String zipCode) {
         if (!ZIPCODE_WEATHER_MAP.containsKey(zipCode)) {
             Weather weather = weatherApiService.getWeather(zipCode);
-            if (Weather.CITY_NOT_FOUND == weather) {
+            if (Weather.UNKNOWN == weather) {
                 System.out.printf("Invalid zipCode provided [%s] so not caching it", zipCode);
             } else {
                 System.out.printf("Valid zipCode provided [%s] so caching it for weather %s", zipCode, weather);

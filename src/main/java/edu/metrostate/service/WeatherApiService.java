@@ -8,7 +8,6 @@ import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
-import org.apache.http.util.EntityUtils;
 
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
@@ -35,7 +34,7 @@ public class WeatherApiService {
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
 
             if (isErrorCondition(jsonObject)) {
-                return Weather.CITY_NOT_FOUND;
+                return Weather.UNKNOWN;
             }
 
             JsonObject mainData = jsonObject.getAsJsonObject("main");
@@ -79,7 +78,7 @@ public class WeatherApiService {
                     .setLocationName(locationName);
         } catch (Exception e) {
             e.printStackTrace();
-            return Weather.CITY_NOT_FOUND;
+            return Weather.UNKNOWN;
         }
     }
 

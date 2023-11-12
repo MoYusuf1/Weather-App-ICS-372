@@ -5,7 +5,12 @@ import java.util.StringJoiner;
 
 public class Weather {
 
-    public static final Weather CITY_NOT_FOUND = new Weather();
+    public static final Weather UNKNOWN = new Weather()
+            .setIcon("01d")
+            .setWindDirection("Unknown")
+            .setDescription("Unknown")
+            .setLocationName("Unknown")
+            .setDay("Unknown");
 
     private int temperature;
     private double temperatureMin;
@@ -18,10 +23,10 @@ public class Weather {
     private int sunset;
     private double visibility;
     private String description;
-    private String icon; // Add icon property
-    private double dewPoint; // Add dewPoint property
-    private double pressure; // Add pressure property
-    private int uv; // Add uv property
+    private String icon;
+    private double dewPoint;
+    private double pressure;
+    private int uv;
     private String locationName;
     private String day;
 

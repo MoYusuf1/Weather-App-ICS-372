@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.effect.ColorAdjust?>
+<?import javafx.scene.effect.GaussianBlur?>
+<?import javafx.scene.layout.StackPane?>
+
+<?import javafx.scene.control.Button?>
+<StackPane fx:id="homeSceneBlur" xmlns="http://javafx.com/javafx"
+           xmlns:fx="http://javafx.com/fxml"
+           fx:controller="edu.metrostate.controller.BlurController"
+           style="-fx-background-color: #2074f0;" prefHeight="800.0" prefWidth="1300.0">
+    <effect>
+        <ColorAdjust hue="0" saturation="-0.9" brightness="+0.25" contrast="+.25">
+            <input>
+                <GaussianBlur radius="100"/>
+            </input>
+        </ColorAdjust>
+    </effect>
+
+    <Button fx:id="closeButton" onAction="#closeButtonAction"/>
+
+</StackPane>

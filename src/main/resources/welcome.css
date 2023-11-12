@@ -1,0 +1,42 @@
+#allowButton,#denyButton {
+    -fx-font: bold italic 15pt "Century Gothic";
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
+}
+
+#welcomeModal {
+/* https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html */
+/* https://onlinepngtools.com/change-png-opacity */
+/* can't use -fx-opacity because that affects the whole modal */
+  -fx-hgap: 30px;
+  -fx-vgap: 30px;
+  -fx-padding: 40px;
+  -fx-background-image: url('/images/weather-icons/welcome-modal-bg.png');
+  -fx-background-repeat: stretch;
+  -fx-background-size: 450 300;
+  -fx-background-position: center center;
+  -fx-background-color: transparent;
+/*
+  -fx-background-radius: 20px;
+  -fx-border-radius: 20px;
+*/
+  -fx-border-color: #2074f0;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
+}
+
+#welcomeTitle {
+    -fx-font-size: 45px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Century Gothic";
+}
+
+#welcomeMessage {
+    -fx-font-size: 25px;
+    -fx-font-weight: bold;
+    -fx-font-family: "Century Gothic";
+}
+
+#grantAccessMessage {
+    -fx-font-size: 20px;
+    -fx-font-weight: normal;
+    -fx-font-family: "Century Gothic";
+}
