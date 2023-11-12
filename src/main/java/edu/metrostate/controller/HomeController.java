@@ -1,5 +1,5 @@
 package edu.metrostate.controller;
-import edu.metrostate.UserPreferences;
+import edu.metrostate.model.UserPreferences;
 import edu.metrostate.cache.Cache;
 import edu.metrostate.cache.InMemoryCache;
 import edu.metrostate.model.FiveDayForecast;

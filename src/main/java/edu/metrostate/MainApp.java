@@ -1,25 +1,20 @@
 package edu.metrostate;
 
-import edu.metrostate.cache.Cache;
-import edu.metrostate.cache.InMemoryCache;
 import edu.metrostate.controller.HomeController;
 import edu.metrostate.controller.WelcomeController;
 import edu.metrostate.model.FiveDayForecast;
 import edu.metrostate.model.Time;
+import edu.metrostate.model.UserPreferences;
 import edu.metrostate.model.Weather;
 import javafx.application.Application;
 import javafx.event.Event;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.control.SplitPane;
-import javafx.scene.effect.ColorAdjust;
-import javafx.scene.effect.GaussianBlur;
 import javafx.scene.image.Image;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.GridPane;
-import javafx.scene.layout.StackPane;
-import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.stage.StageStyle;
@@ -36,7 +31,6 @@ public class MainApp extends Application {
     @Override
     public void start(Stage stage) throws Exception {
         loadHome(stage);
-//        blurScreen(stage);
         displayWelcome(stage);
     }
 
@@ -94,24 +88,6 @@ public class MainApp extends Application {
         stage.setResizable(false);
         stage.show();
 
-    }
-
-    private void blurScreen(Stage primaryStage) {
-        StackPane root = new StackPane();
-        root.setId("homeScreenBlur");
-        root.setStyle("-fx-background-color: #2074f0;");
-        ColorAdjust colorAdjust = new ColorAdjust(0, -0.9, +0.25, .25);
-        GaussianBlur gaussianBlur = new GaussianBlur(100);
-        colorAdjust.setInput(gaussianBlur);
-        root.setEffect(colorAdjust);
-
-        Scene scene = new Scene(root, 1300, 800, Color.web("#2074f0"));
-        Image icon = new Image(Objects.requireNonNull(getClass().getResource("/images/weather-icons/main-icon.png")).toExternalForm());
-        primaryStage.getIcons().add(icon);
-        primaryStage.setTitle("Climate Watch");
-        primaryStage.setResizable(false);
-        primaryStage.setScene(scene);
-        primaryStage.show();
     }
 
     private void displayWelcome(Stage primaryStage) throws IOException {

@@ -1,7 +1,6 @@
 package edu.metrostate.model;
 
 import edu.metrostate.controller.HomeController;
-import edu.metrostate.UserPreferences;
 import javafx.scene.image.Image;
 
 import java.util.List;

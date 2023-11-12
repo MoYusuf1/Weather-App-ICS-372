@@ -1,7 +1,6 @@
 package edu.metrostate.utils;
 
 import com.google.common.net.InetAddresses;
-import edu.metrostate.model.City2;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,8 +33,8 @@ public final class IpUtils {
                 LOGGER.error("Problem getting user's IP address using {}", ipAddressLookupUrl, ex);
             }
         }
-        LOGGER.info("Unable to get user's IP address so using default {}", City2.METRO_STATE_UNIVERSITY.getIpAddress());
-        return City2.METRO_STATE_UNIVERSITY.getIpAddress();
+        LOGGER.error("Unable to get user's IP address");
+        throw new IllegalStateException("Unable to get user's IP address using lookup urls");
     }
 
 }
