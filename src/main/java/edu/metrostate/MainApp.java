@@ -21,8 +21,6 @@ import javafx.stage.Stage;
 import javafx.stage.StageStyle;
 
 import java.io.IOException;
-import java.util.Collections;
-import java.util.List;
 import java.util.Objects;
 
 public class MainApp extends Application {
@@ -60,7 +58,7 @@ public class MainApp extends Application {
         controller.MainweatherhectoPascals(String.format("hectoPascals: %dhPa", Math.round(weather.getPressure())));
         controller.MainweatherUV(String.format("UV: %s", weather.getUv()));
         controller.MainweatherVisibility(String.format("Visibility: %.1f%s", weather.convertDistance(weather.getVisibility(), userPreferences.getDistanceUnitPreference()), userPreferences.getDistanceUnitPreference().getSuffix()));
-        controller.updateForecastInfo(fiveDayForecast);
+        controller.updateFiveDayForecast(fiveDayForecast);
 
         // Stop the user from being able to adjust lines in Fivedayforecast
         String[] splitPaneIds = {"#Paneone", "#Panetwo", "#Panethree", "#Panefour", "#Panefive"};

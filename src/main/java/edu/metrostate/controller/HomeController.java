@@ -136,8 +136,8 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         initializeTime();
         Weather weather = cache.getWeather(zipCode);
         FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
-        updateMainWeatherScreen(weather);
-        updateForecastInfo(fiveDayForecast);
+        updateMainWeather(weather);
+        updateFiveDayForecast(fiveDayForecast);
     }
 
     @FXML
@@ -148,8 +148,8 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
             if (weather != null && weather != Weather.UNKNOWN) {
                 // Only need to update the 5-day forecast if we have a legitimate city
                 FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
-                updateMainWeatherScreen(weather);
-                updateForecastInfo(fiveDayForecast);
+                updateMainWeather(weather);
+                updateFiveDayForecast(fiveDayForecast);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Climate Watch | Invalid ZIP Code");
@@ -186,7 +186,7 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         }
     }
 
-    private void updateMainWeatherScreen(Weather current) {
+    private void updateMainWeather(Weather current) {
         Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", current.getIcon()));
         MainImage(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
@@ -259,13 +259,16 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     @Override
     public void onPreferencesChanged() {
         try {
-            // TODO: need to use dynamic zip code
-            Weather current = cache.getWeather("55106");
-            updateWeatherDisplay(current);
+            String zipCode = "55106"; // TODO: Retrieve dynamic zip code
+            Weather weather = cache.getWeather(zipCode);
+            FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+            updateWeatherDisplay(weather);
+            updateFiveDayForecast(fiveDayForecast);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void updateWeatherDisplay(Weather current) {
 
@@ -295,9 +298,9 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     }
 
-    public void updateForecastInfo(FiveDayForecast fiveDayForecast) {
+    public void updateFiveDayForecast(FiveDayForecast fiveDayForecast) {
         if (fiveDayForecast.getDay1() == null) {
-            System.out.println("Forecast data not populated so skipping day info update");
+            System.out.println("Forecast data not populated so skipping five day forecast update");
             return;
         }
 
@@ -307,46 +310,18 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         DailyForecast day4 = fiveDayForecast.getDay4();
         DailyForecast day5 = fiveDayForecast.getDay5();
 
-        first_day_image.setImage(getImage(day1));
-        first_day(getDay(day1));
-        first_high_first_day(getDailyHigh(day1));
-        first_low_first_day(getDailyLow(day1));
-
-        second_day_image.setImage(getImage(day2));
-        second_day(getDay(day2));
-        second_high_first_day(getDailyHigh(day2));
-        second_low_first_day(getDailyLow(day2));
-
-        third_day_image.setImage(getImage(day3));
-        third_day(getDay(day3));
-        third_high_first_day(getDailyHigh(day3));
-        third_low_first_day(getDailyLow(day3));
-
-        fourth_day_image.setImage(getImage(day4));
-        fourth_day(getDay(day4));
-        fourth_high_first_day(getDailyHigh(day4));
-        fourth_low_first_day(getDailyLow(day4));
-
-        fifth_day_image.setImage(getImage(day5));
-        fifth_day(getDay(day5));
-        fifth_high_first_day(getDailyHigh(day5));
-        fifth_low_first_day(getDailyLow(day5));
+        updateDailyForecast(day1, first_day_image, first_day, first_high_first_day, first_low_first_day);
+        updateDailyForecast(day2, second_day_image, second_day, second_high_first_day, second_low_first_day);
+        updateDailyForecast(day3, third_day_image, third_day, third_high_first_day, third_low_first_day);
+        updateDailyForecast(day4, fourth_day_image, fourth_day, fourth_high_first_day, fourth_low_first_day);
+        updateDailyForecast(day5, fifth_day_image, fifth_day, fifth_high_first_day, fifth_low_first_day);
     }
 
-    private Image getImage(DailyForecast dailyForecast) {
-        return ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", dailyForecast.getIcon()));
-    }
-
-    private String getDay(DailyForecast dailyForecast) {
-        return dailyForecast.getDay();
-    }
-
-    private String getDailyHigh(DailyForecast weather) {
-        return String.format("High: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix());
-    }
-
-    private String getDailyLow(DailyForecast weather) {
-        return String.format("Low: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix());
+    private void updateDailyForecast(DailyForecast dailyForecast, ImageView dayImage, Label dayLabel, Label highLabel, Label lowLabel) {
+        dayImage.setImage(ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", dailyForecast.getIcon())));
+        dayLabel.setText(dailyForecast.getDay());
+        highLabel.setText(String.format("High: %.0f\u00B0%s", dailyForecast.convertTemperature(dailyForecast.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        lowLabel.setText(String.format("Low: %.0f\u00B0%s", dailyForecast.convertTemperature(dailyForecast.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
     }
 
 }

@@ -2,6 +2,7 @@ package edu.metrostate.model.weather;
 
 import java.util.Collections;
 import java.util.List;
+import java.util.StringJoiner;
 
 public class FiveDayForecast {
 
@@ -72,5 +73,16 @@ public class FiveDayForecast {
     public FiveDayForecast setDay5(DailyForecast day5) {
         this.day5 = day5;
         return this;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", FiveDayForecast.class.getSimpleName() + "[", "]")
+                .add("day1=" + day1)
+                .add("day2=" + day2)
+                .add("day3=" + day3)
+                .add("day4=" + day4)
+                .add("day5=" + day5)
+                .toString();
     }
 }
