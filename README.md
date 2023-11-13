@@ -64,6 +64,7 @@ There is a package for each type of category such as caches, controllers, models
 
 ### Running the Application
 1. Open the MainApp.java class
-2. Click the Run application (![img.png](img.png)) icon in the gutter
 
-3. Select Run 'MainApp.main()'.
+2. Press the run icon  ![img.png](img.png)
+
+3. Right click `src\main\java\edu\metrostate\MainApp.java` and press the run.
