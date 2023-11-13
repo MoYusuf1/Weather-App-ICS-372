@@ -39,7 +39,7 @@
 /* https://docs.oracle.com/javase/10/docs/api/javafx/scene/doc-files/cssref.html#labeled */
 .radio-button {
     -fx-label-padding: 15px;
-    -fx-font: "Century Gothic";
+    -fx-font-family: "Century Gothic";
     -fx-font-size: 15px;
     -fx-graphic-text-gap: 10px;
     -fx-text-size: 15px;
