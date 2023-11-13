@@ -6,28 +6,25 @@ import com.google.gson.JsonParser;
 import edu.metrostate.model.weather.DailyForecast;
 import edu.metrostate.model.weather.FiveDayForecast;
 import edu.metrostate.model.weather.Weather;
+import edu.metrostate.utils.TimeUtils;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClients;
 
-import java.time.LocalDateTime;
-import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Scanner;
 
 public class WeatherApiService {
 
-    private static final DateTimeFormatter DATE_TIME_INPUT_FORMATTER = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss");
-    private static final DateTimeFormatter DATE_TIME_OUTPUT_FORMATTER = DateTimeFormatter.ofPattern("EEEE");
-    private static final String API_URL = "https://api.openweathermap.org/data/2.5/weather?zip=%s&appid=%s&units=imperial";
+    private static final String WEATHER_API_URL = "https://api.openweathermap.org/data/2.5/weather?zip=%s&appid=%s&units=imperial";
     private static final String FORECAST_API_URL = "https://api.openweathermap.org/data/2.5/forecast?zip=%s&appid=%s&units=imperial";
     private static final String API_KEY = "56a56586750dcac90b3fe2fedaf45f09";
 
     public Weather getWeather(String zipCode) {
         try (CloseableHttpClient client = HttpClients.createDefault()) {
-            String url = String.format(API_URL, zipCode, API_KEY);
+            String url = String.format(WEATHER_API_URL, zipCode, API_KEY);
             HttpGet request = new HttpGet(url);
 
             HttpResponse response = client.execute(request);
@@ -58,7 +55,7 @@ public class WeatherApiService {
             String icon = jsonObject.getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
             double pressure = jsonObject.getAsJsonObject("main").has("pressure") ? jsonObject.getAsJsonObject("main").get("pressure").getAsDouble() : 0.0;
             int uv = 0;
-            int dewPoint = calculateDewPoint(temperature, humidity);
+            int dewPoint = Weather.calculateDewPoint(temperature, humidity);
             String locationName = jsonObject.get("name").getAsString();
 
             return new Weather()
@@ -119,7 +116,7 @@ public class WeatherApiService {
 
                     if (Middlevalue >= 0) {
                         String middleIcon = getIcon(forecastList, Middlevalue);
-                        String dayOfWeek = getDayOfWeek(dtTxt);
+                        String dayOfWeek = TimeUtils.getDayOfWeek(dtTxt);
                         DailyForecast dailyForecast = new DailyForecast()
                                 .setTemperatureMin(tempMin)
                                 .setTemperatureMax(tempMax)
@@ -140,14 +137,9 @@ public class WeatherApiService {
     }
 
     private static String getIcon(JsonArray forecastList, int middleValue) {
-        return forecastList.get(middleValue).getAsJsonObject().getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
-    }
-
-    private static String getDayOfWeek(String dtTxt) {
-        // Take the date out of the API call, and then assign it to a day of the week Than format
-        // https://www.tutorialspoint.com/formatting-day-of-week-in-eeee-format-in-java
-        LocalDateTime dateTime = LocalDateTime.parse(dtTxt, DATE_TIME_INPUT_FORMATTER);
-        return dateTime.format(DATE_TIME_OUTPUT_FORMATTER);
+        return forecastList.get(middleValue).getAsJsonObject()
+                .getAsJsonArray("weather").get(0)
+                .getAsJsonObject().get("icon").getAsString();
     }
 
     private static boolean isErrorCondition(JsonObject jsonObject) {
@@ -156,14 +148,6 @@ public class WeatherApiService {
         // 4xx = client error, 5xx = server error
         // Prevent NullPointerException situations
         return errorType == 4 || errorType == 5;
-    }
-
-    // Need to calculate Dewpoint, since the API call doesn't provide this.
-    private int calculateDewPoint(int temperature, double humidity) {
-        humidity = humidity / 100.0;
-        double alpha = ((17.27 * (double) temperature) / (237.7 + (double) temperature)) + Math.log(humidity);
-        double dewPointFahrenheit = (237.7 * alpha) / (17.27 - alpha);
-        return (int) dewPointFahrenheit;
     }
 
 }
