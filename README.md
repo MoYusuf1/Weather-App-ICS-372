@@ -26,9 +26,12 @@ such as wind speeds, humidity levels, visibility, dew point and so much more!
 > * **4. Responsive UI Components**: Interact with various UI components to ensure they respond appropriately to user
  input and display relevant weather data efficiently.
 
-> * **5. Fifth Item**: 
+> * **5. Location services**: When loading the app, it will prompt the user with a welcome screen asking if they would
+> like to allow for location tracking. If allowed, it will grab the Ip address of the user and check it use the closest
+> zip code. If denied, it will default to the metrostate zip code.
 
-> * **6. Sixth Item**: 
+> * **6. Weather Cache**: When searching for zip codes to dislay weather, if you were to check for a previously entered
+> zip code it will load the previously loaded cached information.
 
 ### Non-Functional Components
 > * **1. JavaFX for GUI**: Our application uses JavaFX to create a user-friendly graphical interface. This ensures
@@ -55,10 +58,10 @@ There is a package for each type of category such as caches, controllers, models
 **Four Class Definitions**
   1. `src/main/java/edu/metrostate/model/City.java`
   2. `src/main/java/edu/metrostate/model/FiveDayForecast.java`
-  3. `src/main/java/edu/metrostate/model/User.java`
+  3. `src/main/java/edu/metrostate/model/UserPreferences.java`
   4. `src/main/java/edu/metrostate/model/Weather.java`
 
-**Interface Class** `src/main/java/edu/metrostate/listener/ValueChangedListener.java`
+**Interface Class** `src/main/java/edu/metrostate/cache/Cache.java`
 
 **Abstract Class** `src/main/java/edu/metrostate/model/Location.java`
 
@@ -67,4 +70,4 @@ There is a package for each type of category such as caches, controllers, models
 
 2. Press the run icon  ![img.png](img.png)
 
-3. Right click `src\main\java\edu\metrostate\MainApp.java` and press the run.
+3. Or Right click `src\main\java\edu\metrostate\MainApp.java` and press the run.
