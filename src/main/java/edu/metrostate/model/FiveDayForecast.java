@@ -1,7 +1,9 @@
 package edu.metrostate.model;
 
 import edu.metrostate.controller.HomeController;
+import javafx.scene.control.Label;
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 
 import java.util.List;
 
@@ -21,36 +23,18 @@ public class FiveDayForecast {
             return;
         }
 
-        Weather day1 = forecast.get(0);
-        Weather day2 = forecast.get(1);
-        Weather day3 = forecast.get(2);
-        Weather day4 = forecast.get(3);
-        Weather day5 = forecast.get(4);
+        updateDay(forecast.get(0), controller.first_day_image, controller.first_day, controller.first_high_first_day, controller.first_low_first_day);
+        updateDay(forecast.get(1), controller.second_day_image, controller.second_day, controller.second_high_first_day, controller.second_low_first_day);
+        updateDay(forecast.get(2), controller.third_day_image, controller.third_day, controller.third_high_first_day, controller.third_low_first_day);
+        updateDay(forecast.get(3), controller.fourth_day_image, controller.fourth_day, controller.fourth_high_first_day, controller.fourth_low_first_day);
+        updateDay(forecast.get(4), controller.fifth_day_image, controller.fifth_day, controller.fifth_high_first_day, controller.fifth_low_first_day);
+    }
 
-        controller.first_day_image.setImage(getImage(day1));
-        controller.first_day(getDay(day1));
-        controller.first_high_first_day(getDailyHigh(day1));
-        controller.first_low_first_day(getDailyLow(day1));
-
-        controller.second_day_image.setImage(getImage(day2));
-        controller.second_day(getDay(day2));
-        controller.second_high_first_day(getDailyHigh(day2));
-        controller.second_low_first_day(getDailyLow(day2));
-
-        controller.third_day_image.setImage(getImage(day3));
-        controller.third_day(getDay(day3));
-        controller.third_high_first_day(getDailyHigh(day3));
-        controller.third_low_first_day(getDailyLow(day3));
-
-        controller.fourth_day_image.setImage(getImage(day4));
-        controller.fourth_day(getDay(day4));
-        controller.fourth_high_first_day(getDailyHigh(day4));
-        controller.fourth_low_first_day(getDailyLow(day4));
-
-        controller.fifth_day_image.setImage(getImage(day5));
-        controller.fifth_day(getDay(day5));
-        controller.fifth_high_first_day(getDailyHigh(day5));
-        controller.fifth_low_first_day(getDailyLow(day5));
+    private void updateDay(Weather weather, ImageView dayImage, Label dayLabel, Label highLabel, Label lowLabel) {
+        dayImage.setImage(new Image(String.format("images/weather-icons/%s@2x.png", weather.getIcon())));
+        dayLabel.setText(weather.getDay());
+        highLabel.setText(String.format("High: %.0f\u00B0%s", weather.convertTemperature(weather.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        lowLabel.setText(String.format("Low: %.0f\u00B0%s", weather.convertTemperature(weather.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
     }
 
     private static Image getImage(Weather weather) {

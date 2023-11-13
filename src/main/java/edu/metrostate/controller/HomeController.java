@@ -218,13 +218,18 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     @Override
     public void onPreferencesChanged() {
         try {
-            // TODO: need to use dynamic zip code
-            Weather current = cache.getWeather("55106");
+            String zipCode = "55106"; // TODO: Retrieve dynamic zip code
+            Weather current = cache.getWeather(zipCode);
             updateWeatherDisplay(current);
+
+            List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
+            FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
+            fiveDayForecast.updateDayInfo(forecast);
         } catch (Exception e) {
             e.printStackTrace();
         }
     }
+
 
     private void updateWeatherDisplay(Weather current) {
 
