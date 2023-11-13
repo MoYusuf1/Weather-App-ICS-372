@@ -35,9 +35,9 @@ public class InMemoryCache implements Cache {
         if (!ZIPCODE_WEATHER_MAP.containsKey(zipCode)) {
             Weather weather = weatherApiService.getWeather(zipCode);
             if (Weather.UNKNOWN == weather) {
-                System.out.printf("Invalid zipCode provided [%s] so not caching weather", zipCode);
+                System.out.println(String.format("Invalid zipCode provided [%s] so not caching weather", zipCode));
             } else {
-                System.out.printf("Valid zipCode provided [%s] so caching it for weather %s", zipCode, weather);
+                System.out.println(String.format("Valid zipCode provided [%s] so caching it for weather %s", zipCode, weather));
                 ZIPCODE_WEATHER_MAP.put(zipCode, weather);
             }
         }
@@ -53,9 +53,9 @@ public class InMemoryCache implements Cache {
         if (!ZIPCODE_FIVE_DAY_FORECAST_MAP.containsKey(zipCode)) {
             FiveDayForecast fiveDayForecast = weatherApiService.get5DayForecast(zipCode);
             if (FiveDayForecast.UNKNOWN == fiveDayForecast) {
-                System.out.printf("Invalid zipCode provided [%s] so not caching five day forecast", zipCode);
+                System.out.println(String.format("Invalid zipCode provided [%s] so not caching five day forecast", zipCode));
             } else {
-                System.out.printf("Valid zipCode provided [%s] so caching it for five day forecast %s", zipCode, fiveDayForecast);
+                System.out.println(String.format("Valid zipCode provided [%s] so caching it for five day forecast %s", zipCode, fiveDayForecast));
                 ZIPCODE_FIVE_DAY_FORECAST_MAP.put(zipCode, fiveDayForecast);
             }
         }
