@@ -266,6 +266,10 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     }
 
     private void updateMainWeather(Weather weather) {
+
+        if (weather == null) {
+            return;
+        }
         Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", weather.getIcon()));
         MainImage(currentWeatherImage);
         LocationName(weather.getLocationName());
@@ -282,6 +286,9 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     }
 
     private void updateWeatherDisplay(Weather weather) {
+        if (weather == null) {
+            return;
+        }
         CurrentTemp(String.format("Currently: %.1f%s",
                 weather.convertTemperature(weather.getTemperature(), userPreferences.getTemperatureUnitPreference()),
                 userPreferences.getTemperatureUnitPreference().getSuffix()));
@@ -313,6 +320,22 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         DailyForecast day3 = fiveDayForecast.getDay3();
         DailyForecast day4 = fiveDayForecast.getDay4();
         DailyForecast day5 = fiveDayForecast.getDay5();
+
+        if (day1 == null) {
+            day1 = DailyForecast.UNKNOWN;
+        }
+        if (day2 == null) {
+            day2 = DailyForecast.UNKNOWN;
+        }
+        if (day3 == null) {
+            day3 = DailyForecast.UNKNOWN;
+        }
+        if (day4 == null) {
+            day4 = DailyForecast.UNKNOWN;
+        }
+        if (day5 == null) {
+            day5 = DailyForecast.UNKNOWN;
+        }
 
         updateDailyForecast(day1, first_day_image, first_day, first_high_first_day, first_low_first_day);
         updateDailyForecast(day2, second_day_image, second_day, second_high_first_day, second_low_first_day);
