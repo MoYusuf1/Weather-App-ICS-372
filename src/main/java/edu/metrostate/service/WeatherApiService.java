@@ -114,11 +114,10 @@ public class WeatherApiService {
                 // Check if we have processed all eight intervals for the day
                 // Need to do this since API does three-hour intervals
                 if ((i + 1) % 8 == 0) {
-                    // I need to get the icon from 75% through the day to display an actuate icon
-                    int Middlevalue = i - (int) Math.ceil(0.25 * 8);
-
-                    if (Middlevalue >= 0) {
-                        String middleIcon = getIcon(forecastList, Middlevalue);
+                    // Get the weather icon 75% through the day, so it doesn't grab the night icon.
+                    int Weathericon = i - (int) (.25 * 8);
+                    if (Weathericon >= 0) {
+                        String middleIcon = getIcon(forecastList, Weathericon);
                         String dayOfWeek = getDayOfWeek(dtTxt);
                         DailyForecast dailyForecast = new DailyForecast()
                                 .setTemperatureMin(tempMin)
