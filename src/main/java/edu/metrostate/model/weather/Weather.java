@@ -1,4 +1,4 @@
-package edu.metrostate.model;
+package edu.metrostate.model.weather;
 
 import edu.metrostate.model.units.DistanceUnit;
 import edu.metrostate.model.units.TemperatureUnit;

@@ -1,6 +1,6 @@
 package edu.metrostate.controller;
 
-import edu.metrostate.model.City;
+import edu.metrostate.model.city.City;
 import edu.metrostate.service.CityApiService;
 import edu.metrostate.utils.IpUtils;
 import javafx.event.ActionEvent;

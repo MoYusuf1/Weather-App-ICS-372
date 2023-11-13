@@ -1,4 +1,4 @@
-package edu.metrostate.model;
+package edu.metrostate.model.city;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
@@ -9,6 +9,15 @@ import java.util.StringJoiner;
 public class City extends Location {
 
     public static final City METRO_STATE_UNIVERSITY = createMetroStateUniversity();
+    private static City createMetroStateUniversity() {
+        City city = new City("199.17.228.240", 44.95848083496094, -93.07421875);
+        city.setContinent("North America")
+                .setCountry("United States")
+                .setRegion("Minnesota")
+                .setCity("Saint Paul")
+                .setZipCode("55106");
+        return city;
+    }
 
     @JsonProperty("continent_name")
     private String continent;
@@ -27,16 +36,6 @@ public class City extends Location {
 
     public City(String ipAddress, double latitude, double longitude) {
         super(ipAddress, latitude, longitude);
-    }
-
-    private static City createMetroStateUniversity() {
-        City city = new City("199.17.228.240", 44.95848083496094, -93.07421875);
-        city.setContinent("North America")
-                .setCountry("United States")
-                .setRegion("Minnesota")
-                .setCity("Saint Paul")
-                .setZipCode("55106");
-        return city;
     }
 
     public String getRegion() {
