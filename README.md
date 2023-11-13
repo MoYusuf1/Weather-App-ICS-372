@@ -7,10 +7,11 @@ checking the local weather or planning for a trip abroad, our app ensures you ha
 forecasts at your fingertips.
 
 ### Product Objective
->Our application will give you the option to see what the temperature will be like, not only
-where you are, but you can also select the location to check out what the highs and lows will be
-for the family vacation next week. You also will have detailed information, allowing you to see
-the wind and humidity predictions as well as sunset and sunrise.
+>Our application offers a comprehensive weather tracking experience, allowing you to effortlessly
+view current temperatures at your current location or anywhere of your choosing. Perfect for planning 
+your next family vacation, our tool provides an in-depth look at expected highs and lows for any 
+destination. Beyond just temperature readings, you'll also gain access to detailed weather insights,
+such as wind speeds, humidity levels, visibility, dew point and so much more!
 
 ### Functional Components
 > * **1. Display Current Weather for City**: Upon launching the app, a pop-up is shown giving the user the ability to
