@@ -333,4 +333,23 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
                 userPreferences.getTemperatureUnitPreference().getSuffix()));
     }
 
+    public void displayDefaults() {
+        Weather weather = Weather.UNKNOWN;
+        FiveDayForecast fiveDayForecast = FiveDayForecast.UNKNOWN;
+        Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", weather.getIcon()));
+        MainImage(currentWeatherImage);
+        LocationName(weather.getLocationName());
+        setCurrent_Time(Time.DEFAULT_TIME_STRING);
+        CurrentTemp(String.format("Currently: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperature(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        MainweatherHigh(String.format("High: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperatureMax(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        MainweatherLow(String.format("Low: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getTemperatureMin(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        MainweatherSpeed(String.format("Wind Speed: %.2f%s", weather.convertWindSpeed(weather.getWindSpeed(), userPreferences.getWindSpeedUnitPreference()), userPreferences.getWindSpeedUnitPreference().getSuffix()));
+        MainweatherHumidity(String.format("Humidity: %d%%", Math.round(weather.getHumidity())));
+        MainweatherDewpoint(String.format("Dew Point: %d\u00B0%s", Math.round(weather.convertTemperature(weather.getDewPoint(), userPreferences.getTemperatureUnitPreference())), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        MainweatherhectoPascals(String.format("hectoPascals: %dhPa", Math.round(weather.getPressure())));
+        MainweatherUV(String.format("UV: %s", weather.getUv()));
+        MainweatherVisibility(String.format("Visibility: %.1f%s", weather.convertDistance(weather.getVisibility(), userPreferences.getDistanceUnitPreference()), userPreferences.getDistanceUnitPreference().getSuffix()));
+        updateFiveDayForecast(fiveDayForecast);
+    }
+
 }
