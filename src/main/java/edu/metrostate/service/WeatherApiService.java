@@ -3,7 +3,9 @@ package edu.metrostate.service;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
-import edu.metrostate.model.Weather;
+import edu.metrostate.model.weather.DailyForecast;
+import edu.metrostate.model.weather.FiveDayForecast;
+import edu.metrostate.model.weather.Weather;
 import org.apache.http.HttpResponse;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.CloseableHttpClient;
@@ -82,8 +84,8 @@ public class WeatherApiService {
         }
     }
 
-    public static List<Weather> get5DayForecast(String zipCode) {
-        List<Weather> forecast2 = new ArrayList<>();
+    public FiveDayForecast get5DayForecast(String zipCode) {
+        List<DailyForecast> dailyForecasts = new ArrayList<>();
         try (CloseableHttpClient client = HttpClients.createDefault()) {
             String url = String.format(FORECAST_API_URL, zipCode, API_KEY);
             HttpGet request = new HttpGet(url);
@@ -91,7 +93,7 @@ public class WeatherApiService {
             String jsonResponse = new Scanner(response.getEntity().getContent()).useDelimiter("\\Z").next();
             JsonObject jsonObject = JsonParser.parseString(jsonResponse).getAsJsonObject();
             if (isErrorCondition(jsonObject)) {
-                return forecast2;
+                return new FiveDayForecast();
             }
             JsonArray forecastList = jsonObject.getAsJsonArray("list");
 
@@ -112,20 +114,17 @@ public class WeatherApiService {
                 // Check if we have processed all eight intervals for the day
                 // Need to do this since API does three-hour intervals
                 if ((i + 1) % 8 == 0) {
-                    // I need to get the icon from 75% through the day to display an actuate icon
-                    int Middlevalue = i - (int) Math.ceil(0.25 * 8);
-
-                    if (Middlevalue >= 0) {
-                        // Extract the icon, similar to other API call
-                        String middleIcon = forecastList.get(Middlevalue).getAsJsonObject().getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
+                    // Get the weather icon 75% through the day, so it doesn't grab the night icon.
+                    int Weathericon = i - (int) (.25 * 8);
+                    if (Weathericon >= 0) {
+                        String middleIcon = getIcon(forecastList, Weathericon);
                         String dayOfWeek = getDayOfWeek(dtTxt);
-                        Weather forecastWeather = new Weather()
+                        DailyForecast dailyForecast = new DailyForecast()
                                 .setTemperatureMin(tempMin)
                                 .setTemperatureMax(tempMax)
                                 .setIcon(middleIcon)
                                 .setDay(dayOfWeek);
-
-                        forecast2.add(forecastWeather);
+                        dailyForecasts.add(dailyForecast);
                     }
                     // Reset daily temperature min and max for the next day
                     tempMin = Double.MAX_VALUE;
@@ -134,8 +133,13 @@ public class WeatherApiService {
             }
         } catch (Exception e) {
             e.printStackTrace();
+            return FiveDayForecast.UNKNOWN;
         }
-        return forecast2;
+        return new FiveDayForecast(dailyForecasts);
+    }
+
+    private static String getIcon(JsonArray forecastList, int middleValue) {
+        return forecastList.get(middleValue).getAsJsonObject().getAsJsonArray("weather").get(0).getAsJsonObject().get("icon").getAsString();
     }
 
     private static String getDayOfWeek(String dtTxt) {

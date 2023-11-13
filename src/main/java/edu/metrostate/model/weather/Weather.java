@@ -1,4 +1,4 @@
-package edu.metrostate.model;
+package edu.metrostate.model.weather;
 
 import edu.metrostate.model.units.DistanceUnit;
 import edu.metrostate.model.units.TemperatureUnit;
@@ -94,6 +94,13 @@ public class Weather {
         }
     }
 
+    // Need to calculate dewpoint since the API call doesn't provide this
+    public static int calculateDewPoint(int temperature, double humidity) {
+        humidity = humidity / 100.0;
+        double alpha = ((17.27 * (double) temperature) / (237.7 + (double) temperature)) + Math.log(humidity);
+        double dewPointFahrenheit = (237.7 * alpha) / (17.27 - alpha);
+        return (int) dewPointFahrenheit;
+    }
 
     public Weather setTemperatureMin(double temperatureMin) {
         this.temperatureMin = temperatureMin;

@@ -1,6 +1,7 @@
 package edu.metrostate.cache;
 
-import edu.metrostate.model.Weather;
+import edu.metrostate.model.weather.FiveDayForecast;
+import edu.metrostate.model.weather.Weather;
 import edu.metrostate.service.WeatherApiService;
 
 import java.util.Map;
@@ -9,6 +10,7 @@ import java.util.concurrent.ConcurrentHashMap;
 public class InMemoryCache implements Cache {
 
     private static final Map<String, Weather> ZIPCODE_WEATHER_MAP = new ConcurrentHashMap<>();
+    private static final Map<String, FiveDayForecast> ZIPCODE_FIVE_DAY_FORECAST_MAP = new ConcurrentHashMap<>();
 
     private final WeatherApiService weatherApiService;
 
@@ -27,19 +29,37 @@ public class InMemoryCache implements Cache {
     @Override
     public Weather getWeather(String zipCode) {
         if (zipCode == null || zipCode.isBlank()) {
-            System.out.println("Provided zipCode was null or blank so skipping lookup");
+            System.out.println("Provided zipCode was null or blank so skipping weather lookup");
             return null;
         }
         if (!ZIPCODE_WEATHER_MAP.containsKey(zipCode)) {
             Weather weather = weatherApiService.getWeather(zipCode);
             if (Weather.UNKNOWN == weather) {
-                System.out.printf("Invalid zipCode provided [%s] so not caching it", zipCode);
+                System.out.printf("Invalid zipCode provided [%s] so not caching weather", zipCode);
             } else {
                 System.out.printf("Valid zipCode provided [%s] so caching it for weather %s", zipCode, weather);
                 ZIPCODE_WEATHER_MAP.put(zipCode, weather);
             }
         }
         return ZIPCODE_WEATHER_MAP.get(zipCode);
+    }
+
+    @Override
+    public FiveDayForecast getFiveDayForecast(String zipCode) {
+        if (zipCode == null || zipCode.isBlank()) {
+            System.out.println("Provided zipCode was null or blank so skipping five day forecast lookup");
+            return null;
+        }
+        if (!ZIPCODE_FIVE_DAY_FORECAST_MAP.containsKey(zipCode)) {
+            FiveDayForecast fiveDayForecast = weatherApiService.get5DayForecast(zipCode);
+            if (FiveDayForecast.UNKNOWN == fiveDayForecast) {
+                System.out.printf("Invalid zipCode provided [%s] so not caching five day forecast", zipCode);
+            } else {
+                System.out.printf("Valid zipCode provided [%s] so caching it for five day forecast %s", zipCode, fiveDayForecast);
+                ZIPCODE_FIVE_DAY_FORECAST_MAP.put(zipCode, fiveDayForecast);
+            }
+        }
+        return ZIPCODE_FIVE_DAY_FORECAST_MAP.get(zipCode);
     }
 
 }

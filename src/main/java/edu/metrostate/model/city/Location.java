@@ -1,4 +1,4 @@
-package edu.metrostate.model;
+package edu.metrostate.model.city;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.fasterxml.jackson.annotation.JsonProperty;
