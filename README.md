@@ -1,30 +1,70 @@
 # Climate Watch
-By: Jordan Mielke, Mohamed Yusuf, Steve Hartmann (Group five)
+Created By: Jordan Mielke, Mohamed Yusuf, Steve Hartmann
 
 ### Problem Statement
->Have you ever gone to your weather app on your phone, and it shows that it’s bright skies and
-no rain in sight, or maybe it’s supposed to be a high of 98 degrees, or maybe you want to see
-what the weather is like somewhere else around the world. Look no further, we're here to
-provide you with the utmost accuracy in weather information, allowing you to see not only your
-weather information, but the weather information for when you’re on vacation next week.
+>Climate Watch aims to provide accurate and up-to-date weather information. Whether you're 
+checking the local weather or planning for a trip abroad, our app ensures you have the latest 
+forecasts at your fingertips.
 
 ### Product Objective
->Our application will give you the option to see what the temperature will be like, not only
-where you are, but you can also select the location to check out what the highs and lows will be
-for the family vacation next week. You also will have detailed information, allowing you to see
-the wind and humidity predictions as well as sunset and sunrise.
+>Our application offers a comprehensive weather tracking experience, allowing you to effortlessly
+view current temperatures at your current location or anywhere of your choosing. Perfect for planning 
+your next family vacation, our tool provides an in-depth look at expected highs and lows for any 
+destination. Beyond just temperature readings, you'll also gain access to detailed weather insights,
+such as wind speeds, humidity levels, visibility, dew point and so much more!
+
+### Functional Components
+> * **1. Display Current Weather for City**: Upon launching the app, a pop-up is shown giving the user the ability to
+  read current weather data using users location.
+ 
+> * **2. Search by ZIP Code**: Enter a valid ZIP code and verify if the weather details are displayed. 
+ Test invalid ZIP codes (like "00000" or "Scooby Dooby-Doo") and check for an appropriate error message.
+ 
+> * **3. Unit Conversions**: Access the User Preferences tab, toggle between different units, and observe if the 
+  temperature display updates accordingly.
+
+> * **4. Responsive UI Components**: Interact with various UI components to ensure they respond appropriately to user
+ input and display relevant weather data efficiently.
+
+> * **5. Fifth Item**: 
+
+> * **6. Sixth Item**: 
+
+### Non-Functional Components
+> * **1. JavaFX for GUI**: Our application uses JavaFX to create a user-friendly graphical interface. This ensures
+  an intuitive and responsive experience for users interacting with the application.
+
+> * **2. Implements Weather API for weather data https://openweathermap.org**: We utilize the OpenWeather API 
+  (OpenWeatherMap) to fetch real-time weather data. We've implemented efficient API calls and handled responses to 
+  display the data seamlessly within the app.
+
+> * **3. Use IP geolocation API for converting user’s IP address to location https://ipstack.com**: Our application 
+  incorporates the IP-Stack API to convert users' IP addresses into geographical locations. This feature 
+  enables the app to automatically detect and display weather information for the user's current location, enhancing 
+  the app's usability and personalization.
+
+> * **4. Error handling**: We have implemented comprehensive input validation and error handling mechanisms. This 
+  ensures that the application responds gracefully to invalid inputs, such as incorrect ZIP codes, and provides 
+  helpful feedback to the user.
+
+
 
 ### Code Structure & Class Locations
-* We have a package for each different type of functionality, such as cache, controller, model, etc.
-* **Four Class Definitions**
-  * `src/main/java/edu/metrostate/model/City.java`
-  * `src/main/java/edu/metrostate/model/FiveDayForecast.java`
-  * `src/main/java/edu/metrostate/model/User.java`
-  * `src/main/java/edu/metrostate/model/Weather.java`
-* **Interface Class** -- `src/main/java/edu/metrostate/listener/ValueChangedListener.java`
-* **Abstract Class** -- `src/main/java/edu/metrostate/model/Location.java`
+There is a package for each type of category such as caches, controllers, models, etc.
+
+**Four Class Definitions**
+  1. `src/main/java/edu/metrostate/model/City.java`
+  2. `src/main/java/edu/metrostate/model/FiveDayForecast.java`
+  3. `src/main/java/edu/metrostate/model/User.java`
+  4. `src/main/java/edu/metrostate/model/Weather.java`
+
+**Interface Class** `src/main/java/edu/metrostate/listener/ValueChangedListener.java`
+
+**Abstract Class** `src/main/java/edu/metrostate/model/Location.java`
 
 ### Running the Application
 1. Open the MainApp.java class
-2. Click the Run application (![img.png](img.png)) icon in the gutter
-3. Select Run 'MainApp.main()'.
+
+2. Press the run icon  ![img.png](img.png)
+
+3. Right click `src\main\java\edu\metrostate\MainApp.java` and press the run.
