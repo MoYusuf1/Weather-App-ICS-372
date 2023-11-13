@@ -21,6 +21,7 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.StageStyle;
 
 import java.io.IOException;
 import java.util.Objects;
@@ -119,14 +120,12 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     private void loadUserPreferencesScreen(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/user-pref.fxml"));
-        Scene scene = new Scene(root, 750, 500);
-        Image icon = ImageUtils.getImage("/images/weather-icons/main-icon.png");
+        Scene scene = new Scene(root);
         Stage stage = new Stage();
-        stage.getIcons().add(icon);
         stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initStyle(StageStyle.UNDECORATED);
         stage.initOwner(primaryStage);
         stage.setResizable(false);
-        stage.setTitle("Climate Watch | User Preferences");
         stage.setScene(scene);
         stage.show();
     }

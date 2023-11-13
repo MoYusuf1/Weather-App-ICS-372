@@ -1,56 +1,65 @@
+#userPrefModal {
 /* https://docs.oracle.com/javase/8/javafx/api/javafx/scene/doc-files/cssref.html */
-/* https://docs.oracle.com/javafx/2/get_started/Login.css.html */
-/* TODO: need to customize style before submitting milestone */
-
-.root {
-    -fx-background-image: url('/images/background.jpg');
+/* https://onlinepngtools.com/change-png-opacity */
+/* can't use -fx-opacity because that affects the whole modal */
+  -fx-hgap: 30px;
+  -fx-vgap: 30px;
+  -fx-padding: 40px;
+  -fx-background-image: url('/images/weather-icons/welcome-modal-bg.png');
+  -fx-background-repeat: stretch;
+  -fx-background-size: 450 300;
+  -fx-background-position: center center;
+  -fx-background-color: transparent;
+/*
+  -fx-background-radius: 20px;
+  -fx-border-radius: 20px;
+*/
+  -fx-border-color: #2074f0;
+  -fx-effect: dropshadow(three-pass-box, rgba(0, 0, 0, 0.8), 10, 0, 0, 0);
 }
 
 .label {
-    -fx-font-size: 12px;
+    -fx-font-size: 20px;
     -fx-font-weight: bold;
-    -fx-font-family: "Tahoma";
-    -fx-text-fill: #333333;
-    -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+    -fx-font-family: "Century Gothic";
 }
 
-#welcome-text {
-   -fx-font-size: 32px;
-   -fx-font-family: "Arial Black";
-   -fx-fill: #818181;
-   -fx-effect: innershadow( three-pass-box , rgba(0,0,0,0.7) , 6, 0.0 , 0 , 2 );
-}
-
-#action-target {
-  -fx-fill: FIREBRICK;
-  -fx-font-weight: bold;
-  -fx-effect: dropshadow( gaussian , rgba(255,255,255,0.5) , 0,0,0,1 );
+#welcomeTitle {
+   -fx-font-size: 45px;
+   -fx-font-weight: bold;
+   -fx-font-family: "Century Gothic";
 }
 
 .button {
-    -fx-text-fill: white;
-    -fx-font-family: "Arial Narrow";
-    -fx-font-weight: bold;
-    -fx-background-color: linear-gradient(#61a2b1, #2A5058);
-    -fx-effect: dropshadow( three-pass-box , rgba(0,0,0,0.6) , 5, 0.0 , 0 , 1 );
-}
-.button:hover {
-    -fx-background-color: linear-gradient(#2A5058, #61a2b1);
+    -fx-font: bold italic 15pt "Century Gothic";
+    -fx-effect: dropshadow( one-pass-box , black , 8 , 0.0 , 2 , 0 );
 }
 
+/* https://stackoverflow.com/questions/51576175/java-fx-application-css-change-text-inside-radiobuttons-checkboxes */
+/* https://docs.oracle.com/javase/10/docs/api/javafx/scene/doc-files/cssref.html#labeled */
+.radio-button {
+    -fx-label-padding: 15px;
+    -fx-font: "Century Gothic";
+    -fx-font-size: 15px;
+    -fx-graphic-text-gap: 10px;
+    -fx-text-size: 15px;
+    -fx-margin-left: 25px;
+}
 /* https://dx.dragan.ba/javafx-radiobutton-custom-css/ */
 .radio-button .label {
     -fx-margin-left: 25px;
     -fx-padding: 50px;
-    -fx-background-color: red;
+    -fx-font-size: 12px;
 }
 .radio-button .radio {
+    -fx-font-size: 12px;
     -fx-border-width: 1px;
     -fx-border-color: #000;
     -fx-background-color: white;
     -fx-background-image: null;
     -fx-border-radius: 15px;
     -fx-padding: 4px;
+    -fx-margin-left: 25px;
 }
 .radio-button .radio:selected {
     -fx-background-color: white;
