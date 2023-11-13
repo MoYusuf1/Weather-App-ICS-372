@@ -20,4 +20,8 @@ module App {
     opens edu.metrostate.cache to javafx.fxml;
     exports edu.metrostate.model.units;
     opens edu.metrostate.model.units to javafx.fxml;
+    exports edu.metrostate.model.city;
+    opens edu.metrostate.model.city to javafx.fxml;
+    exports edu.metrostate.model.weather;
+    opens edu.metrostate.model.weather to javafx.fxml;
 }

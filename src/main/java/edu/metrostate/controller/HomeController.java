@@ -2,11 +2,11 @@ package edu.metrostate.controller;
 import edu.metrostate.model.UserPreferences;
 import edu.metrostate.cache.Cache;
 import edu.metrostate.cache.InMemoryCache;
-import edu.metrostate.model.FiveDayForecast;
+import edu.metrostate.model.weather.DailyForecast;
+import edu.metrostate.model.weather.FiveDayForecast;
 import edu.metrostate.model.Time;
-import edu.metrostate.model.Weather;
+import edu.metrostate.model.weather.Weather;
 
-import edu.metrostate.service.WeatherApiService;
 import edu.metrostate.utils.ImageUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -23,48 +23,84 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.util.List;
-import java.util.Objects;
+
 
 public class HomeController implements UserPreferences.PreferencesChangeListener {
 
     @FXML
     private TextField SearchText;
     @FXML
-    public Label first_day;
-    public Label second_day;
-    public Label third_day;
-    public Label fourth_day;
-    public Label fifth_day;
-    public Label first_high_first_day;
-    public Label first_low_first_day;
-    public Label second_high_first_day;
-    public Label second_low_first_day;
-    public Label third_high_first_day;
-    public Label third_low_first_day;
-    public Label fourth_high_first_day;
-    public Label fourth_low_first_day;
-    public Label fifth_high_first_day;
-    public Label fifth_low_first_day;
-    public ImageView first_day_image, second_day_image, third_day_image, fourth_day_image, fifth_day_image;
+    private Label first_day;
+    @FXML
+    private Label second_day;
+    @FXML
+    private Label third_day;
+    @FXML
+    private Label fourth_day;
+    @FXML
+    private Label fifth_day;
+    @FXML
+    private Label first_high_first_day;
+    @FXML
+    private Label first_low_first_day;
+    @FXML
+    private Label second_high_first_day;
+    @FXML
+    private Label second_low_first_day;
+    @FXML
+    private Label third_high_first_day;
+    @FXML
+    private Label third_low_first_day;
+    @FXML
+    private Label fourth_high_first_day;
+    @FXML
+    private Label fourth_low_first_day;
+    @FXML
+    private Label fifth_high_first_day;
+    @FXML
+    private Label fifth_low_first_day;
+    @FXML
+    private ImageView first_day_image;
+    @FXML
+    private ImageView second_day_image;
+    @FXML
+    private ImageView third_day_image;
+    @FXML
+    private ImageView fourth_day_image;
+    @FXML
+    private ImageView fifth_day_image;
 
     @FXML
-    public Pane Mainweather;
-    public Label Current_Time;
-    private Time time;
-    public Label Current_Temp;
-    public Label Location_Name;
-    public ImageView Mainweather_Image;
-    public Label Mainweather_High;
-    public Label Mainweather_Low;
-    public Label Mainweather_Speed;
-    public Label Mainweather_Humidity;
-    public Label Mainweather_Dewpoint;
-    public Label Mainweather_hectoPascals;
-    public Label Mainweather_UV;
-    public Label Mainweather_Visibility;
+    private Pane Mainweather;
     @FXML
-    public Label currentStageHook;
+    private Label Current_Time;
+    @FXML
+    private Time time;
+    @FXML
+    private Label Current_Temp;
+    @FXML
+    private Label Location_Name;
+    @FXML
+    private ImageView Mainweather_Image;
+    @FXML
+    private Label Mainweather_High;
+    @FXML
+    private Label Mainweather_Low;
+    @FXML
+    private Label Mainweather_Speed;
+    @FXML
+    private Label Mainweather_Humidity;
+    @FXML
+    private Label Mainweather_Dewpoint;
+    @FXML
+    private Label Mainweather_hectoPascals;
+    @FXML
+    private Label Mainweather_UV;
+    @FXML
+    private Label Mainweather_Visibility;
+    @FXML
+    private Label currentStageHook;
+
     private final Cache cache = InMemoryCache.getInstance();
     private final UserPreferences userPreferences = UserPreferences.getInstance();
 
@@ -81,7 +117,6 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     private void loadUserPreferencesScreen(Stage primaryStage) throws IOException {
         Parent root = FXMLLoader.load(getClass().getResource("/user-pref.fxml"));
         Scene scene = new Scene(root, 750, 500);
-
         Image icon = ImageUtils.getImage("/images/weather-icons/main-icon.png");
         Stage stage = new Stage();
         stage.getIcons().add(icon);
@@ -99,24 +134,22 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     public void updateWeatherFromWelcomeModal(String zipCode) {
         initializeTime();
-        Weather current = cache.getWeather(zipCode);
-        List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
-        FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
-        updateMainWeatherScreen(current);
-        fiveDayForecast.updateDayInfo(forecast);
+        Weather weather = cache.getWeather(zipCode);
+        FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+        updateMainWeather(weather);
+        updateFiveDayForecast(fiveDayForecast);
     }
 
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
         try {
             String zipCode = SearchText.getText();
-            Weather current = cache.getWeather(zipCode);
-            if (current != null && current != Weather.UNKNOWN) {
+            Weather weather = cache.getWeather(zipCode);
+            if (weather != null && weather != Weather.UNKNOWN) {
                 // Only need to update the 5-day forecast if we have a legitimate city
-                List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
-                FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
-                updateMainWeatherScreen(current);
-                fiveDayForecast.updateDayInfo(forecast);
+                FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+                updateMainWeather(weather);
+                updateFiveDayForecast(fiveDayForecast);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Climate Watch | Invalid ZIP Code");
@@ -153,8 +186,7 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         }
     }
 
-    // Update the Main weather values
-    private void updateMainWeatherScreen(Weather current) {
+    private void updateMainWeather(Weather current) {
         Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", current.getIcon()));
         MainImage(currentWeatherImage);
         CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
@@ -215,16 +247,23 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         Current_Time.setText(text);
     }
 
+    public Label getCurrent_Time() {
+        return Current_Time;
+    }
+
+    public HomeController setCurrent_Time(Label current_Time) {
+        Current_Time = current_Time;
+        return this;
+    }
+
     @Override
     public void onPreferencesChanged() {
         try {
             String zipCode = "55106"; // TODO: Retrieve dynamic zip code
-            Weather current = cache.getWeather(zipCode);
-            updateWeatherDisplay(current);
-
-            List<Weather> forecast = WeatherApiService.get5DayForecast(zipCode);
-            FiveDayForecast fiveDayForecast = new FiveDayForecast(this, userPreferences);
-            fiveDayForecast.updateDayInfo(forecast);
+            Weather weather = cache.getWeather(zipCode);
+            FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+            updateWeatherDisplay(weather);
+            updateFiveDayForecast(fiveDayForecast);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -257,6 +296,32 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
                 current.convertDistance(current.getVisibility(), userPreferences.getDistanceUnitPreference()),
                 userPreferences.getDistanceUnitPreference().getSuffix()));
 
+    }
+
+    public void updateFiveDayForecast(FiveDayForecast fiveDayForecast) {
+        if (fiveDayForecast.getDay1() == null) {
+            System.out.println("Forecast data not populated so skipping five day forecast update");
+            return;
+        }
+
+        DailyForecast day1 = fiveDayForecast.getDay1();
+        DailyForecast day2 = fiveDayForecast.getDay2();
+        DailyForecast day3 = fiveDayForecast.getDay3();
+        DailyForecast day4 = fiveDayForecast.getDay4();
+        DailyForecast day5 = fiveDayForecast.getDay5();
+
+        updateDailyForecast(day1, first_day_image, first_day, first_high_first_day, first_low_first_day);
+        updateDailyForecast(day2, second_day_image, second_day, second_high_first_day, second_low_first_day);
+        updateDailyForecast(day3, third_day_image, third_day, third_high_first_day, third_low_first_day);
+        updateDailyForecast(day4, fourth_day_image, fourth_day, fourth_high_first_day, fourth_low_first_day);
+        updateDailyForecast(day5, fifth_day_image, fifth_day, fifth_high_first_day, fifth_low_first_day);
+    }
+
+    private void updateDailyForecast(DailyForecast dailyForecast, ImageView dayImage, Label dayLabel, Label highLabel, Label lowLabel) {
+        dayImage.setImage(ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", dailyForecast.getIcon())));
+        dayLabel.setText(dailyForecast.getDay());
+        highLabel.setText(String.format("High: %.0f\u00B0%s", dailyForecast.convertTemperature(dailyForecast.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        lowLabel.setText(String.format("Low: %.0f\u00B0%s", dailyForecast.convertTemperature(dailyForecast.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
     }
 
 }
