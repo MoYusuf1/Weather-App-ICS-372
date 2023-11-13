@@ -122,19 +122,19 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
                 alert.setTitle("Climate Watch | Invalid ZIP Code");
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
-                Label label = new Label("""
-                        The inputted ZIP code is invalid. Try these examples:
-                        
-                        * Louisville, Kentucky -- 40202
-                        * Des Moines, Iowa -- 50309
-                        * Chicago, Illinois -- 60601
-                        * St. Louis, Missouri -- 63101
-                        * Houston, Texas -- 77036
-                        * Denver, Colorado -- 80202
-                        * San Francisco, California -- 94111
-                        * Seattle, Washington -- 98101
-                        * Las Vegas, Nevada -- 89101
-                        * New York, New York -- 10001""");
+                Label label = new Label(
+                        "The inputted ZIP code is invalid. Try these examples:\n\n" +
+                                "* Louisville, Kentucky -- 40202\n" +
+                                "* Des Moines, Iowa -- 50309\n" +
+                                "* Chicago, Illinois -- 60601\n" +
+                                "* St. Louis, Missouri -- 63101\n" +
+                                "* Houston, Texas -- 77036\n" +
+                                "* Denver, Colorado -- 80202\n" +
+                                "* San Francisco, California -- 94111\n" +
+                                "* Seattle, Washington -- 98101\n" +
+                                "* Las Vegas, Nevada -- 89101\n" +
+                                "* New York, New York -- 10001"
+                );
                 label.setStyle("-fx-text-fill: black; -fx-font-family: \"Century Gothic\"");
                 label.setWrapText(true);
                 alert.getDialogPane().setContent(label);
