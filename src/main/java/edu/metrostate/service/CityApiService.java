@@ -23,10 +23,10 @@ public class CityApiService {
             HttpResponse response = client.execute(request);
             String jsonString = EntityUtils.toString(response.getEntity());
             City city = OBJECT_MAPPER.readValue(jsonString, City.class);
-            System.out.printf("Found city for ipAddress=%s -- %s", ipAddress, city);
+            System.out.println(String.format("Found city for ipAddress=%s -- %s", ipAddress, city));
             return city;
         } catch (Exception ex) {
-            System.out.printf("Problem finding city for ipAddress=%s so using default -- %s", ipAddress, ex.getMessage());
+            System.out.println(String.format("Problem finding city for ipAddress=%s so using default -- %s", ipAddress, ex.getMessage()));
             return City.METRO_STATE_UNIVERSITY;
         }
     }

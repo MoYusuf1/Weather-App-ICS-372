@@ -23,6 +23,7 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.io.IOException;
+import java.util.Objects;
 
 
 public class HomeController implements UserPreferences.PreferencesChangeListener {
@@ -101,6 +102,8 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     @FXML
     private Label currentStageHook;
 
+    private String zipCode;
+
     private final Cache cache = InMemoryCache.getInstance();
     private final UserPreferences userPreferences = UserPreferences.getInstance();
 
@@ -133,41 +136,49 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     }
 
     public void updateWeatherFromWelcomeModal(String zipCode) {
+        this.zipCode = zipCode;
         initializeTime();
         Weather weather = cache.getWeather(zipCode);
         FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
         updateMainWeather(weather);
+        updateWeatherDisplay(weather);
         updateFiveDayForecast(fiveDayForecast);
     }
 
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
+        String zipCode = SearchText.getText();
+        if (zipCode != null && Objects.equals(this.zipCode, zipCode)) {
+            System.out.println(String.format("Skipping find because zipCode didn't change zipCode=%s", zipCode));
+            return;
+        }
+        this.zipCode = zipCode;
         try {
-            String zipCode = SearchText.getText();
             Weather weather = cache.getWeather(zipCode);
             if (weather != null && weather != Weather.UNKNOWN) {
                 // Only need to update the 5-day forecast if we have a legitimate city
                 FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
                 updateMainWeather(weather);
+                updateWeatherDisplay(weather);
                 updateFiveDayForecast(fiveDayForecast);
             } else {
                 Alert alert = new Alert(Alert.AlertType.ERROR);
                 alert.setTitle("Climate Watch | Invalid ZIP Code");
                 alert.setHeaderText(null);
                 alert.setGraphic(null);
-                Label label = new Label(
-                        "The inputted ZIP code is invalid. Try these examples:\n\n" +
-                                "* Louisville, Kentucky -- 40202\n" +
-                                "* Des Moines, Iowa -- 50309\n" +
-                                "* Chicago, Illinois -- 60601\n" +
-                                "* St. Louis, Missouri -- 63101\n" +
-                                "* Houston, Texas -- 77036\n" +
-                                "* Denver, Colorado -- 80202\n" +
-                                "* San Francisco, California -- 94111\n" +
-                                "* Seattle, Washington -- 98101\n" +
-                                "* Las Vegas, Nevada -- 89101\n" +
-                                "* New York, New York -- 10001"
-                );
+                Label label = new Label("""
+                        The inputted ZIP code is invalid. Try these examples:
+                        
+                        * Anchorage, Alaska -- 99501
+                        * Chicago, Illinois -- 60601
+                        * Denver, Colorado -- 80202
+                        * Honolulu, Hawaii -- 96807
+                        * Houston, Texas -- 77036
+                        * Las Vegas, Nevada -- 89101
+                        * Louisville, Kentucky -- 40202
+                        * New York, New York -- 10001
+                        * San Francisco, California -- 94111
+                        * Seattle, Washington -- 98101""");
                 label.setStyle("-fx-text-fill: black; -fx-font-family: \"Century Gothic\"");
                 label.setWrapText(true);
                 alert.getDialogPane().setContent(label);
@@ -184,21 +195,6 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
             alert.initModality(Modality.APPLICATION_MODAL);
             alert.showAndWait();
         }
-    }
-
-    private void updateMainWeather(Weather current) {
-        Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", current.getIcon()));
-        MainImage(currentWeatherImage);
-        CurrentTemp("Currently: " + current.getTemperature() + "\u00B0F");
-        LocationName(current.getLocationName());
-        MainweatherHigh("High: " + String.format("%.0f", current.getTemperatureMax()) + "\u00B0F");
-        MainweatherLow("Low: " + String.format("%.0f", current.getTemperatureMin()) + "\u00B0F");
-        MainweatherSpeed("Wind Speed: " + current.getWindSpeed() + "mph");
-        MainweatherHumidity("Humidity: " + String.format("%.0f", current.getHumidity()) + "%");
-        MainweatherDewpoint("Dew Point: " + String.format("%.0f", current.getDewPoint()) + "\u00B0F");
-        MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", current.getPressure()) + "hPa");
-        MainweatherUV("UV: " + current.getUv());
-        MainweatherVisibility("Visibility: " + current.getVisibility() + "km");
     }
 
     public void MainImage(Image image) {
@@ -259,9 +255,10 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     @Override
     public void onPreferencesChanged() {
         try {
-            String zipCode = "55106"; // TODO: Retrieve dynamic zip code
+            System.out.println(String.format("Updating onPreferencesChanged called zipCode=%s", zipCode));
             Weather weather = cache.getWeather(zipCode);
             FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+            updateMainWeather(weather);
             updateWeatherDisplay(weather);
             updateFiveDayForecast(fiveDayForecast);
         } catch (Exception e) {
@@ -269,41 +266,49 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         }
     }
 
+    private void updateMainWeather(Weather weather) {
+        Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", weather.getIcon()));
+        MainImage(currentWeatherImage);
+        LocationName(weather.getLocationName());
+        MainweatherhectoPascals("hectoPascals: " + String.format("%.0f", weather.getPressure()) + "hPa");
+        MainweatherUV("UV: " + weather.getUv());
+        MainweatherHumidity("Humidity: " + String.format("%.0f", weather.getHumidity()) + "%");
 
-    private void updateWeatherDisplay(Weather current) {
+        CurrentTemp("Currently: " + weather.getTemperature() + "\u00B0F");
+        MainweatherHigh("High: " + String.format("%.0f", weather.getTemperatureMax()) + "\u00B0F");
+        MainweatherLow("Low: " + String.format("%.0f", weather.getTemperatureMin()) + "\u00B0F");
+        MainweatherSpeed("Wind Speed: " + weather.getWindSpeed() + "mph");
+        MainweatherDewpoint("Dew Point: " + String.format("%.0f", weather.getDewPoint()) + "\u00B0F");
+        MainweatherVisibility("Visibility: " + weather.getVisibility() + "km");
+    }
 
+    private void updateWeatherDisplay(Weather weather) {
         CurrentTemp(String.format("Currently: %.1f%s",
-                current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference()),
+                weather.convertTemperature(weather.getTemperature(), userPreferences.getTemperatureUnitPreference()),
                 userPreferences.getTemperatureUnitPreference().getSuffix()));
 
         MainweatherHigh(String.format("High: %.1f%s",
-                current.convertTemperature(current.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()),
+                weather.convertTemperature(weather.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()),
                 userPreferences.getTemperatureUnitPreference().getSuffix()));
 
         MainweatherLow(String.format("Low: %.1f%s",
-                current.convertTemperature(current.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()),
+                weather.convertTemperature(weather.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()),
                 userPreferences.getTemperatureUnitPreference().getSuffix()));
 
         MainweatherSpeed(String.format("Wind Speed: %.1f%s",
-                current.convertWindSpeed(current.getWindSpeed(), userPreferences.getWindSpeedUnitPreference()),
+                weather.convertWindSpeed(weather.getWindSpeed(), userPreferences.getWindSpeedUnitPreference()),
                 userPreferences.getWindSpeedUnitPreference().getSuffix()));
 
         MainweatherDewpoint(String.format("Dew Point: %.1f%s",
-                current.convertTemperature(current.getTemperature(), userPreferences.getTemperatureUnitPreference()),
+                weather.convertTemperature(weather.getTemperature(), userPreferences.getTemperatureUnitPreference()),
                 userPreferences.getTemperatureUnitPreference().getSuffix()));
 
         MainweatherVisibility(String.format("Visibility: %.1f%s",
-                current.convertDistance(current.getVisibility(), userPreferences.getDistanceUnitPreference()),
+                weather.convertDistance(weather.getVisibility(), userPreferences.getDistanceUnitPreference()),
                 userPreferences.getDistanceUnitPreference().getSuffix()));
-
     }
 
     public void updateFiveDayForecast(FiveDayForecast fiveDayForecast) {
-        if (fiveDayForecast.getDay1() == null) {
-            System.out.println("Forecast data not populated so skipping five day forecast update");
-            return;
-        }
-
         DailyForecast day1 = fiveDayForecast.getDay1();
         DailyForecast day2 = fiveDayForecast.getDay2();
         DailyForecast day3 = fiveDayForecast.getDay3();
@@ -320,8 +325,12 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     private void updateDailyForecast(DailyForecast dailyForecast, ImageView dayImage, Label dayLabel, Label highLabel, Label lowLabel) {
         dayImage.setImage(ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", dailyForecast.getIcon())));
         dayLabel.setText(dailyForecast.getDay());
-        highLabel.setText(String.format("High: %.0f\u00B0%s", dailyForecast.convertTemperature(dailyForecast.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
-        lowLabel.setText(String.format("Low: %.0f\u00B0%s", dailyForecast.convertTemperature(dailyForecast.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()), userPreferences.getTemperatureUnitPreference().getSuffix()));
+        highLabel.setText(String.format("High: %.0f\u00B0%s",
+                dailyForecast.convertTemperature(dailyForecast.getTemperatureMax(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
+        lowLabel.setText(String.format("Low: %.0f\u00B0%s",
+                dailyForecast.convertTemperature(dailyForecast.getTemperatureMin(), userPreferences.getTemperatureUnitPreference()),
+                userPreferences.getTemperatureUnitPreference().getSuffix()));
     }
 
 }
