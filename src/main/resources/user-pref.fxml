@@ -7,8 +7,8 @@
 <?import javafx.scene.text.*?>
 
 <GridPane fx:controller="edu.metrostate.controller.UserPrefController"
-          xmlns:fx="http://javafx.com/fxml" alignment="center" hgap="10" vgap="10"
-            styleClass="root">
+          xmlns:fx="http://javafx.com/fxml" alignment="center"
+            fx:id="userPrefModal" prefWidth="750.0" prefHeight="600.0">
 <!-- https://stackoverflow.com/questions/53467588/how-to-implement-togglegroup-in-fxml-file-using-spring-vs-javafx   -->
     <fx:define>
         <ToggleGroup fx:id="temperatureGroup"/>
@@ -16,11 +16,23 @@
         <ToggleGroup fx:id="distanceGroup" />
     </fx:define>
 
-    <padding><Insets top="25" right="25" bottom="25" left="25"/></padding>
+    <padding>
+        <Insets top="25" right="25" bottom="25" left="25"/>
+    </padding>
 
-    <!-- enable this for debugging <gridLinesVisible>true</gridLinesVisible> -->
+    <columnConstraints>
+        <ColumnConstraints hgrow="SOMETIMES"/>
+        <ColumnConstraints hgrow="SOMETIMES"/>
+    </columnConstraints>
+    <rowConstraints>
+        <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES"/>
+        <RowConstraints minHeight="-Infinity" valignment="TOP" vgrow="SOMETIMES"/>
+    </rowConstraints>
 
-    <Text id="welcome-text" text="User Preferences"
+    <Text id="welcomeTitle" text="User Preferences"
           GridPane.columnIndex="0" GridPane.rowIndex="0"
           GridPane.columnSpan="2"/>
 
@@ -50,11 +62,14 @@
         <RadioButton fx:id="milesButton" text="Mi" toggleGroup="$distanceGroup"/>
     </HBox>
 
-    <HBox spacing="20" alignment="bottom_right"
-          GridPane.columnIndex="1" GridPane.rowIndex="4">
-        <Button fx:id="submitButton" text="Submit" onAction="#handleSubmitButtonAction"/>
-        <Button fx:id="cancelButton" text="Cancel" onAction="#handleCancelButtonAction"/>
-    </HBox>
+    <Button fx:id="submitButton" text="SUBMIT"
+            GridPane.columnIndex="0" GridPane.rowIndex="4"
+            GridPane.halignment="CENTER" onAction="#handleSubmitButtonAction"/>
+    <Button fx:id="cancelButton" text="CANCEL"
+            GridPane.columnIndex="1" GridPane.rowIndex="4"
+            GridPane.halignment="CENTER" onAction="#handleCancelButtonAction"/>
+
+    <!-- enable this for debugging <gridLinesVisible>true</gridLinesVisible> -->
 
     <stylesheets>
 <!-- The @ symbol before the name of the style sheet in the URL
