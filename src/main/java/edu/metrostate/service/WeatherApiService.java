@@ -108,21 +108,16 @@ public class WeatherApiService {
                 tempMin = Math.min(tempMin, temperatureMin);
                 tempMax = Math.max(tempMax, temperatureMax);
 
-                // Check if we have processed all eight intervals for the day
-                // Need to do this since API does three-hour intervals
-                if ((i + 1) % 8 == 0) {
-                    // Get the weather icon 75% through the day, so it doesn't grab the night icon.
-                    int Weathericon = i - (int) (.25 * 8);
-                    if (Weathericon >= 0) {
-                        String middleIcon = getIcon(forecastList, Weathericon);
-                        String dayOfWeek = TimeUtils.getDayOfWeek(dtTxt);
-                        DailyForecast dailyForecast = new DailyForecast()
-                                .setTemperatureMin(tempMin)
-                                .setTemperatureMax(tempMax)
-                                .setIcon(middleIcon)
-                                .setDay(dayOfWeek);
-                        dailyForecasts.add(dailyForecast);
-                    }
+                // Grabs the noon icon
+                if (dtTxt.contains("12:00:00")) {
+                    String middleIcon = getIcon(forecastList, i+1);
+                    String dayOfWeek = TimeUtils.getDayOfWeek(dtTxt);
+                    DailyForecast dailyForecast = new DailyForecast()
+                            .setTemperatureMin(tempMin)
+                            .setTemperatureMax(tempMax)
+                            .setIcon(middleIcon)
+                            .setDay(dayOfWeek);
+                    dailyForecasts.add(dailyForecast);
                     // Reset daily temperature min and max for the next day
                     tempMin = Double.MAX_VALUE;
                     tempMax = Double.MIN_VALUE;
