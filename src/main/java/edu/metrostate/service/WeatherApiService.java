@@ -97,7 +97,8 @@ public class WeatherApiService {
             // Process the daily temperature data for the next 5 days
             double tempMin = Double.MAX_VALUE;
             double tempMax = Double.MIN_VALUE;
-            for (int i = 0; i < forecastList.size(); i++) {
+            int entriesAdded = 0; // Counter for entries added
+            for (int i = 0; i < forecastList.size() - 1; i++) {
                 JsonObject forecastData = forecastList.get(i).getAsJsonObject();
                 JsonObject mainData = forecastData.getAsJsonObject("main");
                 double temperatureMin = mainData.get("temp_min").getAsDouble();
@@ -109,8 +110,22 @@ public class WeatherApiService {
                 tempMax = Math.max(tempMax, temperatureMax);
 
                 // Grabs the noon icon
+
+                // This worked at:
+                // ~ 1PM
+                // ~ 5PM
+                // ~ 8:30PM
+                // ~ 10PM
+                // ~ 8AM
+                // ~ 9:30AM
+                // ~ 11:30AM
+                // ~ 1:30PM
+
                 if (dtTxt.contains("12:00:00")) {
                     String middleIcon = getIcon(forecastList, i+1);
+
+                    System.out.println(middleIcon);
+
                     String dayOfWeek = TimeUtils.getDayOfWeek(dtTxt);
                     DailyForecast dailyForecast = new DailyForecast()
                             .setTemperatureMin(tempMin)
@@ -121,7 +136,33 @@ public class WeatherApiService {
                     // Reset daily temperature min and max for the next day
                     tempMin = Double.MAX_VALUE;
                     tempMax = Double.MIN_VALUE;
+                    entriesAdded++;
+
+                    // Break the loop when 5 entries are added
+                    if (entriesAdded == 5) {
+                        break;
+                    }
                 }
+            }
+            if (entriesAdded < 5 && forecastList.size() > 0) {
+                // Use the last available data in the list
+                JsonObject lastForecastData = forecastList.get(forecastList.size() - 1).getAsJsonObject();
+                JsonObject lastMainData = lastForecastData.getAsJsonObject("main");
+                double lastTemperatureMin = lastMainData.get("temp_min").getAsDouble();
+                double lastTemperatureMax = lastMainData.get("temp_max").getAsDouble();
+                String lastDtTxt = lastForecastData.get("dt_txt").getAsString();
+
+                String lastMiddleIcon = getIcon(forecastList, forecastList.size() - 1);
+
+                System.out.println(lastMiddleIcon);
+
+                String lastDayOfWeek = TimeUtils.getDayOfWeek(lastDtTxt);
+                DailyForecast lastDailyForecast = new DailyForecast()
+                        .setTemperatureMin(lastTemperatureMin)
+                        .setTemperatureMax(lastTemperatureMax)
+                        .setIcon(lastMiddleIcon)
+                        .setDay(lastDayOfWeek);
+                dailyForecasts.add(lastDailyForecast);
             }
         } catch (Exception e) {
             e.printStackTrace();
