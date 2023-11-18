@@ -6,12 +6,16 @@ import edu.metrostate.model.units.TemperatureUnit;
 import edu.metrostate.model.units.WindSpeedUnit;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
+import javafx.fxml.Initializable;
 import javafx.scene.control.Button;
 import javafx.scene.control.RadioButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.stage.Stage;
 
-public class UserPrefController {
+import java.net.URL;
+import java.util.ResourceBundle;
+
+public class UserPrefController implements Initializable {
 
     @FXML
     private Button submitButton;
@@ -42,9 +46,8 @@ public class UserPrefController {
 
     private final UserPreferences userPreferences = UserPreferences.getInstance();
 
-    // This method should be called to initialize the UI with the loaded preferences
-    public void initialize() {
-        // Initialize the UI with the loaded preferences
+    @Override
+    public void initialize(URL location, ResourceBundle resources) {
         TemperatureUnit temperatureUnit = userPreferences.getTemperatureUnitPreference();
         WindSpeedUnit windSpeedUnit = userPreferences.getWindSpeedUnitPreference();
         DistanceUnit distanceUnit = userPreferences.getDistanceUnitPreference();
