@@ -40,7 +40,7 @@
            GridPane.columnIndex="0" GridPane.rowIndex="1"/>
 
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="1">
-        <RadioButton fx:id="fahrenheitButton" text="Fahrenheit" toggleGroup="$temperatureGroup" selected="true"/>
+        <RadioButton fx:id="fahrenheitButton" text="Fahrenheit" toggleGroup="$temperatureGroup"/>
         <RadioButton fx:id="celsiusButton" text="Celsius" toggleGroup="$temperatureGroup"/>
         <RadioButton fx:id="kelvinButton" text="Kelvin" toggleGroup="$temperatureGroup"/>
     </HBox>
@@ -49,8 +49,8 @@
            GridPane.columnIndex="0" GridPane.rowIndex="2"/>
 
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="2">
-        <RadioButton fx:id="mphButton" text="MPH" toggleGroup="$windspeedGroup" selected="true"/>
-        <RadioButton fx:id="msButton" text="M/s" toggleGroup="$windspeedGroup"/>
+        <RadioButton fx:id="mphButton" text="Miles/Hour" toggleGroup="$windspeedGroup"/>
+        <RadioButton fx:id="msButton" text="Meters/Second" toggleGroup="$windspeedGroup"/>
         <RadioButton fx:id="knotsButton" text="Knots" toggleGroup="$windspeedGroup"/>
     </HBox>
 
@@ -58,8 +58,8 @@
            GridPane.columnIndex="0" GridPane.rowIndex="3"/>
 
     <HBox GridPane.columnIndex="1" GridPane.rowIndex="3">
-        <RadioButton fx:id="kilometersButton" text="Km" toggleGroup="$distanceGroup" selected="true"/>
-        <RadioButton fx:id="milesButton" text="Mi" toggleGroup="$distanceGroup"/>
+        <RadioButton fx:id="kilometersButton" text="Kilometers" toggleGroup="$distanceGroup"/>
+        <RadioButton fx:id="milesButton" text="Miles" toggleGroup="$distanceGroup"/>
     </HBox>
 
     <Button fx:id="submitButton" text="SUBMIT"
