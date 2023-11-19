@@ -110,21 +110,8 @@ public class WeatherApiService {
                 tempMax = Math.max(tempMax, temperatureMax);
 
                 // Grabs the noon icon
-
-                // This worked at:
-                // ~ 1PM
-                // ~ 5PM
-                // ~ 8:30PM
-                // ~ 10PM
-                // ~ 8AM
-                // ~ 9:30AM
-                // ~ 11:30AM
-                // ~ 1:30PM
-
                 if (dtTxt.contains("12:00:00")) {
                     String middleIcon = getIcon(forecastList, i+1);
-
-                    System.out.println(middleIcon);
 
                     String dayOfWeek = TimeUtils.getDayOfWeek(dtTxt);
                     DailyForecast dailyForecast = new DailyForecast()
@@ -144,6 +131,7 @@ public class WeatherApiService {
                     }
                 }
             }
+            // Incase we don't have a noon icon, we grab the last value.
             if (entriesAdded < 5 && forecastList.size() > 0) {
                 // Use the last available data in the list
                 JsonObject lastForecastData = forecastList.get(forecastList.size() - 1).getAsJsonObject();
@@ -153,8 +141,6 @@ public class WeatherApiService {
                 String lastDtTxt = lastForecastData.get("dt_txt").getAsString();
 
                 String lastMiddleIcon = getIcon(forecastList, forecastList.size() - 1);
-
-                System.out.println(lastMiddleIcon);
 
                 String lastDayOfWeek = TimeUtils.getDayOfWeek(lastDtTxt);
                 DailyForecast lastDailyForecast = new DailyForecast()
