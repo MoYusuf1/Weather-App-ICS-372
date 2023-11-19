@@ -86,7 +86,7 @@ public class Weather {
 
         switch (unit) {
             case KILOMETERS:
-                return distance * MILES_TO_KM; // Convert miles to kilometers
+                return distance; // Convert miles to kilometers
             case MILES:
                 return distance * KM_TO_MILES; // Convert kilometers to miles
             default:
