@@ -3,9 +3,8 @@ package edu.metrostate.cache;
 import edu.metrostate.model.weather.FiveDayForecast;
 import edu.metrostate.model.weather.Weather;
 import edu.metrostate.service.WeatherApiService;
+import edu.metrostate.utils.ZipCodeUtils;
 
-import java.net.URLEncoder;
-import java.nio.charset.StandardCharsets;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
@@ -30,29 +29,26 @@ public class InMemoryCache implements Cache {
 
     @Override
     public Weather getWeather(String zipCode) {
-        if (zipCode == null || zipCode.isBlank()) {
-            System.out.println("Provided zipCode was null or blank so skipping weather lookup");
+        if (ZipCodeUtils.isInvalidZipCode(zipCode)) {
+            System.out.println("Provided zipCode was not 5 digits so skipping weather lookup");
             return null;
         }
-        // https://www.urlencoder.io/java/ Fixes issue with an added space in zip
-        String encodedZipCode = URLEncoder.encode(zipCode, StandardCharsets.UTF_8);
-
-        if (!ZIPCODE_WEATHER_MAP.containsKey(encodedZipCode)) {
-            Weather weather = weatherApiService.getWeather(encodedZipCode);
+        if (!ZIPCODE_WEATHER_MAP.containsKey(zipCode)) {
+            Weather weather = weatherApiService.getWeather(zipCode);
             if (Weather.UNKNOWN == weather) {
                 System.out.println(String.format("Invalid zipCode provided [%s] so not caching weather", zipCode));
             } else {
                 System.out.println(String.format("Valid zipCode provided [%s] so caching it for weather %s", zipCode, weather));
-                ZIPCODE_WEATHER_MAP.put(encodedZipCode, weather);
+                ZIPCODE_WEATHER_MAP.put(zipCode, weather);
             }
         }
-        return ZIPCODE_WEATHER_MAP.get(encodedZipCode);
+        return ZIPCODE_WEATHER_MAP.get(zipCode);
     }
 
     @Override
     public FiveDayForecast getFiveDayForecast(String zipCode) {
-        if (zipCode == null || zipCode.isBlank()) {
-            System.out.println("Provided zipCode was null or blank so skipping five day forecast lookup");
+        if (ZipCodeUtils.isInvalidZipCode(zipCode)) {
+            System.out.println("Provided zipCode was not 5 digits so skipping five day forecast lookup");
             return null;
         }
         if (!ZIPCODE_FIVE_DAY_FORECAST_MAP.containsKey(zipCode)) {
