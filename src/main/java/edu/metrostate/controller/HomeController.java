@@ -1,12 +1,12 @@
 package edu.metrostate.controller;
-import edu.metrostate.model.UserPreferences;
+
 import edu.metrostate.cache.Cache;
 import edu.metrostate.cache.InMemoryCache;
+import edu.metrostate.model.Time;
+import edu.metrostate.model.UserPreferences;
 import edu.metrostate.model.weather.DailyForecast;
 import edu.metrostate.model.weather.FiveDayForecast;
-import edu.metrostate.model.Time;
 import edu.metrostate.model.weather.Weather;
-
 import edu.metrostate.utils.ImageUtils;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
@@ -148,93 +148,151 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     private void handleFindButtonAction(ActionEvent event) {
         String zipCode = SearchText.getText();
         if (zipCode != null && Objects.equals(this.zipCode, zipCode)) {
-            System.out.println(String.format("Skipping find because zipCode didn't change zipCode=%s", zipCode));
+            System.out.printf("Skipping find because zipCode didn't change zipCode=%s%n", zipCode);
             return;
         }
-
-        try {
-            Weather weather = cache.getWeather(zipCode);
-            if (weather != null && weather != Weather.UNKNOWN) {
-                this.zipCode = zipCode;
-                // Only need to update the 5-day forecast if we have a legitimate city
-                FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
-                updateMainWeather(weather);
-                updateWeatherDisplay(weather);
-                updateFiveDayForecast(fiveDayForecast);
-            } else {
-                Alert alert = new Alert(Alert.AlertType.ERROR);
-                alert.setTitle("Climate Watch | Invalid ZIP Code");
-                alert.setHeaderText(null);
-                alert.setGraphic(null);
-                Label label = new Label("""
-                        The inputted ZIP code is invalid. Try these examples:
-                        
-                        * Anchorage, Alaska -- 99501
-                        * Chicago, Illinois -- 60601
-                        * Denver, Colorado -- 80202
-                        * Honolulu, Hawaii -- 96807
-                        * Houston, Texas -- 77036
-                        * Las Vegas, Nevada -- 89101
-                        * Louisville, Kentucky -- 40202
-                        * New York, New York -- 10001
-                        * San Francisco, California -- 94111
-                        * Seattle, Washington -- 98101""");
-                label.setStyle("-fx-text-fill: black; -fx-font-family: \"Century Gothic\"");
-                label.setWrapText(true);
-                alert.getDialogPane().setContent(label);
-                alert.initModality(Modality.APPLICATION_MODAL);
-                alert.initOwner(getCurrentStage());
-                alert.showAndWait();
-            }
-        } catch (Exception e) {
-            // Handle the exception, e.g., show an error message or log it
-            e.printStackTrace(); // You can log the exception for debugging
-            Alert alert = new Alert(Alert.AlertType.ERROR);
-            alert.setTitle("Error");
-            alert.setHeaderText("An error occurred while fetching weather data");
-            alert.initModality(Modality.APPLICATION_MODAL);
-            alert.showAndWait();
+        Weather weather = cache.getWeather(zipCode);
+        if (weather == null || weather == Weather.UNKNOWN) {
+            alertInvalidZipCode();
+        } else {
+            updateWeatherAndForecastDisplay(zipCode, weather);
         }
+    }
+
+    private void alertInvalidZipCode() {
+        Alert alert = new Alert(Alert.AlertType.ERROR);
+        alert.setTitle("Climate Watch | Invalid ZIP Code");
+        alert.setHeaderText(null);
+        alert.setGraphic(null);
+        Label label = new Label("""
+                The inputted ZIP code is invalid. Try these examples:
+                                
+                * Anchorage, Alaska -- 99501
+                * Chicago, Illinois -- 60601
+                * Denver, Colorado -- 80202
+                * Honolulu, Hawaii -- 96807
+                * Houston, Texas -- 77036
+                * Las Vegas, Nevada -- 89101
+                * Louisville, Kentucky -- 40202
+                * New York, New York -- 10001
+                * San Francisco, California -- 94111
+                * Seattle, Washington -- 98101""");
+        label.setStyle("-fx-text-fill: black; -fx-font-family: \"Century Gothic\"");
+        label.setWrapText(true);
+        alert.getDialogPane().setContent(label);
+        alert.initModality(Modality.APPLICATION_MODAL);
+        alert.initOwner(getCurrentStage());
+        alert.showAndWait();
+    }
+
+    private void updateWeatherAndForecastDisplay(String zipCode, Weather weather) {
+        this.zipCode = zipCode;
+        FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+        updateMainWeather(weather);
+        updateWeatherDisplay(weather);
+        updateFiveDayForecast(fiveDayForecast);
     }
 
     public void MainImage(Image image) {
         Mainweather_Image.setImage(image);
     }
 
-    public void CurrentTemp(String text) { Current_Temp.setText(text); }
-    public void LocationName(String text) { Location_Name.setText(text); }
-    public void MainweatherHigh(String text) { Mainweather_High.setText(text); }
-    public void MainweatherLow(String text) { Mainweather_Low.setText(text); }
-    public void MainweatherSpeed(String text) { Mainweather_Speed.setText(text); }
-    public void MainweatherHumidity(String text) { Mainweather_Humidity.setText(text); }
-    public void MainweatherDewpoint(String text) { Mainweather_Dewpoint.setText(text); }
-    public void MainweatherhectoPascals(String text) { Mainweather_hectoPascals.setText(text); }
-    public void MainweatherUV(String text) { Mainweather_UV.setText(text); }
-    public void MainweatherVisibility(String text) { Mainweather_Visibility.setText(text); }
+    public void CurrentTemp(String text) {
+        Current_Temp.setText(text);
+    }
 
-    public void first_high_first_day(String text) { first_high_first_day.setText(text); }
-    public void first_low_first_day(String text) { first_low_first_day.setText(text); }
-    public void second_high_first_day(String text) { second_high_first_day.setText(text); }
-    public void second_low_first_day(String text) { second_low_first_day.setText(text); }
-    public void third_high_first_day(String text) { third_high_first_day.setText(text); }
-    public void third_low_first_day(String text) { third_low_first_day.setText(text); }
-    public void fourth_high_first_day(String text) { fourth_high_first_day.setText(text); }
-    public void fourth_low_first_day(String text) { fourth_low_first_day.setText(text); }
-    public void fifth_high_first_day(String text) { fifth_high_first_day.setText(text); }
-    public void fifth_low_first_day(String text) { fifth_low_first_day.setText(text); }
+    public void LocationName(String text) {
+        Location_Name.setText(text);
+    }
+
+    public void MainweatherHigh(String text) {
+        Mainweather_High.setText(text);
+    }
+
+    public void MainweatherLow(String text) {
+        Mainweather_Low.setText(text);
+    }
+
+    public void MainweatherSpeed(String text) {
+        Mainweather_Speed.setText(text);
+    }
+
+    public void MainweatherHumidity(String text) {
+        Mainweather_Humidity.setText(text);
+    }
+
+    public void MainweatherDewpoint(String text) {
+        Mainweather_Dewpoint.setText(text);
+    }
+
+    public void MainweatherhectoPascals(String text) {
+        Mainweather_hectoPascals.setText(text);
+    }
+
+    public void MainweatherUV(String text) {
+        Mainweather_UV.setText(text);
+    }
+
+    public void MainweatherVisibility(String text) {
+        Mainweather_Visibility.setText(text);
+    }
+
+    public void first_high_first_day(String text) {
+        first_high_first_day.setText(text);
+    }
+
+    public void first_low_first_day(String text) {
+        first_low_first_day.setText(text);
+    }
+
+    public void second_high_first_day(String text) {
+        second_high_first_day.setText(text);
+    }
+
+    public void second_low_first_day(String text) {
+        second_low_first_day.setText(text);
+    }
+
+    public void third_high_first_day(String text) {
+        third_high_first_day.setText(text);
+    }
+
+    public void third_low_first_day(String text) {
+        third_low_first_day.setText(text);
+    }
+
+    public void fourth_high_first_day(String text) {
+        fourth_high_first_day.setText(text);
+    }
+
+    public void fourth_low_first_day(String text) {
+        fourth_low_first_day.setText(text);
+    }
+
+    public void fifth_high_first_day(String text) {
+        fifth_high_first_day.setText(text);
+    }
+
+    public void fifth_low_first_day(String text) {
+        fifth_low_first_day.setText(text);
+    }
 
     public void first_day(String text) {
         first_day.setText(text);
     }
+
     public void second_day(String text) {
         second_day.setText(text);
     }
+
     public void third_day(String text) {
         third_day.setText(text);
     }
+
     public void fourth_day(String text) {
         fourth_day.setText(text);
     }
+
     public void fifth_day(String text) {
         fifth_day.setText(text);
     }
@@ -254,16 +312,12 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     @Override
     public void onPreferencesChanged() {
-        try {
-            System.out.println(String.format("Updating onPreferencesChanged called zipCode=%s", zipCode));
-            Weather weather = cache.getWeather(zipCode);
-            FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
-            updateMainWeather(weather);
-            updateWeatherDisplay(weather);
-            updateFiveDayForecast(fiveDayForecast);
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
+        System.out.printf("Updating onPreferencesChanged called zipCode=%s%n", zipCode);
+        Weather weather = cache.getWeather(zipCode);
+        FiveDayForecast fiveDayForecast = cache.getFiveDayForecast(zipCode);
+        updateMainWeather(weather);
+        updateWeatherDisplay(weather);
+        updateFiveDayForecast(fiveDayForecast);
     }
 
     private void updateMainWeather(Weather weather) {
