@@ -21,4 +21,14 @@ public enum TemperatureUnit {
     public String getSuffix() {
         return suffix;
     }
+
+    public String convertAndDisplay(String label, double originalValue) {
+        double newValue = originalValue;
+        if (this == CELSIUS) {
+            newValue = (originalValue - 32) * 5.0 / 9.0;
+        } else if (this == KELVIN) {
+            newValue = (originalValue - 32) * 5.0 / 9.0 + 273.15;
+        }
+        return String.format(label, newValue, this.suffix);
+    }
 }

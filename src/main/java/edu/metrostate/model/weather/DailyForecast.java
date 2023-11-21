@@ -1,7 +1,5 @@
 package edu.metrostate.model.weather;
 
-import edu.metrostate.model.units.TemperatureUnit;
-
 import java.util.StringJoiner;
 
 public class DailyForecast {
@@ -49,18 +47,6 @@ public class DailyForecast {
     public DailyForecast setDay(String day) {
         this.day = day;
         return this;
-    }
-
-    public double convertTemperature(double temperature, TemperatureUnit unit) {
-        switch (unit) {
-            case CELSIUS:
-                return (temperature - 32) * 5.0 / 9.0;
-            case KELVIN:
-                return (temperature - 32) * 5.0 / 9.0 + 273.15;
-            case FAHRENHEIT:
-            default:
-                return temperature;
-        }
     }
 
     @Override

@@ -1,9 +1,5 @@
 package edu.metrostate.model.weather;
 
-import edu.metrostate.model.units.DistanceUnit;
-import edu.metrostate.model.units.TemperatureUnit;
-import edu.metrostate.model.units.WindSpeedUnit;
-
 import java.util.Objects;
 import java.util.StringJoiner;
 
@@ -42,9 +38,11 @@ public class Weather {
         this.temperature = temperature;
         return this;
     }
+
     public String getDay() {
         return day;
     }
+
     public Weather setDay(String day) {
         this.day = day;
         return this;
@@ -52,46 +50,6 @@ public class Weather {
 
     public double getTemperatureMin() {
         return temperatureMin;
-    }
-
-    public double convertTemperature(double temperature, TemperatureUnit unit) {
-        switch (unit) {
-            case CELSIUS:
-                return (temperature - 32) * 5.0 / 9.0;
-            case KELVIN:
-                return (temperature - 32) * 5.0 / 9.0 + 273.15;
-            case FAHRENHEIT:
-            default:
-                return temperature;
-        }
-    }
-
-    public double convertWindSpeed(double windSpeed, WindSpeedUnit unit) {
-        switch (unit) {
-            case KPH:
-                return windSpeed * 1.60934; // Convert mph to kph
-            case MS:
-                return windSpeed * 0.44704; // Convert mph to m/s
-            case KNOTS:
-                return windSpeed * 0.868976; // Convert mph to knots
-            case MPH:
-            default:
-                return windSpeed; // No conversion needed if it's already in mph
-        }
-    }
-
-    public double convertDistance(double distance, DistanceUnit unit) {
-        final double MILES_TO_KM = 1.60934; // Conversion factor from miles to kilometers
-        final double KM_TO_MILES = 1 / MILES_TO_KM; // Conversion factor from kilometers to miles
-
-        switch (unit) {
-            case KILOMETERS:
-                return distance; // Convert miles to kilometers
-            case MILES:
-                return distance * KM_TO_MILES; // Convert kilometers to miles
-            default:
-                return distance; // No conversion if the unit is not recognized
-        }
     }
 
     // Need to calculate dewpoint since the API call doesn't provide this
