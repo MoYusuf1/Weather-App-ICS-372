@@ -1,6 +1,5 @@
 package edu.metrostate.model.units;
 
-// TODO: add conversion from one unit to another
 // https://www.weather.gov/epz/wxcalc_windconvert
 public enum WindSpeedUnit {
     KNOTS("knots", "knots"),
@@ -23,5 +22,17 @@ public enum WindSpeedUnit {
 
     public String getSuffix() {
         return suffix;
+    }
+
+    public String convertAndDisplay(String label, double originalValue) {
+        double newValue = originalValue;
+        if (this == KPH) {
+            newValue = originalValue * 1.60934; // Convert mph to kph
+        } else if (this == MS) {
+            newValue = originalValue * 0.44704; // Convert mph to m/s
+        } else if (this == KNOTS) {
+            newValue = originalValue * 0.868976; // Convert mph to knots
+        }
+        return String.format(label, newValue, this.suffix);
     }
 }
