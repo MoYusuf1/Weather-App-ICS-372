@@ -326,12 +326,12 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         MainweatherUV(String.format("UV: %s", weather.getUv()));
         MainweatherHumidity(String.format("Humidity: %.0f%%", weather.getHumidity()));
 
-        CurrentTemp(userPreferences.getTemperatureUnitPreference().convertAndDisplay(temperatureLabel("Currently"), weather.getTemperature()));
-        MainweatherHigh(userPreferences.getTemperatureUnitPreference().convertAndDisplay(temperatureLabel("High"), weather.getTemperatureMax()));
-        MainweatherLow(userPreferences.getTemperatureUnitPreference().convertAndDisplay(temperatureLabel("Low"), weather.getTemperatureMin()));
-        MainweatherDewpoint(userPreferences.getTemperatureUnitPreference().convertAndDisplay(temperatureLabel("Dew Point"), weather.getTemperature()));
-        MainweatherSpeed(userPreferences.getWindSpeedUnitPreference().convertAndDisplay(nonTemperatureLabel("Wind Speed"), weather.getWindSpeed()));
-        MainweatherVisibility(userPreferences.getDistanceUnitPreference().convertAndDisplay(nonTemperatureLabel("Visibility"), weather.getVisibility()));
+        CurrentTemp(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Currently", weather.getTemperature()));
+        MainweatherHigh(userPreferences.getTemperatureUnitPreference().convertAndDisplay("High", weather.getTemperatureMax()));
+        MainweatherLow(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Low", weather.getTemperatureMin()));
+        MainweatherDewpoint(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Dew Point", weather.getTemperature()));
+        MainweatherSpeed(userPreferences.getWindSpeedUnitPreference().convertAndDisplay("Wind Speed", weather.getWindSpeed()));
+        MainweatherVisibility(userPreferences.getDistanceUnitPreference().convertAndDisplay("Visibility", weather.getVisibility()));
     }
 
     private void updateFiveDayForecastDisplay(FiveDayForecast fiveDayForecast) {
@@ -351,16 +351,8 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
     private void updateDailyForecast(DailyForecast dailyForecast, ImageView dayImage, Label dayLabel, Label highLabel, Label lowLabel) {
         dayLabel.setText(dailyForecast.getDay());
         dayImage.setImage(ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", dailyForecast.getIcon())));
-        highLabel.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay(temperatureLabel("High"), dailyForecast.getTemperatureMax()));
-        lowLabel.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay(temperatureLabel("Low"), dailyForecast.getTemperatureMin()));
-    }
-
-    private String temperatureLabel(String baseLabel) {
-        return baseLabel + ": %.1f\u00B0%s";
-    }
-
-    private String nonTemperatureLabel(String baseLabel) {
-        return baseLabel + ": %.1f%s";
+        highLabel.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay("High", dailyForecast.getTemperatureMax()));
+        lowLabel.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Low", dailyForecast.getTemperatureMin()));
     }
 
     public void displayDefaults() {
