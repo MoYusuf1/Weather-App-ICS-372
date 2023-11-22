@@ -13,26 +13,26 @@
   -fx-background-radius: 10px 10px 10px 10px; /* Rounded corners on all sides */
 }
 
-#Mainweather {
+#mainWeatherPane {
   -fx-background-color: #4d90f3;
   -fx-background-radius: 10px 10px 10px 10px; /* Rounded corners on all sides */
 }
 
-#Current_Time {
+#mainWeatherCurrentTime {
   -fx-font-size: 54px;
   -fx-font-weight: bold;
   -fx-text-fill: White;
   -fx-font-family: "Century Gothic";
 }
 
-#Current_Temp {
+#mainWeatherCurrentTemp {
   -fx-font-size: 36px;
   -fx-font-weight: bold;
   -fx-text-fill: White;
   -fx-font-family: "Century Gothic";
 }
 
-#Location_Name {
+#mainWeatherLocationName {
   -fx-font-size: 18px;
   -fx-font-weight: bold;
   -fx-text-fill: White;

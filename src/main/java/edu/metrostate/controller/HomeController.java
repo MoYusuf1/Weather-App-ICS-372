@@ -9,15 +9,20 @@ import edu.metrostate.model.weather.FiveDayForecast;
 import edu.metrostate.model.weather.Weather;
 import edu.metrostate.utils.ImageUtils;
 import javafx.event.ActionEvent;
+import javafx.event.Event;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Label;
+import javafx.scene.control.SplitPane;
 import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
+import javafx.scene.layout.GridPane;
 import javafx.scene.layout.Pane;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
@@ -26,80 +31,76 @@ import javafx.stage.StageStyle;
 import java.io.IOException;
 import java.util.Objects;
 
-
 public class HomeController implements UserPreferences.PreferencesChangeListener {
 
     @FXML
-    private TextField SearchText;
+    private TextField searchText;
     @FXML
-    private Label first_day;
+    private Label firstDayName;
     @FXML
-    private Label second_day;
+    private Label secondDayName;
     @FXML
-    private Label third_day;
+    private Label thirdDayName;
     @FXML
-    private Label fourth_day;
+    private Label fourthDayName;
     @FXML
-    private Label fifth_day;
+    private Label fifthDayName;
     @FXML
-    private Label first_high_first_day;
+    private Label firstDayHighTemp;
     @FXML
-    private Label first_low_first_day;
+    private Label firstDayLowTemp;
     @FXML
-    private Label second_high_first_day;
+    private Label secondDayHighTemp;
     @FXML
-    private Label second_low_first_day;
+    private Label secondDayLowTemp;
     @FXML
-    private Label third_high_first_day;
+    private Label thirdDayHighTemp;
     @FXML
-    private Label third_low_first_day;
+    private Label thirdDayLowTemp;
     @FXML
-    private Label fourth_high_first_day;
+    private Label fourthDayHighTemp;
     @FXML
-    private Label fourth_low_first_day;
+    private Label fourthDayLowTemp;
     @FXML
-    private Label fifth_high_first_day;
+    private Label fifthDayHighTemp;
     @FXML
-    private Label fifth_low_first_day;
+    private Label fifthDayLowTemp;
     @FXML
-    private ImageView first_day_image;
+    private ImageView firstDayImage;
     @FXML
-    private ImageView second_day_image;
+    private ImageView secondDayImage;
     @FXML
-    private ImageView third_day_image;
+    private ImageView thirdDayImage;
     @FXML
-    private ImageView fourth_day_image;
+    private ImageView fourthDayImage;
     @FXML
-    private ImageView fifth_day_image;
-
+    private ImageView fifthDayImage;
     @FXML
-    private Pane Mainweather;
+    private Pane mainWeatherPane;
     @FXML
-    private Label Current_Time;
+    private Label mainWeatherCurrentTime;
     @FXML
-    private Time time;
+    private Label mainWeatherCurrentTemp;
     @FXML
-    private Label Current_Temp;
+    private Label mainWeatherLocationName;
     @FXML
-    private Label Location_Name;
+    private ImageView mainWeatherImage;
     @FXML
-    private ImageView Mainweather_Image;
+    private Label mainWeatherHighTemp;
     @FXML
-    private Label Mainweather_High;
+    private Label mainWeatherLowTemp;
     @FXML
-    private Label Mainweather_Low;
+    private Label mainWeatherSpeed;
     @FXML
-    private Label Mainweather_Speed;
+    private Label mainWeatherHumidity;
     @FXML
-    private Label Mainweather_Humidity;
+    private Label mainWeatherDewpoint;
     @FXML
-    private Label Mainweather_Dewpoint;
+    private Label mainWeatherHectoPascals;
     @FXML
-    private Label Mainweather_hectoPascals;
+    private Label mainWeatherUv;
     @FXML
-    private Label Mainweather_UV;
-    @FXML
-    private Label Mainweather_Visibility;
+    private Label mainWeatherVisibility;
     @FXML
     private Label currentStageHook;
 
@@ -107,12 +108,6 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     private final Cache cache = InMemoryCache.getInstance();
     private final UserPreferences userPreferences = UserPreferences.getInstance();
-
-    @FXML
-    public void initializeTime() {
-        time = new Time(Current_Time);
-        time.initializeClock();
-    }
 
     public void handleSettingsClick(ActionEvent actionEvent) throws Exception {
         loadUserPreferencesScreen(getCurrentStage());
@@ -130,13 +125,29 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         stage.show();
     }
 
+    public void displayWelcome(Stage primaryStage) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/welcome.fxml"));
+        GridPane gridPane = fxmlLoader.load();
+        WelcomeController controller = fxmlLoader.getController();
+        controller.setHomeController(this);
+        Scene scene = new Scene(gridPane);
+        Stage stage = new Stage();
+        stage.initModality(Modality.APPLICATION_MODAL);
+        stage.initOwner(primaryStage);
+        stage.initStyle(StageStyle.UNDECORATED);
+        stage.setResizable(false);
+        stage.setScene(scene);
+        stage.show();
+    }
+
     private Stage getCurrentStage() {
         return (Stage) currentStageHook.getScene().getWindow();
     }
 
     public void updateWeatherFromWelcomeModal(String zipCode) {
         this.zipCode = zipCode;
-        initializeTime();
+        Time time = new Time(mainWeatherCurrentTime);
+        time.initializeClock();
         getWeatherAndForecastAndDisplay(zipCode);
     }
 
@@ -149,7 +160,7 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     @FXML
     private void handleFindButtonAction(ActionEvent event) {
-        String zipCode = SearchText.getText();
+        String zipCode = searchText.getText();
         if (zipCode != null && Objects.equals(this.zipCode, zipCode)) {
             System.out.printf("Skipping find because zipCode didn't change zipCode=%s%n", zipCode);
             return;
@@ -195,123 +206,6 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         updateFiveDayForecastDisplay(fiveDayForecast);
     }
 
-    public void MainImage(Image image) {
-        Mainweather_Image.setImage(image);
-    }
-
-    public void CurrentTemp(String text) {
-        Current_Temp.setText(text);
-    }
-
-    public void LocationName(String text) {
-        Location_Name.setText(text);
-    }
-
-    public void MainweatherHigh(String text) {
-        Mainweather_High.setText(text);
-    }
-
-    public void MainweatherLow(String text) {
-        Mainweather_Low.setText(text);
-    }
-
-    public void MainweatherSpeed(String text) {
-        Mainweather_Speed.setText(text);
-    }
-
-    public void MainweatherHumidity(String text) {
-        Mainweather_Humidity.setText(text);
-    }
-
-    public void MainweatherDewpoint(String text) {
-        Mainweather_Dewpoint.setText(text);
-    }
-
-    public void MainweatherhectoPascals(String text) {
-        Mainweather_hectoPascals.setText(text);
-    }
-
-    public void MainweatherUV(String text) {
-        Mainweather_UV.setText(text);
-    }
-
-    public void MainweatherVisibility(String text) {
-        Mainweather_Visibility.setText(text);
-    }
-
-    public void first_high_first_day(String text) {
-        first_high_first_day.setText(text);
-    }
-
-    public void first_low_first_day(String text) {
-        first_low_first_day.setText(text);
-    }
-
-    public void second_high_first_day(String text) {
-        second_high_first_day.setText(text);
-    }
-
-    public void second_low_first_day(String text) {
-        second_low_first_day.setText(text);
-    }
-
-    public void third_high_first_day(String text) {
-        third_high_first_day.setText(text);
-    }
-
-    public void third_low_first_day(String text) {
-        third_low_first_day.setText(text);
-    }
-
-    public void fourth_high_first_day(String text) {
-        fourth_high_first_day.setText(text);
-    }
-
-    public void fourth_low_first_day(String text) {
-        fourth_low_first_day.setText(text);
-    }
-
-    public void fifth_high_first_day(String text) {
-        fifth_high_first_day.setText(text);
-    }
-
-    public void fifth_low_first_day(String text) {
-        fifth_low_first_day.setText(text);
-    }
-
-    public void first_day(String text) {
-        first_day.setText(text);
-    }
-
-    public void second_day(String text) {
-        second_day.setText(text);
-    }
-
-    public void third_day(String text) {
-        third_day.setText(text);
-    }
-
-    public void fourth_day(String text) {
-        fourth_day.setText(text);
-    }
-
-    public void fifth_day(String text) {
-        fifth_day.setText(text);
-    }
-
-    public void setCurrent_Time(String text) {
-        Current_Time.setText(text);
-    }
-
-    public Label getCurrent_Time() {
-        return Current_Time;
-    }
-
-    public HomeController setCurrent_Time(Label current_Time) {
-        Current_Time = current_Time;
-        return this;
-    }
-
     @Override
     public void onPreferencesChanged() {
         System.out.printf("Updating onPreferencesChanged called zipCode=%s%n", zipCode);
@@ -320,18 +214,18 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
 
     private void updateMainWeatherDisplay(Weather weather) {
         Image currentWeatherImage = ImageUtils.getImage(String.format("/images/weather-icons/%s@2x.png", weather.getIcon()));
-        MainImage(currentWeatherImage);
-        LocationName(weather.getLocationName());
-        MainweatherhectoPascals(String.format("hectoPascals: %.0fhPa", weather.getPressure()));
-        MainweatherUV(String.format("UV: %s", weather.getUv()));
-        MainweatherHumidity(String.format("Humidity: %.0f%%", weather.getHumidity()));
+        mainWeatherImage.setImage(currentWeatherImage);
+        mainWeatherLocationName.setText(weather.getLocationName());
+        mainWeatherHectoPascals.setText(String.format("hectoPascals: %.0fhPa", weather.getPressure()));
+        mainWeatherUv.setText(String.format("UV: %s", weather.getUv()));
+        mainWeatherHumidity.setText(String.format("Humidity: %.0f%%", weather.getHumidity()));
 
-        CurrentTemp(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Currently", weather.getTemperature()));
-        MainweatherHigh(userPreferences.getTemperatureUnitPreference().convertAndDisplay("High", weather.getTemperatureMax()));
-        MainweatherLow(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Low", weather.getTemperatureMin()));
-        MainweatherDewpoint(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Dew Point", weather.getTemperature()));
-        MainweatherSpeed(userPreferences.getWindSpeedUnitPreference().convertAndDisplay("Wind Speed", weather.getWindSpeed()));
-        MainweatherVisibility(userPreferences.getDistanceUnitPreference().convertAndDisplay("Visibility", weather.getVisibility()));
+        mainWeatherCurrentTemp.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Currently", weather.getTemperature()));
+        mainWeatherHighTemp.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay("High", weather.getTemperatureMax()));
+        mainWeatherLowTemp.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Low", weather.getTemperatureMin()));
+        mainWeatherDewpoint.setText(userPreferences.getTemperatureUnitPreference().convertAndDisplay("Dew Point", weather.getTemperature()));
+        mainWeatherSpeed.setText(userPreferences.getWindSpeedUnitPreference().convertAndDisplay("Wind Speed", weather.getWindSpeed()));
+        mainWeatherVisibility.setText(userPreferences.getDistanceUnitPreference().convertAndDisplay("Visibility", weather.getVisibility()));
     }
 
     private void updateFiveDayForecastDisplay(FiveDayForecast fiveDayForecast) {
@@ -341,11 +235,11 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         DailyForecast day4 = fiveDayForecast.getDay4();
         DailyForecast day5 = fiveDayForecast.getDay5();
 
-        updateDailyForecast(day1, first_day_image, first_day, first_high_first_day, first_low_first_day);
-        updateDailyForecast(day2, second_day_image, second_day, second_high_first_day, second_low_first_day);
-        updateDailyForecast(day3, third_day_image, third_day, third_high_first_day, third_low_first_day);
-        updateDailyForecast(day4, fourth_day_image, fourth_day, fourth_high_first_day, fourth_low_first_day);
-        updateDailyForecast(day5, fifth_day_image, fifth_day, fifth_high_first_day, fifth_low_first_day);
+        updateDailyForecast(day1, firstDayImage, firstDayName, firstDayHighTemp, firstDayLowTemp);
+        updateDailyForecast(day2, secondDayImage, secondDayName, secondDayHighTemp, secondDayLowTemp);
+        updateDailyForecast(day3, thirdDayImage, thirdDayName, thirdDayHighTemp, thirdDayLowTemp);
+        updateDailyForecast(day4, fourthDayImage, fourthDayName, fourthDayHighTemp, fourthDayLowTemp);
+        updateDailyForecast(day5, fifthDayImage, fifthDayName, fifthDayHighTemp, fifthDayLowTemp);
     }
 
     private void updateDailyForecast(DailyForecast dailyForecast, ImageView dayImage, Label dayLabel, Label highLabel, Label lowLabel) {
@@ -360,6 +254,15 @@ public class HomeController implements UserPreferences.PreferencesChangeListener
         FiveDayForecast fiveDayForecast = FiveDayForecast.UNKNOWN;
         updateMainWeatherDisplay(weather);
         updateFiveDayForecastDisplay(fiveDayForecast);
+    }
+
+    public void disablePaneResizing(AnchorPane root) {
+        // Stop the user from being able to adjust lines in Fivedayforecast
+        String[] splitPaneIds = {"#firstDayPane", "#secondDayPane", "#thirdDayPane", "#fourthDayPane", "#fifthDayPane"};
+        for (String id : splitPaneIds) {
+            SplitPane splitPane = (SplitPane) root.lookup(id);
+            splitPane.addEventFilter(MouseEvent.MOUSE_DRAGGED, Event::consume);
+        }
     }
 
 }

@@ -4,10 +4,11 @@
 <?import javafx.scene.image.*?>
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.shape.*?>
+<?import java.net.URL?>
 
 <AnchorPane prefHeight="800.0" prefWidth="1300.0" xmlns="http://javafx.com/javafx/11.0.14-internal" xmlns:fx="http://javafx.com/fxml/1" fx:controller="edu.metrostate.controller.HomeController">
     <Region layoutX="20.0" layoutY="20.0" prefHeight="65.0" prefWidth="1260.0" style="-fx-background-color: #2074f0; -fx-background-radius: 20 20 20 20;" />
-    <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;" stylesheets="@style.css">
+    <Pane prefHeight="31.0" prefWidth="800.0" style="-fx-background-radius: 0 0 10 10;">
         <Label layoutX="45.0" layoutY="29.5" styleClass="label-climate-watch" text="Climate Watch" />
 
         <Button fx:id="gearButton" layoutX="1200.0" layoutY="23.0" onAction="#handleSettingsClick" style="-fx-background-color: transparent;">
@@ -20,88 +21,88 @@
     </Pane>
 
     <!-- Search box -->
-    <TextField fx:id="SearchText" layoutX="1025.0" layoutY="98.75" stylesheets="@style.css" promptText="Enter your zip code" focusTraversable="false" />
-    <Button fx:id="Searchbutton" layoutX="1209.0" layoutY="98.75" onAction="#handleFindButtonAction" stylesheets="@style.css" text="FIND" />
+    <TextField fx:id="searchText" layoutX="1025.0" layoutY="98.75" promptText="Enter your zip code" focusTraversable="false" />
+    <Button fx:id="searchbutton" layoutX="1209.0" layoutY="98.75" onAction="#handleFindButtonAction" text="FIND" />
 
     <!-- Main Box with all weather info -->
 
-    <Pane fx:id="Mainweather" layoutX="45.0" layoutY="140.0" prefHeight="319.0" prefWidth="1215.0" stylesheets="@style.css">
-          <ImageView fx:id="Mainweather_Image" fitHeight="192.0" fitWidth="223.0" layoutX="93.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
-        <Label fx:id="Current_Time" alignment="CENTER" layoutX="42.0" layoutY="20.0" prefHeight="17.0" prefWidth="299.0" text="Current_Time" />
-        <Label fx:id="Current_Temp" alignment="CENTER" layoutX="431.0" layoutY="64.0" prefHeight="93.0" prefWidth="354.0" text="Current_Temp" />
-          <Label fx:id="Location_Name" alignment="CENTER" layoutX="76.0" layoutY="272.0" prefHeight="17.0" prefWidth="223.0" text="Location_Name" />
-      <Label fx:id="Mainweather_High" alignment="CENTER" layoutX="528.0" layoutY="188.0" prefHeight="17.0" prefWidth="160.0" styleClass="Mainweather_High_Low" text="High: " />
-      <Label fx:id="Mainweather_Low" alignment="CENTER" layoutX="528.0" layoutY="235.0" prefHeight="17.0" prefWidth="160.0" styleClass="Mainweather_High_Low" text="Low: " />
-      <Label fx:id="Mainweather_Speed" alignment="CENTER" layoutX="932.0" layoutY="56.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
-      <Label fx:id="Mainweather_Humidity" alignment="CENTER" layoutX="932.0" layoutY="93.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
-      <Label fx:id="Mainweather_Dewpoint" alignment="CENTER" layoutX="932.0" layoutY="131.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
-      <Label fx:id="Mainweather_hectoPascals" alignment="CENTER" layoutX="932.0" layoutY="169.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
-      <Label fx:id="Mainweather_UV" alignment="CENTER" layoutX="932.0" layoutY="207.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
-      <Label fx:id="Mainweather_Visibility" alignment="CENTER" layoutX="932.0" layoutY="246.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
+    <Pane fx:id="mainWeatherPane" layoutX="45.0" layoutY="140.0" prefHeight="319.0" prefWidth="1215.0">
+          <ImageView fx:id="mainWeatherImage" fitHeight="192.0" fitWidth="223.0" layoutX="93.0" layoutY="74.0" pickOnBounds="true" preserveRatio="true" />
+        <Label fx:id="mainWeatherCurrentTime" alignment="CENTER" layoutX="42.0" layoutY="20.0" prefHeight="17.0" prefWidth="299.0" text="Current_Time" />
+        <Label fx:id="mainWeatherCurrentTemp" alignment="CENTER" layoutX="431.0" layoutY="64.0" prefHeight="93.0" prefWidth="354.0" text="Current_Temp" />
+          <Label fx:id="mainWeatherLocationName" alignment="CENTER" layoutX="76.0" layoutY="272.0" prefHeight="17.0" prefWidth="223.0" text="Location_Name" />
+      <Label fx:id="mainWeatherHighTemp" alignment="CENTER" layoutX="528.0" layoutY="188.0" prefHeight="17.0" prefWidth="160.0" styleClass="Mainweather_High_Low" text="High: " />
+      <Label fx:id="mainWeatherLowTemp" alignment="CENTER" layoutX="528.0" layoutY="235.0" prefHeight="17.0" prefWidth="160.0" styleClass="Mainweather_High_Low" text="Low: " />
+      <Label fx:id="mainWeatherSpeed" alignment="CENTER" layoutX="932.0" layoutY="56.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
+      <Label fx:id="mainWeatherHumidity" alignment="CENTER" layoutX="932.0" layoutY="93.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
+      <Label fx:id="mainWeatherDewpoint" alignment="CENTER" layoutX="932.0" layoutY="131.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
+      <Label fx:id="mainWeatherHectoPascals" alignment="CENTER" layoutX="932.0" layoutY="169.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
+      <Label fx:id="mainWeatherUv" alignment="CENTER" layoutX="932.0" layoutY="207.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
+      <Label fx:id="mainWeatherVisibility" alignment="CENTER" layoutX="932.0" layoutY="246.0" prefHeight="17.0" prefWidth="188.0" styleClass="Mainweather_Info" text="High: " />
     </Pane>
 
-    <SplitPane id="Paneone" dividerPositions="0.65" layoutX="110.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
+    <SplitPane id="firstDayPane" dividerPositions="0.65" layoutX="110.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="first_day" alignment="CENTER" layoutY="13.0" prefHeight="17.0" prefWidth="160.0" styleClass="Fivedaynameofday" />
+                <Label fx:id="firstDayName" alignment="CENTER" layoutY="13.0" prefHeight="17.0" prefWidth="160.0" styleClass="Fivedaynameofday" />
             </AnchorPane>
-            <ImageView fx:id="first_day_image" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+            <ImageView fx:id="firstDayImage" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label fx:id="first_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
-            <Label fx:id="first_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
+            <Label fx:id="firstDayHighTemp" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+            <Label fx:id="firstDayLowTemp" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panetwo" dividerPositions="0.65" layoutX="340.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
+    <SplitPane id="secondDayPane" dividerPositions="0.65" layoutX="340.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="second_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
+                <Label fx:id="secondDayName" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
             </AnchorPane>
-         <ImageView fx:id="second_day_image" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="secondDayImage" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-         <Label fx:id="second_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
-         <Label fx:id="second_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
+         <Label fx:id="secondDayHighTemp" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+         <Label fx:id="secondDayLowTemp" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panethree" dividerPositions="0.65" layoutX="570.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
+    <SplitPane id="thirdDayPane" dividerPositions="0.65" layoutX="570.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="third_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
+                <Label fx:id="thirdDayName" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
             </AnchorPane>
-         <ImageView fx:id="third_day_image" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="thirdDayImage" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label fx:id="third_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
-            <Label fx:id="third_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
+            <Label fx:id="thirdDayHighTemp" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+            <Label fx:id="thirdDayLowTemp" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panefour" dividerPositions="0.65" layoutX="800.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
+    <SplitPane id="fourthDayPane" dividerPositions="0.65" layoutX="800.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="fourth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
+                <Label fx:id="fourthDayName" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
             </AnchorPane>
-         <ImageView fx:id="fourth_day_image" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="fourthDayImage" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label fx:id="fourth_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
-            <Label fx:id="fourth_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
+            <Label fx:id="fourthDayHighTemp" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+            <Label fx:id="fourthDayLowTemp" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
-    <SplitPane id="Panefive" dividerPositions="0.65" layoutX="1030.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane" stylesheets="@style.css">
+    <SplitPane id="fifthDayPane" dividerPositions="0.65" layoutX="1030.0" layoutY="560.0" orientation="VERTICAL" prefHeight="184.0" prefWidth="160.0" styleClass="FivedayforecastPane">
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
             <AnchorPane layoutX="-1.0" minHeight="0.0" minWidth="0.0" prefHeight="42.0" prefWidth="160.0">
-                <Label fx:id="fifth_day" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
+                <Label fx:id="fifthDayName" alignment="CENTER" layoutY="13.0" prefHeight="17" prefWidth="160.0" styleClass="Fivedaynameofday" />
             </AnchorPane>
-         <ImageView fx:id="fifth_day_image" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
+         <ImageView fx:id="fifthDayImage" fitHeight="93.0" fitWidth="133.0" layoutX="34.0" layoutY="30.0" pickOnBounds="true" preserveRatio="true" />
         </AnchorPane>
         <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="100.0" prefWidth="160.0">
-            <Label fx:id="fifth_high_first_day" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
-            <Label fx:id="fifth_low_first_day" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
+            <Label fx:id="fifthDayHighTemp" alignment="CENTER" layoutX="-1.0" layoutY="6.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="High: " />
+            <Label fx:id="fifthDayLowTemp" alignment="CENTER" layoutX="-1.0" layoutY="31.0" prefHeight="17.0" prefWidth="160.0" styleClass="high_low_label" text="Low: " />
         </AnchorPane>
     </SplitPane>
 
@@ -117,4 +118,7 @@
     <!-- https://stackoverflow.com/questions/32922424/how-to-get-the-current-opened-stage-in-javafx -->
     <Label fx:id="currentStageHook" visible="false" />
 
+    <stylesheets>
+        <URL value="@style.css" />
+    </stylesheets>
 </AnchorPane>
