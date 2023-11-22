@@ -29,6 +29,6 @@ public enum TemperatureUnit {
         } else if (this == KELVIN) {
             newValue = (originalValue - 32) * 5.0 / 9.0 + 273.15;
         }
-        return String.format(label, newValue, this.suffix);
+        return String.format("%s: %.1f\u00B0%s", label, newValue, this.suffix);
     }
 }

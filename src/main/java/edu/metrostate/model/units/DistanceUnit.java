@@ -27,7 +27,7 @@ public enum DistanceUnit {
         } else if (this == MILES) {
             newValue = originalValue * (1 / 1.60934); // Convert kilometers to miles
         }
-        return String.format(label, newValue, this.suffix);
+        return String.format("%s: %.1f%s", label, newValue, this.suffix);
     }
 }
 

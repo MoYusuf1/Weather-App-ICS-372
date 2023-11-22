@@ -33,6 +33,6 @@ public enum WindSpeedUnit {
         } else if (this == KNOTS) {
             newValue = originalValue * 0.868976; // Convert mph to knots
         }
-        return String.format(label, newValue, this.suffix);
+        return String.format("%s: %.1f%s", label, newValue, this.suffix);
     }
 }
