@@ -119,6 +119,6 @@
     <Label fx:id="currentStageHook" visible="false" />
 
     <stylesheets>
-        <URL value="@style.css" />
+        <URL value="@home.css" />
     </stylesheets>
 </AnchorPane>
